@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/padding_10">
+
+        <TextView
+            android:id="@+id/tx_statistics_commodity_name"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:text="@string/product_name"/>
+
+        <TextView
+            android:id="@+id/tx_statistics_commodity_total_sales_volume"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:text="@string/total_sales_volume"/>
+
+        <TextView
+            android:id="@+id/tx_statistics_commodity_unit_price"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:text="@string/unit_price"/>
+
+        <TextView
+            android:id="@+id/tx_statistics_commodity_total_sales"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:text="@string/total_sales"/>
+</LinearLayout>

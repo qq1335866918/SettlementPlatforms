@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/padding_10">
+
+    <TextView
+        android:id="@+id/tx_count_list_meal"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:text="早餐"/>
+
+    <TextView
+        android:id="@+id/tx_count_list_total"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:text="0.0 | 0"/>
+
+    <TextView
+        android:id="@+id/tx_count_list_average"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:text="平均消费|总人数"/>
+
+    <TextView
+        android:id="@+id/tx_count_list_cash"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:text="现金|次数"/>
+
+    <TextView
+        android:id="@+id/tx_count_list_swiping_card"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:text="刷卡|次数"/>
+
+</LinearLayout>

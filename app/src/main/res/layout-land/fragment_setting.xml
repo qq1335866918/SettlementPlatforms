@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="@dimen/margin_20"
+    android:layout_marginRight="@dimen/margin_20"
+    android:layout_marginTop="@dimen/margin_30"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!--<android.support.design.widget.TabLayout-->
+        <!--android:id="@+id/tab_setting"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--app:tabIndicatorHeight="0dp"-->
+        <!--app:tabPaddingEnd="0dp"-->
+        <!--app:tabPaddingStart="0dp">-->
+        <!--</android.support.design.widget.TabLayout>-->
+
+        <View
+            android:layout_width="20dp"
+            android:layout_height="1dp"
+            android:background="@color/shape_login_et_normal"
+            android:layout_gravity="bottom"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/setting_recycler_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/shape_login_et_normal"
+            android:layerType="software"
+            android:layout_gravity="bottom"/>
+
+    </LinearLayout>
+
+
+    <FrameLayout
+        android:id="@+id/setting_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+</LinearLayout>

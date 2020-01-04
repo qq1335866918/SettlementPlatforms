@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/margin_30"
+    android:layout_marginLeft="@dimen/margin_20"
+    android:layout_marginBottom="@dimen/margin_30">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <EditText
+            android:id="@+id/et_setting_system_config"
+            android:layout_weight="1"
+            android:layout_width="700dp"
+            android:layout_height="0dp"
+            android:paddingLeft="@dimen/padding_5"
+            android:paddingRight="@dimen/padding_5"
+            android:layout_marginBottom="@dimen/margin_20"
+            android:gravity="top"
+            android:background="@drawable/selector_login_et"/>
+
+        <Button
+            android:id="@+id/btn_setting_system_save"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="保存"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/selector_button"/>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <!--<Switch-->
+            <!--android:id="@+id/switch1"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textOn="关"-->
+            <!--android:textOff="开"-->
+            <!--android:switchMinWidth="60dp"-->
+            <!--android:thumb="@android:color/transparent" />-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="固价模式"/>
+
+        <ToggleButton
+            android:id="@+id/toggleButton"
+            android:layout_marginLeft="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textOn="开启"
+            android:textOff="关闭"
+            />
+    </LinearLayout>
+
+</LinearLayout>

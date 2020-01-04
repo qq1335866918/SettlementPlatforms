@@ -1,0 +1,16 @@
+#Fri Jan 03 13:13:24 CST 2020
+path.3=classes.dex
+path.2=classes.dex
+path.1=classes.dex
+renamed.4=classes5.dex
+path.0=classes.dex
+renamed.3=classes4.dex
+renamed.2=classes3.dex
+renamed.1=classes2.dex
+base.4=E\:\\SettlementPlatform\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\29
+renamed.0=classes.dex
+base.3=E\:\\SettlementPlatform\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\32
+base.2=E\:\\SettlementPlatform\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\33
+base.1=E\:\\SettlementPlatform\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\30
+base.0=E\:\\SettlementPlatform\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\31
+path.4=classes.dex

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <Button
+        android:id="@+id/btn_setting_recycler_config"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/setting_button"
+        android:text="服务器配置" />
+
+
+    <View
+        android:layout_width="40dp"
+        android:layout_height="1dp"
+        android:background="@color/shape_login_et_normal"
+        android:layout_gravity="bottom"/>
+</LinearLayout>

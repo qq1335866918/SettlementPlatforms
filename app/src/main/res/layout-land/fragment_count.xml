@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginRight="@dimen/margin_5">
+        <ListView
+            android:id="@+id/ls_count"
+            android:layout_weight="1"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:scrollbars="none"
+            android:padding="@dimen/padding_10"
+            android:dividerHeight="@dimen/margin_15"
+            android:divider="@null"/>
+    </LinearLayout>
+
+    <com.tt1000.settlementplatform.widget.VerticalDottedLine
+        android:layout_width="2dp"
+        android:layout_height="match_parent" />
+
+    <FrameLayout
+        android:id="@+id/count_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </FrameLayout>
+</LinearLayout>

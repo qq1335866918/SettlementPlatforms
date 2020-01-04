@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal">
+
+    <TextView
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="总计"/>
+
+    <TextView
+        android:id="@+id/tx_overview_count_cash"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="现金"/>
+
+    <TextView
+        android:id="@+id/tx_overview_count_alipay"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="支付宝"/>
+
+    <TextView
+        android:id="@+id/tx_overview_count_wechat"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="微信"/>
+
+    <TextView
+        android:id="@+id/tx_overview_count_vipcard"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="会员卡"/>
+
+    <TextView
+        android:id="@+id/tx_overview_count_free"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="免单"/>
+
+    <TextView
+        android:id="@+id/tx_overview_count_subtotal"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="小计"/>
+
+</LinearLayout>

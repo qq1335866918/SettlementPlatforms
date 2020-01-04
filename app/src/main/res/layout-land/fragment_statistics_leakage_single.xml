@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_30"
+        android:layout_marginLeft="@dimen/margin_10">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/startTime"
+            android:layout_marginRight="@dimen/margin_10"/>
+
+        <TextView
+            android:id="@+id/tx_leakage_start_time"
+            android:layout_width="100dp"
+            android:layout_height="@dimen/assistant_date_pick_height"
+            android:background="@drawable/date_select_box"
+            android:gravity="center_horizontal|center_vertical"
+            android:layout_marginRight="@dimen/margin_5"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/stopTime"
+            android:layout_marginRight="@dimen/margin_10"/>
+
+        <TextView
+            android:id="@+id/tx_leakage_stop_time"
+            android:layout_width="100dp"
+            android:layout_height="@dimen/assistant_date_pick_height"
+            android:background="@drawable/date_select_box"
+            android:gravity="center_horizontal|center_vertical"
+            android:layout_marginRight="@dimen/margin_10"/>
+
+        <Button
+            android:id="@+id/btn_leakage_search"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/assistant_query_height"
+            android:background="@drawable/shape_login_button"
+            android:textSize="@dimen/text_size_14"
+            android:text="@string/search"
+            android:layout_marginRight="@dimen/margin_5"/>
+
+        <Button
+            android:id="@+id/btn_leakage_export"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/assistant_query_height"
+            android:background="@drawable/shape_login_button"
+            android:textSize="@dimen/text_size_14"
+            android:text="@string/export_all"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="@dimen/margin_20"
+        android:layout_marginLeft="@dimen/margin_10"
+        android:layout_marginRight="@dimen/margin_10"
+        android:layout_marginBottom="@dimen/margin_20"
+        android:orientation="vertical"
+        android:background="@drawable/border_box">
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/margin_5"
+            android:layout_marginLeft="@dimen/margin_5"
+            android:layout_marginRight="@dimen/margin_5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="@string/date"/>
+
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="@string/non_payment"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_margin="@dimen/margin_2"
+            android:background="@color/colorAccent"/>
+
+        <ListView
+            android:id="@+id/ls_statistics_leakage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/margin_5"
+            android:layout_marginRight="@dimen/margin_5">
+
+        </ListView>
+
+    </LinearLayout>
+
+</LinearLayout>

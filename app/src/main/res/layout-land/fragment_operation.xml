@@ -1,0 +1,640 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible">
+        <SurfaceView
+            android:id="@+id/preview_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"/>
+
+        <com.tt1000.settlementplatform.zxing.view.ViewfinderView
+            android:id="@+id/viewfinder_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.8"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tx_message_notify"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.65"
+                android:background="@color/blue"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="@string/default_notify"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_26" />
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.7"
+                android:background="@color/green_dark"
+                android:gravity="center_horizontal|center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tx_operation_fixed_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text=""
+                    android:textColor="@android:color/holo_orange_light"
+                    android:textStyle="bold"
+                    android:visibility="invisible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tx_operation_pay_count"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="0"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_40"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tx_operation_pay_total_price"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="0.0"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_40"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/guideline"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <android.support.constraint.Guideline
+                    android:id="@+id/guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.5" />
+            </android.support.constraint.ConstraintLayout>
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="0dp"-->
+                <!--android:layout_weight="0.7"-->
+                <!--android:background="@color/green_dark"-->
+                <!--android:gravity="center_horizontal|center_vertical"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:padding="@dimen/padding_10">-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/tx_operation_pay_count"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:gravity="center_horizontal|center_vertical"-->
+                    <!--android:text="0.0"-->
+                    <!--android:textColor="@android:color/white"-->
+                    <!--android:textSize="@dimen/text_size_40" />-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/tx_operation_pay_total_price"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:gravity="center_horizontal|center_vertical"-->
+                    <!--android:text="0.0"-->
+                    <!--android:textColor="@android:color/white"-->
+                    <!--android:textSize="@dimen/text_size_45" />-->
+            <!--</LinearLayout>-->
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="3.5"
+                android:background="@drawable/border"
+                android:orientation="vertical">
+
+                <ListView
+                    android:id="@+id/ls_operation_menu"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_gravity="bottom"
+                    android:layout_weight="0.325"
+                    android:background="@drawable/border"
+                    android:paddingBottom="@dimen/padding_10"
+                    android:paddingTop="@dimen/padding_10">
+
+                    <LinearLayout
+                        android:id="@+id/ll_membercard"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:visibility="invisible">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center_vertical">
+
+                            <TextView
+                                android:id="@+id/tx_member_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="@dimen/text_size_16"
+                                android:text="姓名"/>
+
+                            <TextView
+                                android:id="@+id/tx_member_id"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="@dimen/text_size_16"
+                                android:text="1234567899"/>
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tx_member_balance"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="10.0"
+                            android:textColor="@color/green_dark"
+                            android:textSize="@dimen/text_size_40" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_cash"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/tx_operation_show_paidin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="top"
+                            android:visibility="invisible"
+                            android:text="@string/paid_in" />
+
+                        <TextView
+                            android:id="@+id/tx_operation_paid_in"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/margin_30"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text=""
+                            android:textColor="@color/green_dark"
+                            android:textSize="@dimen/text_size_40" />
+
+                        <TextView
+                            android:id="@+id/tx_operation_show_change"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="top"
+                            android:visibility="invisible"
+                            android:text="@string/change" />
+
+                        <TextView
+                            android:id="@+id/tx_operation_change"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/margin_35"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text=""
+                            android:textColor="@color/green_dark"
+                            android:textSize="@dimen/text_size_40" />
+
+                    </LinearLayout>
+
+                </FrameLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/border"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.4"
+                android:orientation="horizontal">
+
+                <!--<RelativeLayout-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:background="@drawable/border">-->
+
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="@string/entry_orders"-->
+                        <!--android:textSize="@dimen/text_size_10" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/tx_entry_count"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_centerHorizontal="true"-->
+                        <!--android:text="0"-->
+                        <!--android:textColor="@color/text_color"-->
+                        <!--android:textStyle="italic" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/tx_entry_total_price"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_centerHorizontal="true"-->
+                        <!--android:layout_marginTop="@dimen/margin_20"-->
+                        <!--android:text="0.0"-->
+                        <!--android:textSize="@dimen/text_size_26"-->
+                        <!--android:textStyle="italic" />-->
+
+                <!--</RelativeLayout>-->
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.7"
+                    android:background="@drawable/border">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/pop_number"
+                        android:textSize="@dimen/text_size_10" />
+
+                    <TextView
+                        android:id="@+id/tx_operation_person_today"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginRight="@dimen/margin_20"
+                        android:text="0"
+                        android:textColor="@color/text_color"
+                        android:textStyle="italic" />
+
+                    <TextView
+                        android:id="@+id/tx_operation_person_mealtime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/margin_20"
+                        android:text="0"
+                        android:textSize="@dimen/text_size_26"
+                        android:textStyle="italic" />
+
+                </RelativeLayout>
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.7"
+                    android:background="@drawable/border">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/water_resource"
+                        android:textSize="@dimen/text_size_10" />
+
+                    <ListView
+                        android:id="@+id/ls_operation_water"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginStart="8dp"
+                        android:dividerHeight="0dp"
+                        android:divider="@null"/>
+
+                    <!--<RelativeLayout-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_alignParentBottom="true"-->
+                        <!--android:layout_centerHorizontal="true"-->
+                        <!--android:layout_marginBottom="4dp"-->
+                        <!--android:layout_marginEnd="8dp"-->
+                        <!--android:layout_marginLeft="8dp"-->
+                        <!--android:layout_marginRight="8dp"-->
+                        <!--android:layout_marginStart="8dp"-->
+                        <!--android:gravity="center_horizontal"-->
+                        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+                        <!--app:layout_constraintEnd_toEndOf="parent"-->
+                        <!--app:layout_constraintStart_toStartOf="parent">-->
+
+                        <!--<TextView-->
+                            <!--android:id="@+id/tx_operation_water_person_1"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:text="0"-->
+                            <!--android:textStyle="italic" />-->
+
+                        <!--<TextView-->
+                            <!--android:id="@+id/tx_operation_water_person_2"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_below="@+id/tx_operation_water_person_1"-->
+                            <!--android:text="0"-->
+                            <!--android:textStyle="italic" />-->
+
+                        <!--<TextView-->
+                            <!--android:id="@+id/tx_operation_water_person_3"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_below="@+id/tx_operation_water_person_2"-->
+                            <!--android:text="0"-->
+                            <!--android:textStyle="italic" />-->
+
+                        <!--<TextView-->
+                            <!--android:id="@+id/tx_operation_water_total_price_1"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_marginLeft="@dimen/margin_30"-->
+                            <!--android:layout_toRightOf="@+id/tx_operation_water_person_1"-->
+                            <!--android:text="0.0"-->
+                            <!--android:textStyle="italic" />-->
+
+                        <!--<TextView-->
+                            <!--android:id="@+id/tx_operation_water_total_price_2"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_below="@+id/tx_operation_water_total_price_1"-->
+                            <!--android:layout_marginLeft="@dimen/margin_30"-->
+                            <!--android:layout_toRightOf="@+id/tx_operation_water_person_2"-->
+                            <!--android:text="0.0"-->
+                            <!--android:textStyle="italic" />-->
+
+                        <!--<TextView-->
+                            <!--android:id="@+id/tx_operation_water_total_price_3"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_below="@+id/tx_operation_water_total_price_2"-->
+                            <!--android:layout_marginLeft="@dimen/margin_30"-->
+                            <!--android:layout_toRightOf="@+id/tx_operation_water_person_3"-->
+                            <!--android:text="0.0"-->
+                            <!--android:textStyle="italic" />-->
+
+
+                    <!--</RelativeLayout>-->
+
+                </android.support.constraint.ConstraintLayout>
+
+                <ImageButton
+                    android:id="@+id/btn_opreation_refresh"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.7"
+                    android:padding="@dimen/padding_10"
+                    android:background="@drawable/selector_button"
+                    android:src="@drawable/refresh"
+                    />
+
+            </LinearLayout>
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="0dp"-->
+                <!--android:layout_weight="0.35"-->
+                <!--android:orientation="horizontal">-->
+
+                <!--<com.tt1000.settlementplatform.widget.OperationButton-->
+                    <!--android:id="@+id/op_entry_orders"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:background="@drawable/selector_button"-->
+                    <!--android:gravity="center_horizontal|center_vertical"-->
+                    <!--app:src="@drawable/add"-->
+                    <!--app:textSize="@dimen/text_size_18"-->
+                    <!--app:text="@string/entry_orders"/>-->
+
+                <!--<com.tt1000.settlementplatform.widget.OperationButton-->
+                    <!--android:id="@+id/op_combined_bill"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:background="@drawable/selector_button"-->
+                    <!--android:gravity="center_horizontal|center_vertical"-->
+                    <!--app:src="@drawable/yes"-->
+                    <!--app:textSize="@dimen/text_size_18"-->
+                    <!--app:text="@string/combined"/>-->
+
+                <!--<com.tt1000.settlementplatform.widget.OperationButton-->
+                    <!--android:id="@+id/op_single_elimination"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:background="@drawable/selector_button"-->
+                    <!--android:gravity="center_horizontal|center_vertical"-->
+                    <!--app:src="@drawable/no"-->
+                    <!--app:textSize="@dimen/text_size_18"-->
+                    <!--app:text="@string/single_elimination"/>-->
+
+            <!--</LinearLayout>-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.45">
+
+                <EditText
+                    android:id="@+id/et_operation_input_dishes_name"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:textSize="50sp"
+                    android:gravity="right|center_vertical"
+                    android:background="@drawable/selector_login_et"
+                    android:maxLines="1"
+                    android:paddingRight="@dimen/padding_3"
+                    android:singleLine="true" />
+
+                <ImageButton
+                    android:id="@+id/btn_operation_switch_page"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:layout_weight="0.7"
+                    android:background="@drawable/selector_button"
+                    android:padding="@dimen/padding_10"
+                    android:src="@drawable/keyboard"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2.2"
+                android:background="@drawable/border"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/ll_operation_dish"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:orientation="vertical">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycler_operation_order_dishes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scrollbars="none"
+                        android:visibility="gone"/>
+
+                    <include
+                        android:id="@+id/inclued_operation_number_keyboard_layout"
+                        layout="@layout/recycler_operation_number_keyboard"
+                        android:visibility="visible" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_operation_dish_page"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/btn_operation_page_up"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@drawable/selector_button"
+                            android:gravity="center_horizontal|center_vertical"
+                            android:text="上一页"
+                            android:textSize="@dimen/text_size_30" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/selector_button"/>
+
+                        <Button
+                            android:id="@+id/btn_operation_page_down"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@drawable/selector_button"
+                            android:gravity="center_horizontal|center_vertical"
+                            android:text="下一页"
+                            android:textSize="@dimen/text_size_30" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.7"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/btn_operation_fixed_price"
+                        android:layout_weight="0.5"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:text="@string/fix_price"
+                        android:background="@drawable/selector_button"/>
+
+                    <ListView
+                        android:id="@+id/ls_operation_add_cash"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:divider="@null"
+                        android:dividerHeight="0dp"
+                        android:scrollbars="none" />
+
+                    <ImageButton
+                        android:id="@+id/btn_operatin_listview_pay_cash"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="0.5"
+                        android:background="@drawable/selector_button"
+                        android:src="@drawable/money_big" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="0dp"-->
+                <!--android:layout_weight="0.629"-->
+                <!--android:orientation="horizontal">-->
+
+                <!--<LinearLayout-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="3"-->
+                    <!--android:background="@drawable/border">-->
+
+                    <!--<ImageButton-->
+                        <!--android:id="@+id/btn_opreation_print"-->
+                        <!--android:layout_width="0dp"-->
+                        <!--android:layout_height="match_parent"-->
+                        <!--android:layout_weight="1.5"-->
+                        <!--android:background="@drawable/selector_button"-->
+                        <!--android:src="@drawable/print" />-->
+
+
+                <!--</LinearLayout>-->
+
+            <!--</LinearLayout>-->
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>
