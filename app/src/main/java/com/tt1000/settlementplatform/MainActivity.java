@@ -153,7 +153,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     public static final int START_SCHEDULE_TASK = 0x3012;
     public static final int START_SCHEDULE_TASKS = 0x3111;
     public static final int OPEN_SOCKET = 0x5555;
-    //机器绑定成功
+    //机器绑定成功  更新检查
     public static final int BIND_MACHINE_SUCD = 0x3013;
     public static final int SHOW_BIND_SUCC = 0x3014;
     public static final int SHOW_PROGRESS = 0x3019;
