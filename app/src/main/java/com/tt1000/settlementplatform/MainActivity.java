@@ -495,7 +495,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                         @Override
                         public void run() {
                             try {
-                                sendFps();
+                                if (MyUtil.obtainNetworkStatus(mContext)) {
+                                    sendFps();
+                                }else {
+                                    gUiHandler.sendEmptyMessage(WIFI_ERROR);
+                                }
                             } catch (Exception e) {
                                 Log.d("frost", "fps error");
                             }
