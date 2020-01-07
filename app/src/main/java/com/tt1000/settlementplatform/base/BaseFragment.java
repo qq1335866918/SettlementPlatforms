@@ -214,9 +214,9 @@ public abstract class BaseFragment extends Fragment {
         String machine_name = MyConstant.gSharedPre.getString(MyConstant.SP_MACHINE_NAME, "");
         Log.d("frost", "registerMachine: ");
         Log.d(TAG, "onNext: registerMachine   " + MyUtil.dateConversion(expireTime) + "     curmillis " + MyUtil.dateConversion(System.currentTimeMillis()));
-        if (expireTime != 0 && expireTime > System.currentTimeMillis()) {
-            return;
-        }
+//        if (expireTime != 0 && expireTime > System.currentTimeMillis()) {
+//            return;
+//        }
         if (!TextUtils.isEmpty(machineNo.trim())) {
             if (!MyUtil.isConfigServer()) {
                 showMessage("提示", "连接服务器失败，请检查配置信息");

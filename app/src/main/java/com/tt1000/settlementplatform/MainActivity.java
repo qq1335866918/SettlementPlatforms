@@ -54,7 +54,6 @@ import com.tt1000.settlementplatform.bean.HeartBean;
 import com.tt1000.settlementplatform.bean.TaskBean;
 import com.tt1000.settlementplatform.bean.TotalNum;
 import com.tt1000.settlementplatform.bean.member.CommodityRecord;
-import com.tt1000.settlementplatform.bean.member.CommodityRecordDao;
 import com.tt1000.settlementplatform.bean.member.CommodityTypeRecord;
 import com.tt1000.settlementplatform.bean.member.DaoSession;
 import com.tt1000.settlementplatform.bean.member.MemberTypeRecord;
@@ -497,7 +496,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                             try {
                                 if (MyUtil.obtainNetworkStatus(mContext)) {
                                     sendFps();
-                                }else {
+                                } else {
                                     gUiHandler.sendEmptyMessage(WIFI_ERROR);
                                 }
                             } catch (Exception e) {
@@ -1162,18 +1161,18 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             p = Runtime.getRuntime().exec("ping -c 1 -w 20 " + serverIp);
 //            p = Runtime.getRuntime().exec("/system/bin/ping -t " + serverIp);
             int status = p.waitFor();
-            if (status==0) {
+            if (status == 0) {
                 BufferedReader buf = new BufferedReader(new InputStreamReader(p.getInputStream()));
                 String str = new String();
                 while ((str = buf.readLine()) != null) {
                     if (str.contains("avg")) {
-                        Log.e("frost_ping", str);
+//                        Log.e("frost_ping", str);
                         int i = str.indexOf("/", 20);
                         int j = str.indexOf(".", i);
                         delay = str.substring(i + 1, j);
                     }
                 }
-                Log.e("frost_ping", delay);
+//                Log.e("frost_ping", delay);
                 gUiHandler.obtainMessage(2, Long.parseLong(delay)).sendToTarget();
             }
         } catch (IOException e) {
@@ -1801,6 +1800,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                                     iterationTableData();
                                 }
                             }
+
                             @Override
                             public void onError(Throwable e) {
                                 isSync = false;
@@ -1808,6 +1808,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                                 task_page_no = 0;
                                 task_table_index++;
                             }
+
                             @Override
                             public void onNext(final SyncResultInfo<?> objectSyncResultInfo) {
                                 Log.i("sysData", "table->commodity_record->count->" + objectSyncResultInfo.getData().size());
@@ -2225,13 +2226,12 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                             @Override
                             public void onError(Throwable e) {
                                 Log.i("look", "table->tTfMemberAccountRecord onError");
-//                                Log.d(TAG, "onError: " + e.getMessage());
 
                                 isSync = false;
                                 syncNum += 1;
-
-                                task_page_no = 0;
-                                task_table_index++;
+//
+//                                task_page_no = 0;
+//                                task_table_index++;
                             }
 
                             @Override
@@ -2440,7 +2440,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                                         }
                                     }
                                 });
-                                //Log.d("look","table_type:"+type+" tname:"+syncTableRecord.getTABLENAME()+"  objectSyncResultInfo.getData().size():"+objectSyncResultInfo.getData().size()+" max_time"+MyUtil.dateConversion(max_time));
                             }
                         });
                 break;
@@ -2596,7 +2595,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     e.printStackTrace();
                 }
             }
-        }, 0, 30, TimeUnit.SECONDS);
+        }, 0, 10, TimeUnit.SECONDS);
     }
 
     /**
@@ -2642,18 +2641,19 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
 
         TaskBean bean = taskList.get(task_table_index);
-        Log.e("sysData", "task_table_index:" + task_table_index);
+        Log.e("TaskBeanbean", "task_table_index:" + task_table_index);
         if (a == 0) {
             a++;
             for (int i = 0; i < taskList.size(); i++) {
-                Log.e("sysData", "task:" + taskList.get(i).toString());
+                Log.e("TaskBeanbean", "task:" + taskList.get(i).toString());
             }
         }
+
 
         if (bean != null) {
             isSync = true;
             SharedPreferences preferences = getSharedPreferences("first_pref", MODE_PRIVATE);
-            isFirstIn = preferences.getBoolean("isFirstIn", false);
+            isFirstIn = preferences.getBoolean("isFirstIn", true);
             if (isFirstIn) {
                 Long time = null;
                 Date date = null;
@@ -2665,7 +2665,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                Log.i("sysData", "1:" + bean.getTableName() + ": 1970-01-01 08:00:00");
+                Log.i("syncData", "1:" + bean.getTableName() + ": 1970-01-01 08:00:00");
                 if ("1111".equals(bean.getType())) {
                     syncTable(bean.getType(), bean.getTableName(), bean.getUpdatetime(), task_page_no);
                 } else {
@@ -2673,61 +2673,99 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 }
             } else {
                 Log.i("sysData", "2:" + bean.getTableName() + ": " + bean.getUpdatetime());
-                long updateTime = 0;
-                if (bean.getType() == 6) {
-                    List<TfMealTimes> tfMealTimes = session.queryBuilder(TfMealTimes.class)
-                            .orderDesc(TfMealTimesDao.Properties.UPDATETIME)
-                            .limit(1)
-                            .build().list();
-                    updateTime = tfMealTimes.get(0).getUPDATETIME();
-                } else if (bean.getType() == 3) {
-                    List<StoreConfig> list = session.queryBuilder(StoreConfig.class)
-                            .orderDesc(StoreConfigDao.Properties.UPDATETIME)
-                            .limit(1)
-                            .build().list();
-                    updateTime = list.get(0).getUPDATETIME();
-                } else if (bean.getType() == 4) {
-                    List<TfCardInfo> tfCardInfos = session.queryBuilder(TfCardInfo.class)
-                            .orderDesc(TfCardInfoDao.Properties.UPDATETIME)
-                            .limit(1)
-                            .build().list();
-                    updateTime = tfCardInfos.get(0).getUPDATETIME();
-                } else if (bean.getType() == 5) {
-                    List<TfDiscountRecord> tfDiscountRecords = session.queryBuilder(TfDiscountRecord.class)
-                            .orderDesc(TfDiscountRecordDao.Properties.UPDATETIME)
-                            .limit(1)
-                            .build().list();
-                    updateTime = tfDiscountRecords.get(0).getUPDATETIME();
-                } else if (bean.getType() == 7) {
-                    List<TfMemberAccountRecord> tfMemberAccountRecords = session.queryBuilder(TfMemberAccountRecord.class)
-                            .orderDesc(TfMemberAccountRecordDao.Properties.UPDATETIME)
-                            .limit(1)
-                            .build().list();
-                    updateTime = tfMemberAccountRecords.get(0).getUPDATETIME();
-                } else if (bean.getType() == 8) {
-                    List<TfMemberInfo> tfMemberInfos = session.queryBuilder(TfMemberInfo.class)
-                            .orderDesc(TfMemberInfoDao.Properties.UPDATETIME)
-                            .limit(1)
-                            .build().list();
-                    updateTime = tfMemberInfos.get(0).getUPDATETIME();
-                } else if (bean.getType() == 10) {
-                    List<TfUserInfo> tfUserInfos = session.queryBuilder(TfUserInfo.class)
-                            .orderDesc(TfUserInfoDao.Properties.UPDATETIME)
-                            .limit(1)
-                            .build().list();
-                    updateTime = tfUserInfos.get(0).getUPDATETIME();
-                } else if (bean.getType() == 11) {
-                    List<TfStoreRecord> tfStoreRecords = session.queryBuilder(TfStoreRecord.class)
-                            .orderDesc(TfStoreRecordDao.Properties.UPDATETIME)
-                            .limit(1)
-                            .build().list();
-                    updateTime = tfStoreRecords.get(0).getUPDATETIME();
-                }
-                if (updateTime != 0) {
-                    syncTable(bean.getType(), bean.getTableName(), updateTime, task_page_no);
-                } else {
-                    syncTable(bean.getType(), bean.getTableName(), bean.getUpdatetime(), task_page_no);
-                }
+//                long updateTime = 0;
+//                session.clear();
+//                if (bean.getType() == 6) {
+//                    List<TfMealTimes> tfMealTimes = session.queryBuilder(TfMealTimes.class)
+//                            .orderDesc(TfMealTimesDao.Properties.UPDATETIME)
+//                            .limit(1)
+//                            .build().list();
+//                    if (tfMealTimes != null && tfMealTimes.size() != 0) {
+//                        updateTime = tfMealTimes.get(0).getUPDATETIME();
+//                    }else {
+//                        updateTime = 0;
+//                    }
+//                } else if (bean.getType() == 3) {
+//                    List<StoreConfig> list = session.queryBuilder(StoreConfig.class)
+//                            .orderDesc(StoreConfigDao.Properties.UPDATETIME)
+//                            .limit(1)
+//                            .build().list();
+//
+//                    if (list != null && list.size() != 0) {
+//                        updateTime = list.get(0).getUPDATETIME();
+//                    }else {
+//                        updateTime = 0;
+//                    }
+//                } else if (bean.getType() == 4) {
+//                    List<TfCardInfo> tfCardInfos = session.queryBuilder(TfCardInfo.class)
+//                            .orderDesc(TfCardInfoDao.Properties.UPDATETIME)
+//                            .limit(1)
+//                            .build().list();
+//                    if (tfCardInfos != null && tfCardInfos.size() != 0) {
+//                        updateTime = tfCardInfos.get(0).getUPDATETIME();
+//                    }else {
+//                        updateTime = 0;
+//                    }
+//                } else if (bean.getType() == 5) {
+//                    List<TfDiscountRecord> tfDiscountRecords = session.queryBuilder(TfDiscountRecord.class)
+//                            .orderDesc(TfDiscountRecordDao.Properties.UPDATETIME)
+//                            .limit(1)
+//                            .build().list();
+//                    if (tfDiscountRecords != null && tfDiscountRecords.size() != 0) {
+//                        updateTime = tfDiscountRecords.get(0).getUPDATETIME();
+//                    }else {
+//                        updateTime = 0;
+//                    }
+//                } else if (bean.getType() == 7) {
+//                    List<TfMemberAccountRecord> tfMemberAccountRecords = session.queryBuilder(TfMemberAccountRecord.class)
+//                            .orderDesc(TfMemberAccountRecordDao.Properties.UPDATETIME)
+//                            .limit(1)
+//                            .build().list();
+//                    if (tfMemberAccountRecords != null && tfMemberAccountRecords.size() != 0) {
+//                        updateTime = tfMemberAccountRecords.get(0).getUPDATETIME();
+//                    }else {
+//                        updateTime = 0;
+//                    }
+//                } else if (bean.getType() == 8) {
+//                    List<TfMemberInfo> tfMemberInfos = session.queryBuilder(TfMemberInfo.class)
+//                            .orderDesc(TfMemberInfoDao.Properties.UPDATETIME)
+//                            .limit(1)
+//                            .build().list();
+//                    if (tfMemberInfos != null && tfMemberInfos.size() != 0) {
+//                        updateTime = tfMemberInfos.get(0).getUPDATETIME();
+//                    }else {
+//                        updateTime = 0;
+//                    }
+//                } else if (bean.getType() == 10) {
+//                    List<TfUserInfo> tfUserInfos = session.queryBuilder(TfUserInfo.class)
+//                            .orderDesc(TfUserInfoDao.Properties.UPDATETIME)
+//                            .limit(1)
+//                            .build().list();
+//                    if (tfUserInfos != null && tfUserInfos.size() != 0) {
+//                        updateTime = tfUserInfos.get(0).getUPDATETIME();
+//                    }else {
+//                        updateTime = 0;
+//                    }
+//                } else if (bean.getType() == 11) {
+//                    List<TfStoreRecord> tfStoreRecords = session.queryBuilder(TfStoreRecord.class)
+//                            .orderDesc(TfStoreRecordDao.Properties.UPDATETIME)
+//                            .limit(1)
+//                            .build().list();
+//                    if (tfStoreRecords != null && tfStoreRecords.size() != 0) {
+//                        updateTime = tfStoreRecords.get(0).getUPDATETIME();
+//                    }else {
+//                        updateTime = 0;
+//                    }
+//                }
+//                if (updateTime != 0) {
+//                    syncTable(bean.getType(), bean.getTableName(), updateTime, task_page_no);
+//                    Log.e("frost_sysdata", updateTime + "   1");
+//                } else {
+////                    syncTable(bean.getType(), bean.getTableName(), bean.getUpdatetime(), task_page_no);
+//                    syncTable(bean.getType(), bean.getTableName(), updateTime, task_page_no);
+//                    Log.e("frost_sysdata", updateTime + "   2");
+//                }
+                syncTable(bean.getType(), bean.getTableName(), bean.getUpdatetime(), task_page_no);
             }
 
         }
@@ -2863,7 +2901,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                                 if (record != null) {
                                     Log.e("frost", "type:" + type);
                                     record.setUPDATETIME("0");
-                                    record.setISM_STATUS("0");
+//                                    record.setISM_STATUS("0");
                                     session.update(record);
 //                                    if (type == 4) {
 //                                        session.runInTx(new Runnable() {
