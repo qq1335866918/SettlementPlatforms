@@ -2229,9 +2229,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
                                 isSync = false;
                                 syncNum += 1;
-//
-//                                task_page_no = 0;
-//                                task_table_index++;
+                                task_page_no = 0;
+                                task_table_index++;
                             }
 
                             @Override

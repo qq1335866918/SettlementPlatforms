@@ -6,6 +6,9 @@ import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
+import android.net.LinkAddress;
+import android.net.LinkProperties;
+import android.net.Network;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -641,7 +644,7 @@ public class MyUtil {
      * @param ipInt
      * @return
      */
-    public static String int2ip(int ipInt) {
+    private static String int2ip(int ipInt) {
         StringBuilder sb = new StringBuilder();
         sb.append(ipInt & 0xFF).append(".");
         sb.append((ipInt >> 8) & 0xFF).append(".");
@@ -735,5 +738,62 @@ public class MyUtil {
         }
         String mobileIp = addr.getHostAddress();
         return mobileIp;
+    }
+
+    public static String getLocalIPAddress(Context context) {
+        NetworkInfo info = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
+        if (info != null && info.isConnected()) {
+            if (info.getType() == ConnectivityManager.TYPE_MOBILE) {    //3G/4G网络
+                try {
+                    for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements(); ) {
+                        NetworkInterface intf = en.nextElement();
+                        for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements(); ) {
+                            InetAddress inetAddress = enumIpAddr.nextElement();
+                            if (!inetAddress.isLoopbackAddress() && inetAddress instanceof Inet4Address) {
+                                return inetAddress.getHostAddress();
+                            }
+                        }
+                    }
+                } catch (SocketException e) {
+                    Log.e(TAG,"获取3G/4G网络IP失败");
+                }
+            } else if (info.getType() == ConnectivityManager.TYPE_WIFI) {     // wifi
+                WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+                WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+                String ipAddress = int2Sip(wifiInfo.getIpAddress());
+                return ipAddress;
+            } else if (info.getType() == ConnectivityManager.TYPE_ETHERNET) {    //有线
+                ConnectivityManager mConnectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                Network network = null;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                    network = mConnectivityManager.getActiveNetwork();
+                    LinkProperties linkProperties = mConnectivityManager.getLinkProperties(network);
+                    for (LinkAddress linkAddress : linkProperties.getLinkAddresses()) {
+                        InetAddress address = linkAddress.getAddress();
+                        if (address instanceof Inet4Address) {
+                            return address.getHostAddress();
+                        }
+                    }
+                }
+                return "0.0.0.0";
+            }
+        } else {
+            return "0.0.0.0";
+        }
+        return null;
+    }
+
+    /**
+     * 将ip的整数形式转换成ip形式
+     * @param ip
+     * @return
+     */
+    public static String int2Sip(int ip) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(ip & 0xFF).append(".");
+        sb.append((ip >> 8) & 0xFF).append(".");
+        sb.append((ip >> 16) & 0xFF).append(".");
+        sb.append((ip >> 24) & 0xFF);
+        return sb.toString();
     }
 }
