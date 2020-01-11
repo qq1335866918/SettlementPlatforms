@@ -13,6 +13,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
+import android.nfc.tech.MifareClassic;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -517,10 +518,10 @@ public class WeichaiOperationFragment extends BaseFragment implements View.OnCli
                             curOrderNo = MyUtil.getPrimaryValue();
                             if (!fixed_price_status || first) {
                                 payMsg = business_put_price.getText().toString().trim();
-                                if (TextUtils.isEmpty(payMsg)){
+                                if (TextUtils.isEmpty(payMsg)) {
                                     return;
                                 }
-                                if ("0.00".equals(payMsg)||"0.0".equals(payMsg)){
+                                if ("0.00".equals(payMsg) || "0.0".equals(payMsg)) {
                                     refresh();
                                     return;
                                 }
@@ -611,7 +612,7 @@ public class WeichaiOperationFragment extends BaseFragment implements View.OnCli
                                 if ("".equals(business_put_price.getText().toString())) {
                                     business_state.setText("请刷卡");
                                     payMsg = business_price.getText().toString();
-                                    if ("0.00".equals(payMsg)||"0.0".equals(payMsg)){
+                                    if ("0.00".equals(payMsg) || "0.0".equals(payMsg)) {
                                         refresh();
                                         return;
                                     }
@@ -640,7 +641,7 @@ public class WeichaiOperationFragment extends BaseFragment implements View.OnCli
                                         refresh();
                                         return;
                                     }
-                                    if ("0.00".equals(payMsg)||"0.0".equals(payMsg)){
+                                    if ("0.00".equals(payMsg) || "0.0".equals(payMsg)) {
                                         refresh();
                                         return;
                                     }
@@ -739,7 +740,7 @@ public class WeichaiOperationFragment extends BaseFragment implements View.OnCli
         surfaceView = (ViewfinderView) findViewById(R.id.viewfinder_view1);
         viewfinderView = (ViewfinderView) findViewById(R.id.viewfinder_view1);
         surfaceHolder = surfaceView.getHolder();
-        if (TextUtils.isEmpty(MyConstant.gSharedPre.getString(MyConstant.SP_MAX_SUM,""))){
+        if (TextUtils.isEmpty(MyConstant.gSharedPre.getString(MyConstant.SP_MAX_SUM, ""))) {
             MyConstant.gEditor.putString(MyConstant.SP_MAX_SUM, "50");
             MyConstant.gEditor.commit();
         }
@@ -944,7 +945,6 @@ public class WeichaiOperationFragment extends BaseFragment implements View.OnCli
         ((MainActivity) context).setScanCallback(new MainActivity.OnScanResultCallback() {
             @Override
             public void onresult(int requestCode, int resultCode, Intent data) {
-
             }
 
             /**
@@ -953,49 +953,80 @@ public class WeichaiOperationFragment extends BaseFragment implements View.OnCli
              */
             @Override
             public void onNewIntent(Intent intent) {
-//                if (mTts.isSpeaking()){
-//                    Log.e("frost_test","isSpeaking");
-////                    return;
-//                }else {
-//                    settlement();
-//                    Log.e("frost_test","!!!isSpeaking");
-//                }
                 try {
+                    byte[] key = {(byte) 0xA0, (byte) 0xB7, (byte) 0xA5, (byte) 0xC5, (byte) 0x80, (byte) 0x88};
                     Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-                    // 能获取到卡号，且未支付
-                    if (tag != null && tag.getId() != null) {
-                        String smartCardId = MyUtil.ByteArrayToHexString(tag.getId());
-                        if (TextUtils.isEmpty(smartCardId)) {
-                            business_state.setText("非法卡");
-                            playVoice(MyConstant.SP_MEDIA_ILLEGAL_CARD);
-                        } else {
-                            long convertId = MyUtil.computeMemberId(smartCardId);
-                            if (convertId == 0) {
-                                business_state.setText("非法卡");
-                                playVoice(MyConstant.SP_MEDIA_ILLEGAL_CARD);
-                                return;
-                            }
-                            int diff = 10 - String.valueOf(convertId).length();
-                            cardId = String.valueOf(convertId);
-                            // 不足10位补0
-                            if (diff >= 0) {
-                                for (int i = 0; i < diff; i++) {
-                                    cardId = ("0" + cardId);
-                                }
-                                // 最终得到去数据库查询的IC_ID
-                                if (!("").equals(business_vip_name.getText().toString())) {
-                                } else {
-                                    getMemberCardBalance(String.valueOf(cardId));
-                                    card_ID = cardId.toString();
-                                    Log.d("frost-----", cardId.toString());
-                                }
-                            } else if (diff < 0) {
-                                business_state.setText("非法卡");
-                                playVoice(MyConstant.SP_MEDIA_ILLEGAL_CARD);
-                                return;
+                    //加密IC卡
+                    MifareClassic mifareClassic = MifareClassic.get(tag);
+                    mifareClassic.connect();
+                    //获取扇区数量
+                    int count = mifareClassic.getSectorCount();
+                    Log.e("onNewIntent:", "扇区数量 ===" + count);
+                    boolean isOpen = mifareClassic.authenticateSectorWithKeyA(1, MifareClassic.KEY_DEFAULT);
+                    if (isOpen) {
+                        int bCount = mifareClassic.getBlockCountInSector(1);
+                        int bIndex = mifareClassic.sectorToBlock(1);
+                        for (int j = 0; j < bCount; j++) {
+                            Log.e("onNewIntent:", "存储器的位置 ===" + bIndex + "当前块 === " + (bIndex + j));
+                            //修改KeyA和KeyB
+                            if ((bIndex + j) == (4 + 3)) {
+                                mifareClassic.writeBlock(bIndex + j, new byte[]{(byte) 0xa0, (byte) 0xb7, (byte) 0xa5, (byte) 0xc5, (byte) 0x80, (byte) 0x88, (byte) 0xff, 0x07, (byte) 0x80, (byte) 0x69, (byte) 0xa0, (byte) 0xb7, (byte) 0xa5, (byte) 0xc5, (byte) 0x80, (byte) 0x88});
+                                Log.e("onNewIntent:", (bIndex + j) + "块加密成功");
+
                             }
                         }
+                    } else {
+//                        boolean isPassword = mifareClassic.authenticateSectorWithKeyA(1, "a0b7a5c58088".getBytes());
+                        boolean isPassword = mifareClassic.authenticateSectorWithKeyA(1, key);
+                        if (isPassword) {
+                            Log.e("onNewIntent:", "密码正确");
+                            if (tag != null && tag.getId() != null) {
+                                String smartCardId = MyUtil.ByteArrayToHexString(tag.getId());
+                                if (TextUtils.isEmpty(smartCardId)) {
+                                    business_state.setText("非法卡");
+                                    playVoice(MyConstant.SP_MEDIA_ILLEGAL_CARD);
+                                } else {
+                                    long convertId = MyUtil.computeMemberId(smartCardId);
+                                    if (convertId == 0) {
+                                        business_state.setText("非法卡");
+                                        playVoice(MyConstant.SP_MEDIA_ILLEGAL_CARD);
+                                        return;
+                                    }
+                                    int diff = 10 - String.valueOf(convertId).length();
+                                    cardId = String.valueOf(convertId);
+                                    // 不足10位补0
+                                    if (diff >= 0) {
+                                        for (int k = 0; k < diff; k++) {
+                                            cardId = ("0" + cardId);
+                                        }
+                                        // 最终得到去数据库查询的IC_ID
+                                        if (!("").equals(business_vip_name.getText().toString())) {
+                                        } else {
+                                            getMemberCardBalance(String.valueOf(cardId));
+                                            return;
+                                        }
+                                    } else if (diff < 0) {
+                                        business_state.setText("非法卡");
+                                        playVoice(MyConstant.SP_MEDIA_ILLEGAL_CARD);
+                                        return;
+                                    }
+                                }
+                            }
+                        } else {
+                            Log.e("onNewIntent:", "密码错误");
+                        }
+//                                byte[] bytes = mifareClassic.readBlock(bIndex + j);
+//                                mifareClassic.writeBlock(bIndex + j, new byte[]{(byte) 0xa0, (byte) 0xb7, (byte) 0xa5, (byte) 0xc5, (byte) 0x80, (byte) 0x88, (byte) 0xff, 0x07, (byte) 0x80, (byte) 0x69, (byte) 0xa0, (byte) 0xb7, (byte) 0xa5, (byte) 0xc5, (byte) 0x80, (byte) 0x88});
+//                                if (isPassword) {
+//                                    // 能获取到卡号，且未支付
+//                                    Log.e("onNewIntent:","密码正确");
+//
+//                                }else {
+//                                    Log.e("onNewIntent:","密码错误");
+//                                }
                     }
+
+
                 } catch (Exception ex) {
                     Log.e("CrashHandler", "onNewIntent..." + ex.getMessage());
                 }
@@ -3397,6 +3428,7 @@ public class WeichaiOperationFragment extends BaseFragment implements View.OnCli
                         public void onCompleted() {
                             syncing = false;
                         }
+
                         @Override
                         public void onError(Throwable e) {
 //                            handler.sendEmptyMessage(GONE_PROGRESS);

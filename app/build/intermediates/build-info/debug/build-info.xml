@@ -5,51 +5,27 @@
     build-mode="COLD"
     density="mdpi"
     format="10"
-    ir-eligibility="R_CLASS_CHANGE"
+    ir-eligibility="METHOD_DELETED"
     plugin-version="3.1.2"
-    timestamp="1578473320169"
+    timestamp="1578658648342"
     token="-9133857038479207541"
     verifier="COLD_SWAP_REQUESTED" >
 
     <task
         name="javac"
-        duration="2184" />
+        duration="1692" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="78" />
+        duration="28" />
     <task
         name="verifier"
-        duration="37" />
+        duration="24" />
 
     <artifact
-        location="E:\SettlementPlatform\app\build\intermediates\split-apk\debug\slices\slice_3.apk"
-        type="SPLIT" />
-    <artifact
-        location="E:\SettlementPlatform\app\build\intermediates\split-apk\debug\slices\slice_5.apk"
-        type="SPLIT" />
-    <artifact
         location="E:\SettlementPlatform\app\build\intermediates\split-apk\debug\slices\slice_1.apk"
-        type="SPLIT" />
-    <artifact
-        location="E:\SettlementPlatform\app\build\intermediates\split-apk\debug\slices\slice_0.apk"
-        type="SPLIT" />
-    <artifact
-        location="E:\SettlementPlatform\app\build\intermediates\split-apk\debug\slices\slice_2.apk"
-        type="SPLIT" />
-    <artifact
-        location="E:\SettlementPlatform\app\build\intermediates\split-apk\debug\slices\slice_6.apk"
-        type="SPLIT" />
-    <artifact
-        location="E:\SettlementPlatform\app\build\intermediates\split-apk\debug\slices\slice_7.apk"
-        type="SPLIT" />
-    <artifact
-        location="E:\SettlementPlatform\app\build\intermediates\split-apk\debug\slices\slice_8.apk"
-        type="SPLIT" />
-    <artifact
-        location="E:\SettlementPlatform\app\build\intermediates\split-apk\debug\slices\slice_9.apk"
         type="SPLIT" />
     <artifact
         location="E:\SettlementPlatform\app\build\intermediates\instant-run-apk\debug\SettlementPlatform.apk"
@@ -57,76 +33,61 @@
 
     <build
         build-mode="FULL"
-        timestamp="1578473214142"
+        timestamp="1578655850196"
         verifier="FULL_BUILD_REQUESTED" >
         <artifact
-            location="E:\SettlementPlatform\app\build\intermediates\split-apk\debug\slices\slice_5.apk"
-            type="SPLIT" />
-        <artifact
             location="E:\SettlementPlatform\app\build\intermediates\split-apk\debug\slices\slice_1.apk"
-            type="SPLIT" />
-        <artifact
-            location="E:\SettlementPlatform\app\build\intermediates\split-apk\debug\slices\slice_2.apk"
-            type="SPLIT" />
-        <artifact
-            location="E:\SettlementPlatform\app\build\intermediates\split-apk\debug\slices\slice_0.apk"
-            type="SPLIT" />
-        <artifact
-            location="E:\SettlementPlatform\app\build\intermediates\split-apk\debug\slices\slice_3.apk"
-            type="SPLIT" />
-        <artifact
-            location="E:\SettlementPlatform\app\build\intermediates\split-apk\debug\slices\slice_6.apk"
             type="SPLIT" />
         <artifact
             location="E:\SettlementPlatform\app\build\intermediates\split-apk\debug\slices\slice_7.apk"
             type="SPLIT" />
         <artifact
+            location="E:\SettlementPlatform\app\build\intermediates\split-apk\debug\slices\slice_6.apk"
+            type="SPLIT" />
+        <artifact
+            location="E:\SettlementPlatform\app\build\intermediates\split-apk\debug\slices\slice_5.apk"
+            type="SPLIT" />
+        <artifact
             location="E:\SettlementPlatform\app\build\intermediates\split-apk\debug\slices\slice_8.apk"
             type="SPLIT" />
-        <artifact
-            location="E:\SettlementPlatform\app\build\intermediates\split-apk\debug\slices\slice_9.apk"
-            type="SPLIT" />
-        <artifact
-            location="E:\SettlementPlatform\app\build\intermediates\instant-run-apk\debug\SettlementPlatform.apk"
-            type="SPLIT_MAIN" />
         <artifact
             location="E:\SettlementPlatform\app\build\intermediates\split-apk\debug\dep\dependencies.apk"
             type="SPLIT" />
         <artifact
-            location="E:\SettlementPlatform\app\build\intermediates\split-apk\debug\slices\slice_4.apk"
+            location="E:\SettlementPlatform\app\build\intermediates\split-apk\debug\slices\slice_9.apk"
             type="SPLIT" />
-    </build>
-    <build
-        build-mode="COLD"
-        ir-eligibility="R_CLASS_CHANGE"
-        timestamp="1578473320169"
-        verifier="COLD_SWAP_REQUESTED" >
         <artifact
             location="E:\SettlementPlatform\app\build\intermediates\split-apk\debug\slices\slice_3.apk"
             type="SPLIT" />
         <artifact
-            location="E:\SettlementPlatform\app\build\intermediates\split-apk\debug\slices\slice_5.apk"
-            type="SPLIT" />
-        <artifact
-            location="E:\SettlementPlatform\app\build\intermediates\split-apk\debug\slices\slice_1.apk"
-            type="SPLIT" />
-        <artifact
-            location="E:\SettlementPlatform\app\build\intermediates\split-apk\debug\slices\slice_0.apk"
+            location="E:\SettlementPlatform\app\build\intermediates\split-apk\debug\slices\slice_4.apk"
             type="SPLIT" />
         <artifact
             location="E:\SettlementPlatform\app\build\intermediates\split-apk\debug\slices\slice_2.apk"
             type="SPLIT" />
         <artifact
-            location="E:\SettlementPlatform\app\build\intermediates\split-apk\debug\slices\slice_6.apk"
+            location="E:\SettlementPlatform\app\build\intermediates\split-apk\debug\slices\slice_0.apk"
             type="SPLIT" />
         <artifact
-            location="E:\SettlementPlatform\app\build\intermediates\split-apk\debug\slices\slice_7.apk"
-            type="SPLIT" />
+            location="E:\SettlementPlatform\app\build\intermediates\instant-run-apk\debug\SettlementPlatform.apk"
+            type="SPLIT_MAIN" />
+    </build>
+    <build
+        build-mode="COLD"
+        ir-eligibility="COMPATIBLE"
+        timestamp="1578658536624"
+        verifier="COLD_SWAP_REQUESTED" >
         <artifact
-            location="E:\SettlementPlatform\app\build\intermediates\split-apk\debug\slices\slice_8.apk"
-            type="SPLIT" />
+            location="E:\SettlementPlatform\app\build\intermediates\instant-run-apk\debug\SettlementPlatform.apk"
+            type="SPLIT_MAIN" />
+    </build>
+    <build
+        build-mode="COLD"
+        ir-eligibility="METHOD_DELETED"
+        timestamp="1578658648342"
+        verifier="COLD_SWAP_REQUESTED" >
         <artifact
-            location="E:\SettlementPlatform\app\build\intermediates\split-apk\debug\slices\slice_9.apk"
+            location="E:\SettlementPlatform\app\build\intermediates\split-apk\debug\slices\slice_1.apk"
             type="SPLIT" />
         <artifact
             location="E:\SettlementPlatform\app\build\intermediates\instant-run-apk\debug\SettlementPlatform.apk"

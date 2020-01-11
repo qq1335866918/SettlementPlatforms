@@ -58,12 +58,10 @@ import com.tt1000.settlementplatform.bean.member.CommodityTypeRecord;
 import com.tt1000.settlementplatform.bean.member.DaoSession;
 import com.tt1000.settlementplatform.bean.member.MemberTypeRecord;
 import com.tt1000.settlementplatform.bean.member.StoreConfig;
-import com.tt1000.settlementplatform.bean.member.StoreConfigDao;
 import com.tt1000.settlementplatform.bean.member.SyncResultInfo;
 import com.tt1000.settlementplatform.bean.member.SyncTableRecord;
 import com.tt1000.settlementplatform.bean.member.SyncTableRecordDao;
 import com.tt1000.settlementplatform.bean.member.TfCardInfo;
-import com.tt1000.settlementplatform.bean.member.TfCardInfoDao;
 import com.tt1000.settlementplatform.bean.member.TfConsumeCardRecord;
 import com.tt1000.settlementplatform.bean.member.TfConsumeCardRecordDao;
 import com.tt1000.settlementplatform.bean.member.TfConsumeDetailsRecord;
@@ -71,18 +69,12 @@ import com.tt1000.settlementplatform.bean.member.TfConsumeDetailsRecordDao;
 import com.tt1000.settlementplatform.bean.member.TfConsumeOrderRecord;
 import com.tt1000.settlementplatform.bean.member.TfConsumeOrderRecordDao;
 import com.tt1000.settlementplatform.bean.member.TfDiscountRecord;
-import com.tt1000.settlementplatform.bean.member.TfDiscountRecordDao;
 import com.tt1000.settlementplatform.bean.member.TfMealTimes;
-import com.tt1000.settlementplatform.bean.member.TfMealTimesDao;
 import com.tt1000.settlementplatform.bean.member.TfMemberAccountRecord;
-import com.tt1000.settlementplatform.bean.member.TfMemberAccountRecordDao;
 import com.tt1000.settlementplatform.bean.member.TfMemberInfo;
-import com.tt1000.settlementplatform.bean.member.TfMemberInfoDao;
 import com.tt1000.settlementplatform.bean.member.TfPrintTask;
 import com.tt1000.settlementplatform.bean.member.TfStoreRecord;
-import com.tt1000.settlementplatform.bean.member.TfStoreRecordDao;
 import com.tt1000.settlementplatform.bean.member.TfUserInfo;
-import com.tt1000.settlementplatform.bean.member.TfUserInfoDao;
 import com.tt1000.settlementplatform.bean.pay.InlineUpdateInfo;
 import com.tt1000.settlementplatform.bean.result_info.VerifyMachineResultInfo;
 import com.tt1000.settlementplatform.feature.BuiltInPrinter;
@@ -1053,7 +1045,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                         String machine_no = gSharedPre.getString(MyConstant.SP_MACHINE_NO, "");
                         String url = ip + ":" + port + "/k-occ/api/kbs/device/heartbeat";
                         List<TfConsumeCardRecord> cardRecords = session.queryBuilder(TfConsumeCardRecord.class)
-                                .where(TfConsumeCardRecordDao.Properties.ISM_STATUS.eq(0))
+                                .where(TfConsumeCardRecordDao.Properties.ISM_STATUS.eq(0),
+                                        TfConsumeCardRecordDao.Properties.CCR_STATUS.eq(1))
                                 .build()
                                 .list();
                         JsonObject jsonObject = new JsonObject();
@@ -1358,7 +1351,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                                     for (final VerifyMachineResultInfo verifyMachineResultInfo : verifyMachineResultInfoBaseBean.getData()) {
                                         if (verifyMachineResultInfo != null) {
                                             if (verifyMachineResultInfo.getVAILD_TIME() > 0) {
-                                                Log.e("look", "verifyMachineResultInfo.getVAILD_TIME():" + verifyMachineResultInfo.getVAILD_TIME());
                                                 MyConstant.gEditor.putLong(MyConstant.SP_MACHINE_EXPIRE, verifyMachineResultInfo.getVAILD_TIME());
                                                 MyConstant.gEditor.commit();
                                             }
@@ -1756,7 +1748,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         /**
          * 同步表格
          */
-        Log.d("sysData", "table_type:" + type + " t_record_name:" + t_record_name + " l_updatetime" + l_updatetime + " updateTime:" + updateTime + " page_no->" + page_no);
+        Log.d("look", "table_type:" + type + " t_record_name:" + t_record_name + " l_updatetime" + l_updatetime + " updateTime:" + updateTime + " page_no->" + page_no);
         String clienCode = MyConstant.gSharedPre.getString(MyConstant.CLIENT_CODE, "");
         String storeCode = MyConstant.gSharedPre.getString(MyConstant.STORE_CODE, "");
         String ip = MyConstant.gSharedPre.getString(MyConstant.SP_Server_IP, "");
@@ -1785,7 +1777,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 //        Log.i("syncData", "timestamp->" + map.get("timestamp") + "  updatetime->" + map.get("updatetime")
 //                + "   client_code->" + map.get("client_code") + "  store_code->" + map.get("store_code")
 //                + "   api->" + map.get("api") + "  pageNo->" + map.get("pageNo"));
-        Log.d("sysData", "syncTable: tablename :  " + tableName + " startTime " + MyUtil.obtainCurrentSysDate(2));
 
         switch (type) {
             case 0:
@@ -1811,12 +1802,14 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
                             @Override
                             public void onNext(final SyncResultInfo<?> objectSyncResultInfo) {
-                                Log.i("sysData", "table->commodity_record->count->" + objectSyncResultInfo.getData().size());
+                                Log.i("look", "table->commodity_record->count->" + objectSyncResultInfo.getData().size());
                                 if (objectSyncResultInfo.getData().isEmpty()) {
-//                                    session.queryBuilder(CommodityRecord.class)
-//                                            .where(CommodityRecordDao.Properties.UPDATETIME.eq(0))
-//                                            .buildDelete().executeDeleteWithoutDetachingEntities();
-//                                    session.clear();
+//                                    if (!verifyDataNum(type)) {
+//                                        iterationTableData();
+//                                    } else {
+//                                        task_page_no = 0;
+//                                        task_table_index++;
+//                                    }
                                     verifyDataNum(type);
                                     task_page_no = 0;
                                     task_table_index++;
@@ -1844,7 +1837,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                                         }
                                     }
                                 });
-//                                iterationTableData();
                             }
                         });
                 break;
@@ -1871,8 +1863,14 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
                             @Override
                             public void onNext(final SyncResultInfo<CommodityTypeRecord> objectSyncResultInfo) {
-                                Log.i("sysData", "table->commodity_type_record->count->" + objectSyncResultInfo.getData().size());
+                                Log.i("look", "table->commodity_type_record->count->" + objectSyncResultInfo.getData().size());
                                 if (objectSyncResultInfo.getData().isEmpty()) {
+//                                    if (!verifyDataNum(type)) {
+//                                        iterationTableData();
+//                                    } else {
+//                                        task_page_no = 0;
+//                                        task_table_index++;
+//                                    }
                                     verifyDataNum(type);
                                     task_page_no = 0;
                                     task_table_index++;
@@ -1930,7 +1928,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
                             @Override
                             public void onNext(final SyncResultInfo<MemberTypeRecord> objectSyncResultInfo) {
-                                Log.i("sysData", "table->member_type_record->count->" + objectSyncResultInfo.getData().size());
+                                Log.i("look", "table->member_type_record->count->" + objectSyncResultInfo.getData().size());
                                 if (objectSyncResultInfo.getData().isEmpty()) {
                                     verifyDataNum(type);
                                     task_page_no = 0;
@@ -1990,7 +1988,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
                             @Override
                             public void onNext(final SyncResultInfo<StoreConfig> objectSyncResultInfo) {
-                                Log.i("sysData", "table->store_config->count->" + objectSyncResultInfo.getData().size());
+                                Log.i("look", "table->store_config->count->" + objectSyncResultInfo.getData().size());
                                 if (objectSyncResultInfo.getData().isEmpty()) {
                                     verifyDataNum(type);
                                     task_page_no = 0;
@@ -2053,7 +2051,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
                             @Override
                             public void onNext(final SyncResultInfo<TfCardInfo> objectSyncResultInfo) {
-                                Log.i("sysData", "table->tf_cardinfo->count->" + objectSyncResultInfo.getData().size());
+                                Log.i("look", "table->tf_cardinfo->count->" + objectSyncResultInfo.getData().size());
                                 if (objectSyncResultInfo.getData().isEmpty()) {
 //                                    session.queryBuilder(TfCardInfo.class)
 //                                            .where(TfCardInfoDao.Properties.UPDATETIME.eq(0))
@@ -2114,7 +2112,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
                             @Override
                             public void onNext(final SyncResultInfo<TfDiscountRecord> objectSyncResultInfo) {
-                                Log.i("sysData", "table->tf_discount_record->count->" + objectSyncResultInfo.getData().size());
+                                Log.i("look", "table->tf_discount_record->count->" + objectSyncResultInfo.getData().size());
                                 if (objectSyncResultInfo.getData().isEmpty()) {
                                     verifyDataNum(type);
                                     task_page_no = 0;
@@ -2175,7 +2173,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
                             @Override
                             public void onNext(final SyncResultInfo<TfMealTimes> objectSyncResultInfo) {
-                                Log.i("sysData", "table->tf_mealtimes->count->" + objectSyncResultInfo.getData().size());
+                                Log.i("look", "table->tf_mealtimes->count->" + objectSyncResultInfo.getData().size());
                                 if (objectSyncResultInfo.getData().isEmpty()) {
                                     verifyDataNum(type);
                                     task_page_no = 0;
@@ -2215,7 +2213,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                         .subscribe(new Observer<SyncResultInfo<TfMemberAccountRecord>>() {
                             @Override
                             public void onCompleted() {
-                                Log.i("look", "table->tTfMemberAccountRecord onCompleted");
                                 isSync = false;
                                 syncNum += 1;
                                 if (isInit) {
@@ -2236,16 +2233,14 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                             @Override
                             public void onNext(final SyncResultInfo<TfMemberAccountRecord> objectSyncResultInfo) {
 
-                                Log.i("sysData", "table->tf_member_account_record->count->" + objectSyncResultInfo.getData().size());
+                                Log.i("look", "table->tf_member_account_record->count->" + objectSyncResultInfo.getData().size());
                                 if (objectSyncResultInfo.getData().isEmpty()) {
-                                    Log.i("look", "table->tTfMemberAccountRecord :isEmpty1");
                                     verifyDataNum(type);
                                     task_page_no = 0;
                                     task_table_index++;
                                     return;
                                 } else {
                                     gUiHandler.sendEmptyMessage(SYNC_VISIBILITY);
-                                    Log.i("look", "table->tTfMemberAccountRecord :isEmpty2");
                                     task_page_no++;
                                 }
                                 session.runInTx(new Runnable() {
@@ -2295,7 +2290,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
                             @Override
                             public void onNext(final SyncResultInfo<TfMemberInfo> objectSyncResultInfo) {
-                                Log.i("sysData", "table->tf_memberinfo->count->" + objectSyncResultInfo.getData().size());
+                                Log.i("look", "table->tf_memberinfo->count->" + objectSyncResultInfo.getData().size());
                                 if (objectSyncResultInfo.getData().isEmpty()) {
                                     verifyDataNum(type);
                                     task_page_no = 0;
@@ -2350,7 +2345,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
                             @Override
                             public void onNext(final SyncResultInfo<TfPrintTask> objectSyncResultInfo) {
-                                Log.i("sysData", "table->tf_print_task->count->" + objectSyncResultInfo.getData().size());
+                                Log.i("look", "table->tf_print_task->count->" + objectSyncResultInfo.getData().size());
                                 if (objectSyncResultInfo.getData().isEmpty()) {
                                     verifyDataNum(type);
                                     task_page_no = 0;
@@ -2408,10 +2403,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
                             @Override
                             public void onNext(final SyncResultInfo<TfUserInfo> objectSyncResultInfo) {
-                                Log.i("sysData", "table->tf_userinfo->count->" + objectSyncResultInfo.getData().size());
+                                Log.i("look", "table->tf_userinfo->count->" + objectSyncResultInfo.getData().size());
                                 if (objectSyncResultInfo.getData().isEmpty()) {
                                     verifyDataNum(type);
-
                                     task_page_no = 0;
                                     task_table_index++;
                                     return;
@@ -2466,12 +2460,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
                             @Override
                             public void onNext(final SyncResultInfo<TfStoreRecord> objectSyncResultInfo) {
-                                Log.i("sysData", "table->tf_store_record->count->" + objectSyncResultInfo.getData().size());
+                                Log.i("look", "table->tf_store_record->count->" + objectSyncResultInfo.getData().size());
                                 if (objectSyncResultInfo.getData().isEmpty()) {
                                     verifyDataNum(type);
-
                                     task_page_no = 0;
                                     task_table_index++;
+
+
                                     return;
                                 } else {
                                     gUiHandler.sendEmptyMessage(SYNC_VISIBILITY);
@@ -2494,7 +2489,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                                             syncTableRecord.setISM_STATUS("1");
                                             session.update(syncTableRecord);
                                         }
-                                        Log.d("look", "table_type:" + type + " tname:" + syncTableRecord.getTABLENAME() + "  objectSyncResultInfo.getData().size():" + objectSyncResultInfo.getData().size() + " max_time" + MyUtil.dateConversion(max_time));
+//                                        Log.d("look", "table_type:" + type + " tname:" + syncTableRecord.getTABLENAME() + "  objectSyncResultInfo.getData().size():" + objectSyncResultInfo.getData().size() + " max_time" + MyUtil.dateConversion(max_time));
                                     }
                                 });
 
@@ -2671,7 +2666,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     syncTable(bean.getType(), bean.getTableName(), time, task_page_no);
                 }
             } else {
-                Log.i("sysData", "2:" + bean.getTableName() + ": " + bean.getUpdatetime());
 //                long updateTime = 0;
 //                session.clear();
 //                if (bean.getType() == 6) {
@@ -2779,6 +2773,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         getTaskType();
         taskTable();
     }
+
+    boolean isSame = false;
 
     /**
      * 判断本地数据是否和服务器数据数量相等
@@ -2896,8 +2892,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     public void onNext(TotalNum totalNum) {
                         if (totalNum != null && totalNum.getData() >= 0) {
                             Log.d("look", "onNext: tableName : " + finalTableName + "  totalNum " + totalNum.getData() + " 本地数据量：" + dbList.size());
-                            if (dbList.size() != totalNum.getData()) {
+                            if (dbList.size() < totalNum.getData()) {
                                 if (record != null) {
+//                                    isSame = false;
                                     Log.e("frost", "type:" + type);
                                     record.setUPDATETIME("0");
 //                                    record.setISM_STATUS("0");
@@ -2988,9 +2985,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 //                                    session.clear();
                                 }
                             }
+//                            else {
+//                                isSame = true;
+//                            }
                         }
                     }
                 });
+//        return isSame;
     }
 
     /**
