@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Fri Jan 03 10:25:26 CST 2020
+#Sat Jan 11 10:55:18 CST 2020
 2.base=E\:\\SettlementPlatform\\app\\build\\intermediates\\assets\\release
 5.set=DEX
 0.path=local_db.db

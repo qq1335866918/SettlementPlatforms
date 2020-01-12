@@ -1,4 +1,4 @@
-#Fri Jan 10 10:20:05 CST 2020
-base.0=E\:\\SettlementPlatform\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\27
+#Sat Jan 11 14:04:05 CST 2020
+base.0=E\:\\SettlementPlatform\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\45
 path.0=classes.dex
 renamed.0=classes.dex

@@ -969,7 +969,7 @@ public class WeichaiOperationFragment extends BaseFragment implements View.OnCli
                         for (int j = 0; j < bCount; j++) {
                             Log.e("onNewIntent:", "存储器的位置 ===" + bIndex + "当前块 === " + (bIndex + j));
                             //修改KeyA和KeyB
-                            if ((bIndex + j) == (4 + 3)) {
+                            if ((bIndex + j) == 7) {
                                 mifareClassic.writeBlock(bIndex + j, new byte[]{(byte) 0xa0, (byte) 0xb7, (byte) 0xa5, (byte) 0xc5, (byte) 0x80, (byte) 0x88, (byte) 0xff, 0x07, (byte) 0x80, (byte) 0x69, (byte) 0xa0, (byte) 0xb7, (byte) 0xa5, (byte) 0xc5, (byte) 0x80, (byte) 0x88});
                                 Log.e("onNewIntent:", (bIndex + j) + "块加密成功");
 
