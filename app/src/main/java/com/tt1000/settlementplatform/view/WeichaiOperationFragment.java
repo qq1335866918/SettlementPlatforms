@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.hardware.Camera;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.nfc.tech.MifareClassic;
@@ -96,9 +97,12 @@ import com.tt1000.settlementplatform.zxing.view.ViewfinderView;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.TimerTask;
@@ -179,7 +183,7 @@ public class WeichaiOperationFragment extends BaseFragment implements View.OnCli
     // 支付宝还是微信
     private String payName;
     MainActivity mainActivity2;
-
+    byte[] key = {(byte) 0xA0, (byte) 0xB7, (byte) 0xA5, (byte) 0xC5, (byte) 0x80, (byte) 0x88};
     private ImageView img_upload;
     private static final int PAY_CASH = 0;
     private static final int PAY_MEMBER_CARD = 1;
@@ -850,6 +854,10 @@ public class WeichaiOperationFragment extends BaseFragment implements View.OnCli
                 break;
             case R.id.business_refresh:
                 refresh();
+                // TODO: 2020/3/3 同步数据线程断开修改
+//                if (mainActivity.mExecutor.isTerminated() || mainActivity.mExecutor.isShutdown()) {
+//                    Toast.makeText(mainActivity, "请重启设备", Toast.LENGTH_LONG).show();
+//                }
                 break;
             case R.id.business_ok:
                 settlement();
@@ -936,6 +944,8 @@ public class WeichaiOperationFragment extends BaseFragment implements View.OnCli
         super.onPause();
     }
 
+    MifareClassic mifareClassic;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -954,31 +964,46 @@ public class WeichaiOperationFragment extends BaseFragment implements View.OnCli
             @Override
             public void onNewIntent(Intent intent) {
                 try {
-                    byte[] key = {(byte) 0xA0, (byte) 0xB7, (byte) 0xA5, (byte) 0xC5, (byte) 0x80, (byte) 0x88};
+                    String mTagText = null;
                     Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
                     //加密IC卡
-                    MifareClassic mifareClassic = MifareClassic.get(tag);
+
+                    mifareClassic = MifareClassic.get(tag);
                     mifareClassic.connect();
                     //获取扇区数量
                     int count = mifareClassic.getSectorCount();
                     Log.e("onNewIntent:", "扇区数量 ===" + count);
+                    MyUtil.appendFile("开始刷卡");
                     boolean isOpen = mifareClassic.authenticateSectorWithKeyA(1, MifareClassic.KEY_DEFAULT);
                     if (isOpen) {
+                        MyUtil.appendFile("检测到此卡为默认密码");
                         int bCount = mifareClassic.getBlockCountInSector(1);
                         int bIndex = mifareClassic.sectorToBlock(1);
                         for (int j = 0; j < bCount; j++) {
                             Log.e("onNewIntent:", "存储器的位置 ===" + bIndex + "当前块 === " + (bIndex + j));
                             //修改KeyA和KeyB
                             if ((bIndex + j) == 7) {
+                                MyUtil.appendFile("开始加密第" + (bIndex + j) + "块");
                                 mifareClassic.writeBlock(bIndex + j, new byte[]{(byte) 0xa0, (byte) 0xb7, (byte) 0xa5, (byte) 0xc5, (byte) 0x80, (byte) 0x88, (byte) 0xff, 0x07, (byte) 0x80, (byte) 0x69, (byte) 0xa0, (byte) 0xb7, (byte) 0xa5, (byte) 0xc5, (byte) 0x80, (byte) 0x88});
                                 Log.e("onNewIntent:", (bIndex + j) + "块加密成功");
-
+                                MyUtil.appendFile((bIndex + j) + "块加密成功");
+                                MyUtil.appendFile("-----------------------");
                             }
                         }
                     } else {
 //                        boolean isPassword = mifareClassic.authenticateSectorWithKeyA(1, "a0b7a5c58088".getBytes());
+                        //安装这个apk，使用新卡用手机复制卡ID，再用手机
                         boolean isPassword = mifareClassic.authenticateSectorWithKeyA(1, key);
+                        MyUtil.appendFile("检测到此卡非默认密码");
+                        MyUtil.appendFile("准备用密码解密");
                         if (isPassword) {
+//                            float a = (float) 10.20;
+//                            mifareClassic.writeBlock(5,("10.6800000000000").getBytes());
+//                            mifareClassic.writeBlock(5, "12.3000000000000".getBytes());
+//                            byte[] bytes = mifareClassic.readBlock(5);
+//                            String s = new String(bytes);
+//                            Log.e("nfc_test", s);
+                            MyUtil.appendFile("密码正确，解密成功，允许使用");
                             Log.e("onNewIntent:", "密码正确");
                             if (tag != null && tag.getId() != null) {
                                 String smartCardId = MyUtil.ByteArrayToHexString(tag.getId());
@@ -1002,6 +1027,7 @@ public class WeichaiOperationFragment extends BaseFragment implements View.OnCli
                                         // 最终得到去数据库查询的IC_ID
                                         if (!("").equals(business_vip_name.getText().toString())) {
                                         } else {
+//                                            MyUtil.appendFile("onAttach------->");
                                             getMemberCardBalance(String.valueOf(cardId));
                                             return;
                                         }
@@ -1014,16 +1040,8 @@ public class WeichaiOperationFragment extends BaseFragment implements View.OnCli
                             }
                         } else {
                             Log.e("onNewIntent:", "密码错误");
+                            MyUtil.appendFile("密码错误");
                         }
-//                                byte[] bytes = mifareClassic.readBlock(bIndex + j);
-//                                mifareClassic.writeBlock(bIndex + j, new byte[]{(byte) 0xa0, (byte) 0xb7, (byte) 0xa5, (byte) 0xc5, (byte) 0x80, (byte) 0x88, (byte) 0xff, 0x07, (byte) 0x80, (byte) 0x69, (byte) 0xa0, (byte) 0xb7, (byte) 0xa5, (byte) 0xc5, (byte) 0x80, (byte) 0x88});
-//                                if (isPassword) {
-//                                    // 能获取到卡号，且未支付
-//                                    Log.e("onNewIntent:","密码正确");
-//
-//                                }else {
-//                                    Log.e("onNewIntent:","密码错误");
-//                                }
                     }
 
 
@@ -1054,6 +1072,44 @@ public class WeichaiOperationFragment extends BaseFragment implements View.OnCli
                 }
             }
         });
+    }
+
+    /*
+     * 解析NDEF文本数据，从第三个字节开始，后面的文本数据
+     * @param ndefRecord
+     * @return
+     */
+    private String parseTextRecord(NdefRecord ndefRecord) {
+        /**
+         * 判断数据是否为NDEF格式
+         */
+        //判断TNF
+        if (ndefRecord.getTnf() != NdefRecord.TNF_WELL_KNOWN) {
+            return null;
+        }
+        //判断可变的长度的类型
+        if (!Arrays.equals(ndefRecord.getType(), NdefRecord.RTD_TEXT)) {
+            return null;
+        }
+        try {
+            //获得字节数组，然后进行分析
+            byte[] payload = ndefRecord.getPayload();
+            //下面开始NDEF文本数据第一个字节，状态字节
+            //判断文本是基于UTF-8还是UTF-16的，取第一个字节"位与"上16进制的80，16进制的80也就是最高位是1，
+            //其他位都是0，所以进行"位与"运算后就会保留最高位
+            String textEncoding = ((payload[0] & 0x80) == 0) ? "UTF-8" : "UTF-16";
+            //3f最高两位是0，第六位是1，所以进行"位与"运算后获得第六位
+            int languageCodeLength = payload[0] & 0x3f;
+            //下面开始NDEF文本数据第二个字节，语言编码
+            //获得语言编码
+            String languageCode = new String(payload, 1, languageCodeLength, "US-ASCII");
+            //下面开始NDEF文本数据后面的字节，解析出文本
+            String textRecord = new String(payload, languageCodeLength + 1,
+                    payload.length - languageCodeLength - 1, textEncoding);
+            return textRecord;
+        } catch (Exception e) {
+            throw new IllegalArgumentException();
+        }
     }
 
     /**
@@ -1434,19 +1490,66 @@ public class WeichaiOperationFragment extends BaseFragment implements View.OnCli
                     Log.d("frost", "temp_f:" + temp_f);
                     Log.d("frost", "temp_balance:" + temp_balance);
                     // TODO: 2019/11/7 创建一条消费信息
-                    createConsumeInfo(temp_f, temp_balance, info.getMI_ID(), cashRecord.getACCOUNT_ID(), icId, 1 + "", 1);
+
                     // 更新余额
 //                    if (memberInfo.getMI_NAME() != null) {
+                    TfMemberAccountRecord finalCashRecord = cashRecord;
+                    TfMemberAccountRecord finalSubsidyRecord = subsidyRecord;
                     mainActivity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            business_vip_name.setText(memberInfo.getMI_NAME());
-                            business_vip_no.setText(memberInfo.getMI_NO());
-                            String balance1 = MyConstant.gFormat.format(accoutBalance);
-                            business_balance.setText(balance1);
-                            business_state.setText("支付成功");
-                            payMsg = "";
-                            mainActivity.showPay(mainActivity, "card", "支付成功", memberInfo.getMI_NO(), memberInfo.getMI_NAME(), balance1);
+                            if (icId.substring(0, 2).equals("56") && icId.length() == 20) {
+                                Log.e("frost", "员工码支付");
+                                createConsumeInfo(memberInfo, temp_f, temp_balance, info.getMI_ID(), finalCashRecord.getACCOUNT_ID(), icId, 1 + "", 1);
+                            } else {
+                                // TODO: 2020/3/11 2.4版本
+//                                try {
+//                                    if (mifareClassic.isConnected()) {
+//                                        if (mifareClassic.authenticateSectorWithKeyA(1, key)) {
+//                                            String balance1 = finalCashRecord.getBALANCE();
+//                                            String balance2 = finalSubsidyRecord.getBALANCE();
+//                                            String s = balance1 + "a" + balance2;
+//                                            int diff = 16 - s.length();
+//                                            // 不足10位补0
+//                                            if (diff >= 0) {
+//                                                for (int k = 0; k < diff; k++) {
+//                                                    s = (s + "0");
+//                                                }
+//                                                Log.e("nfc_test", s);
+//                                                mifareClassic.writeBlock(5, s.getBytes());
+//                                            }
+//                                        }
+//                                    } else {
+//                                        business_vip_name.setText("");
+//                                        business_vip_no.setText("");
+//                                        business_balance.setText("");
+//                                        business_state.setText("支付未完成");
+//                                        mainActivity.showPay(mainActivity, "card", "支付未完成", "", "", "");
+//                                        return;
+//                                    }
+//                                } catch (IOException e) {
+//                                    e.printStackTrace();
+//                                }
+                                createConsumeInfo(temp_f, temp_balance, info.getMI_ID(), finalCashRecord.getACCOUNT_ID(), icId, 1 + "", 1);
+                                business_vip_name.setText(memberInfo.getMI_NAME());
+                                business_vip_no.setText(memberInfo.getMI_NO());
+                                String balance1 = MyConstant.gFormat.format(accoutBalance);
+                                business_balance.setText(balance1);
+                                business_state.setText("支付成功");
+                                payMsg = "";
+                                mainActivity.showPay(mainActivity, "card", "支付成功", memberInfo.getMI_NO(), memberInfo.getMI_NAME(), balance1);
+                                try {
+                                    int code = mTts.startSpeaking("支付成功" + temp_f + "元", mTtsListener);
+                                    if (code != ErrorCode.SUCCESS) {
+                                        Log.e("frost_xunfei", "语音合成失败,错误码: " + code);
+                                    }
+                                    mTotalPersonCount += 1;
+                                    handler.sendEmptyMessage(UPDATE_PERSON_NUMBER);
+                                } catch (Exception e) {
+                                    Log.d("frost", e.getMessage());
+                                }
+
+                            }
                         }
                     });
 //                    }
@@ -1456,16 +1559,7 @@ public class WeichaiOperationFragment extends BaseFragment implements View.OnCli
                     pDaoSession.update(cashRecord);
                     pDaoSession.update(subsidyRecord);
 
-                    try {
-                        int code = mTts.startSpeaking("支付成功" + temp_f + "元", mTtsListener);
-                        if (code != ErrorCode.SUCCESS) {
-                            Log.e("frost_xunfei", "语音合成失败,错误码: " + code);
-                        }
-                        mTotalPersonCount += 1;
-                        handler.sendEmptyMessage(UPDATE_PERSON_NUMBER);
-                    } catch (Exception e) {
-                        Log.d("frost", e.getMessage());
-                    }
+
                     return;
                 }
             } else {
@@ -1478,6 +1572,499 @@ public class WeichaiOperationFragment extends BaseFragment implements View.OnCli
             cashRecord = null;
             subsidyRecord = null;
         }
+    }
+
+    /**
+     * 创建一条消费记录
+     */
+    public void createConsumeInfo(TfMemberInfo memberInfo, final float totalMoney, final float balance, final String memberId,
+                                  final String accountId, final String icid, final String personCount, final int CCR_STATUS) {
+
+        Log.d("frost", "createConsumeInfo:" + balance);
+        onlineSync = true;
+        mTHREAD_POOL.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    payMsg = "";
+                    if (!"0".equals(memberId)) {
+                        cardMemberId = memberId;
+                    }
+                    DaoSession session = MyApplication.getInstance();
+                    String clientCode = MyConstant.gSharedPre.getString(MyConstant.CLIENT_CODE, "");
+                    String storeCode = MyConstant.gSharedPre.getString(MyConstant.STORE_CODE, "");
+                    String u_id = MyConstant.gSharedPre.getString(MyConstant.U_ID, "");
+
+                    String machineNo = MyConstant.gSharedPre.getString(MyConstant.SP_MACHINE_NO, "");
+                    String createTime = MyUtil.dateConversion(System.currentTimeMillis());
+                    if (curOrderNo == null && curOrderNo.length() == 0) {
+                        showMessage("", "订单号不能为空");
+                    }
+                    List<TfConsumeCardRecord> cardRecords = pDaoSession.queryBuilder(TfConsumeCardRecord.class)
+                            .where(TfConsumeCardRecordDao.Properties.COR_ID.eq(curOrderNo))
+                            .limit(1)
+                            .build()
+                            .list();
+                    if (cardRecords != null && cardRecords.size() > 0) {
+                        Log.e("frost", "订单号已存在");
+                        Log.e("frost", "curOrderNo:" + curOrderNo);
+                        return;
+                    }
+
+                    //curOrderNo = MyUtil.getPrimaryValue();
+                    String orderNo = curOrderNo;
+                    // 获取餐次
+                    String currentTime = MyUtil.obtainCurrentSysDate(1);
+
+                    List<TfMealTimes> mealTimeList = session.queryBuilder(TfMealTimes.class)
+                            .where(TfMealTimesDao.Properties.STARTTIME.le(currentTime),
+                                    TfMealTimesDao.Properties.ENDTIME.ge(currentTime))
+                            .build()
+                            .list();
+
+                    TfMealTimes mealTimes;
+                    if (mealTimeList.isEmpty()) {
+                        mealTimes = null;
+                    } else {
+                        mealTimes = mealTimeList.get(0);
+                    }
+
+//                    // 会员卡消费记录
+                    TfConsumeCardRecord cardRecord = new TfConsumeCardRecord();
+                    cardRecord.setCCR_ID(MyUtil.getPrimaryValue());
+                    cardRecord.setIC_ID(icid);
+                    cardRecord.setCCR_MONEY(totalMoney);
+                    Log.e("frost", "payWay:" + payWay);
+                    switch (payWay) {
+                        case PAY_CASH:
+                            cardRecord.setCCR_PAY_TYPE("0");
+                            break;
+                        case PAY_MEMBER_CARD:
+                            cardRecord.setCCR_PAY_TYPE("1");
+                            break;
+                        case PAY_WECHAT:
+                            cardRecord.setCCR_PAY_TYPE("2");
+                            break;
+                        case PAY_ALIPAY:
+                            cardRecord.setCCR_PAY_TYPE("3");
+                            break;
+                        case PAY_BANK:
+                            cardRecord.setCCR_PAY_TYPE("4");
+                            break;
+                    }
+                    //     20/1/2
+                    cardRecord.setCCR_UPLOAD_STATUS("0");
+                    cardRecord.setCCR_STATUS("" + CCR_STATUS);
+                    cardRecord.setACCOUNT_ID(accountId);
+                    cardRecord.setCLIENT_CODE(clientCode);
+                    cardRecord.setCOR_ID(orderNo);
+                    cardRecord.setCREATETIME(createTime);
+                    cardRecord.setISM_STATUS("0");
+                    cardRecord.setMI_ID(memberId);
+                    cardRecord.setMT_ID(mealTimes == null ? "" : mealTimes.getMT_ID()); // 餐次
+                    cardRecord.setSTORE_CODE(storeCode);
+                    cardRecord.setU_ID(u_id);
+                    cardRecord.setMACHINE_NO(machineNo);
+                    if (cardRecord.getMI_ID() != null && cardRecord.getMI_ID().length() > 0) {
+                        cardRecord.setCCR_ORIGINALAMOUNT("" + balance);
+                    }
+                    cardRecord.setCCR_UPLOAD_TIME("0");
+                    // 添加到流水记录中
+                    mainActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            NumberFormat ddf1 = NumberFormat.getNumberInstance();
+
+                            //设置最多保留小数位数，不足不补0。
+                            ddf1.setMaximumFractionDigits(2);
+
+                            String s = ddf1.format(totalMoney);
+                            if (s.indexOf(".") == -1) {
+                                s += ".00";
+                            }
+                            String payWay = null;
+                            if (cardRecord.getCCR_PAY_TYPE().equals("1")) {
+                                payWay = "员工卡";
+                            } else if (cardRecord.getCCR_PAY_TYPE().equals("2")) {
+                                payWay = "微信";
+                            } else if (cardRecord.getCCR_PAY_TYPE().equals("3")) {
+                                payWay = "支付宝";
+                            }
+                            weiCaiOperationWaterAdapter.insertDataToEnd(new WeiCaiWaterInfo(payWay, s));
+                        }
+                    });
+
+                    // 消费详情
+                    List<TfConsumeDetailsRecord> detailsRecordList = new ArrayList<>();
+
+                    List<StoreConfig> list = pDaoSession.queryBuilder(StoreConfig.class).build().list();
+                    String pricing = list.get(0).getPRICING();
+
+                    TfConsumeDetailsRecord detailsRecord;
+//                    OperationMenu menu = new OperationMenu();
+                    detailsRecord = new TfConsumeDetailsRecord();
+                    detailsRecord.setCDR_ID(getPrimaryValue());
+//                    float totalPrice = menu.getTotalPrice();
+//                    Log.e("frost_test","pricing:"+pricing);
+//                    Log.e("frost_test","totalPrice:"+totalPrice);
+//                    detailsRecord.setCDR_MONEY(MyConstant.gFormat.format(menu.getTotalPrice()));totalMoney
+                    detailsRecord.setCDR_MONEY(totalMoney + "");
+//                    if (menu.getId() == MyConstant.CUSTOM_FIXED_PRICE_GOODS || menu.getId() == MyConstant.CUSTOM_PRICING_GOODS) {
+                    detailsRecord.setCDR_NO(pricing);
+//                        Log.e("frost_test", "---1--detailsRecord.getCDR_ID():" + detailsRecord.getCDR_NO());
+//                    } else {
+//                        detailsRecord.setCDR_NO(String.valueOf(menu.getId()));
+//                        Log.e("frost", "---2--detailsRecord.getCDR_ID():" + detailsRecord.getCDR_NO());
+//                    }
+
+                    detailsRecord.setCDR_NUMBER("1");
+                    detailsRecord.setCDR_TYPE("1");
+                    if ("1".equals(cardRecord.getCCR_PAY_TYPE())) {
+                        detailsRecord.setCDR_UNIT_PRICE(totalMoney + "");
+                    } else {
+                        detailsRecord.setCDR_UNIT_PRICE(totalMoney + "");
+                    }
+
+                    detailsRecord.setCLIENT_CODE(clientCode);
+                    detailsRecord.setCOR_ID(orderNo);
+                    detailsRecord.setCREATETIME(createTime);
+                    detailsRecord.setISM_STATUS("0");
+                    detailsRecord.setSTORE_CODE(storeCode);
+                    detailsRecordList.add(detailsRecord);
+
+                    // 消费订单
+                    TfConsumeOrderRecord orderRecord = new TfConsumeOrderRecord();
+                    orderRecord.setCLIENT_CODE(clientCode);
+                    orderRecord.setCOR_AMOUNT(totalMoney + "");
+                    orderRecord.setCOR_ID(orderNo);
+                    orderRecord.setCOR_TYPE("0");
+                    orderRecord.setCREATETIME(createTime);
+                    orderRecord.setISM_STATUS("0");
+                    orderRecord.setSTORE_CODE(storeCode);
+                    orderRecord.setMACHINE_NO(machineNo);
+                    orderRecord.setUPDATETIME(MyUtil.dateConversion(System.currentTimeMillis()));
+
+                    if (!MyUtil.networkState || payWay != PAY_MEMBER_CARD) {
+                        onlineSync = false;
+                        Log.d("frost", "saveOrder: saveOrder");
+                        if (icid.substring(0, 2).equals("56") && icid.length() == 20) {
+                            mainActivity.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    business_vip_name.setText("");
+                                    business_vip_no.setText("");
+                                    business_balance.setText("");
+                                    business_state.setText("支付错误，网络异常");
+                                    payMsg = "";
+                                    mainActivity.showPay(mainActivity, "card", "支付错误", "", "", "");
+                                }
+                            });
+                        }
+                    } else {
+                        // 更新
+                        try {
+                            Log.d("frost", "updateToServerOnline:  ");
+                            Log.d("frost", "updateToServerOnline: updateToServerOnline");
+                            updateToServerOnline(totalMoney, balance, memberInfo, cardRecord, detailsRecordList, orderRecord);
+                        } catch (Exception e) {
+                            Log.d("frost", "updateToServerOnline: Exception");
+                            Log.d("frost", "updateToServerOnline: e:" + e.getMessage());
+                            onlineSync = false;
+
+                        }
+                    }
+                } catch (Exception e) {
+                    onlineSync = false;
+                    e.printStackTrace();
+                    Log.e("frost", e.toString());
+                }
+            }
+        });
+    }
+
+    /**
+     * 将本地记录的消费信息发送到服务器（更新）
+     * 离线模式
+     *
+     * @throws
+     */
+    int serversLoadTimes = 0;
+
+    public synchronized void updateToServerOnline(float totalMoney, float balance, TfMemberInfo memberInfo, final TfConsumeCardRecord cardRecord,
+                                                  final List<TfConsumeDetailsRecord> detailsRecordList,
+                                                  final TfConsumeOrderRecord orderRecord) {
+        Gson gson = new Gson();
+        OnlineUpdateResultInfo syncInfo = new OnlineUpdateResultInfo();
+        List<OnlineUpdateResultInfo.TfConsumeDetailsRecordBean> details = new ArrayList<>();
+        OnlineUpdateResultInfo.TfConsumeOrderRecordBean orderBean = null;
+        OnlineUpdateResultInfo.TfConsumeDetailsRecordBean detailsBean;
+        OnlineUpdateResultInfo.TfConsumeCardRecordBean cardBean = null;
+
+        orderBean = new OnlineUpdateResultInfo.TfConsumeOrderRecordBean();
+        orderBean.setCOR_ID(orderRecord.getCOR_ID());
+        orderBean.setCOR_MONERY(orderRecord.getCOR_AMOUNT());
+        orderBean.setCOR_AMOUNT(orderRecord.getCOR_AMOUNT());
+        if (orderRecord.getMACHINE_NO() == null) {
+            orderBean.setMACHINE_NO("0");
+        } else {
+            orderBean.setMACHINE_NO(orderRecord.getMACHINE_NO());
+        }
+        orderBean.setISM_STATUS(orderRecord.getISM_STATUS());
+        orderBean.setSTORE_CODE(orderRecord.getSTORE_CODE());
+        orderBean.setCREATETIME(orderRecord.getCREATETIME());
+        orderBean.setCOR_TYPE(orderRecord.getCOR_TYPE());
+        orderBean.setADDR_ID(String.valueOf(orderRecord.getADDR_ID()));
+        orderBean.setCLIENT_CODE(orderRecord.getCLIENT_CODE());
+        orderBean.setUPDATETIME(orderRecord.getUPDATETIME());
+
+        // 添加到列表就表示能同步了，修改同步状态
+        for (TfConsumeDetailsRecord detailsRecord : detailsRecordList) {
+            detailsBean = new OnlineUpdateResultInfo.TfConsumeDetailsRecordBean();
+            detailsBean.setCOR_ID(detailsRecord.getCOR_ID());
+            detailsBean.setCDR_UNIT_PRICE(detailsRecord.getCDR_UNIT_PRICE());
+            detailsBean.setCDR_MONEY(detailsRecord.getCDR_MONEY());
+            detailsBean.setCDR_NO(detailsRecord.getCDR_NO());
+            detailsBean.setCDR_TYPE(detailsRecord.getCDR_TYPE());
+            detailsBean.setISM_STATUS(detailsRecord.getISM_STATUS());
+            detailsBean.setSTORE_CODE(detailsRecord.getSTORE_CODE());
+            detailsBean.setCREATETIME(detailsRecord.getCREATETIME());
+            detailsBean.setCDR_NUMBER(detailsRecord.getCDR_NUMBER());
+            detailsBean.setCLIENT_CODE(detailsRecord.getCLIENT_CODE());
+            detailsBean.setCDR_ID(detailsRecord.getCDR_ID());
+            details.add(detailsBean);
+        }
+        cardBean = new OnlineUpdateResultInfo.TfConsumeCardRecordBean();
+        cardBean.setCOR_ID(cardRecord.getCOR_ID());
+        cardBean.setCCR_MONEY(String.valueOf(cardRecord.getCCR_MONEY()));
+        if (cardRecord.getMI_ID() == null) {
+            cardBean.setMI_ID("0");
+        } else {
+            cardBean.setMI_ID(cardRecord.getMI_ID());
+        }
+        cardBean.setMT_ID(cardRecord.getMT_ID());
+
+        if (cardRecord.getMACHINE_NO() == null) {
+            cardBean.setMACHINE_NO("0");
+        } else {
+            cardBean.setMACHINE_NO(cardRecord.getMACHINE_NO());
+        }
+        cardBean.setCCR_ID(cardRecord.getCCR_ID());
+        cardBean.setISM_STATUS(cardRecord.getISM_STATUS());
+        cardBean.setSTORE_CODE(cardRecord.getSTORE_CODE());
+        cardBean.setCREATETIME(cardRecord.getCREATETIME());
+        cardBean.setCLIENT_CODE(cardRecord.getCLIENT_CODE());
+        cardBean.setCCR_PAY_TYPE(cardRecord.getCCR_PAY_TYPE());
+        cardBean.setCCR_STATUS(cardRecord.getCCR_STATUS());
+        cardBean.setIC_ID(cardRecord.getIC_ID());
+        cardBean.setPAY_REMARK("");
+
+
+        if (cardRecord.getMI_ID() != null && cardRecord.getMI_ID().length() > 0) {
+            cardBean.setCCR_ORIGINALAMOUNT(cardRecord.getCCR_ORIGINALAMOUNT());
+        }
+        cardBean.setU_ID(cardRecord.getU_ID());
+        String uploadTime = MyUtil.dateConversion(System.currentTimeMillis());
+        cardBean.setCCR_UPLOAD_TIME(uploadTime);
+        syncInfo.setTf_consume_order_record(orderBean);
+        syncInfo.setTf_consume_details_record(details);
+        syncInfo.setTf_consume_card_record(cardBean);
+        final String data = gson.toJson(syncInfo, OnlineUpdateResultInfo.class);
+        Log.d("frost", "updateToServerOnline--data: " + data);
+
+        RequestBody requestBody = new FormBody.Builder().add("data", data).build();
+        String ip = MyConstant.gSharedPre.getString(MyConstant.SP_Server_IP, "");
+        String port = MyConstant.gSharedPre.getString(MyConstant.SP_Server_PORT, "");
+        String url = ip + ":" + port + "/k-occ/consume/online";
+        OkHttpClient client = new OkHttpClient.Builder()
+                .sslSocketFactory(SSLSocketClient.getSSLSocketFactory())
+                .hostnameVerifier(SSLSocketClient.getHostnameVerifier())
+                .build();
+        Request request = new Request.Builder()
+                .url(url)
+                .post(requestBody)
+                .build();
+        int maxLoadTimes = 3;
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                onlineSync = false;
+                if (e instanceof SocketTimeoutException && serversLoadTimes < maxLoadTimes) {
+                    serversLoadTimes++;
+                    client.newCall(call.request()).enqueue(this);
+//                    if (cardRecord.getIC_ID().substring(0, 2).equals("56") && cardRecord.getIC_ID().length() == 20) {
+//                        mainActivity.runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                business_vip_name.setText(memberInfo.getMI_NAME());
+//                                business_vip_no.setText(memberInfo.getMI_NO());
+//                                business_balance.setText(balance + "");
+//                                business_state.setText("支付成功");
+//                                payMsg = "";
+//                                mainActivity.showPay(mainActivity, "card", "支付成功", memberInfo.getMI_NO(), memberInfo.getMI_NAME(), balance + "");
+//
+//                            }
+//                        });
+//                        try {
+//                            int code = mTts.startSpeaking("支付成功" + totalMoney + "元", mTtsListener);
+//                            if (code != ErrorCode.SUCCESS) {
+//                                Log.e("frost_xunfei", "语音合成失败,错误码: " + code);
+//                            }
+//                            mTotalPersonCount += 1;
+//                            handler.sendEmptyMessage(UPDATE_PERSON_NUMBER);
+//                        } catch (Exception e1) {
+//                            Log.d("frost", e1.getMessage());
+//                        }
+//                        cardRecord.setISM_STATUS("1");
+//                        saveOrder(cardRecord, detailsRecordList, orderRecord);
+//                    }
+                } else {
+                    serversLoadTimes = 0;
+                    mainActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            business_vip_name.setText("");
+                            business_vip_no.setText("");
+                            business_balance.setText("");
+                            business_state.setText("支付超时");
+                            payMsg = "";
+                            mainActivity.showPay(mainActivity, "card", "支付超时", "", "", "");
+                        }
+                    });
+                }
+
+                Log.d(TAG, "在线状态更新 onError: " + e.getMessage());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                onlineSync = false;
+                String body = response.body().string();
+                Log.e("frost", body);
+                UpdateResultInfo updateResultInfo = gson.fromJson(body, UpdateResultInfo.class);
+                if (updateResultInfo.isResult() && updateResultInfo.getMsg().equals("支付成功")) {
+                    if (cardRecord.getIC_ID().substring(0, 2).equals("56") && cardRecord.getIC_ID().length() == 20) {
+                        mainActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                business_vip_name.setText(memberInfo.getMI_NAME());
+                                business_vip_no.setText(memberInfo.getMI_NO());
+                                business_balance.setText(balance + "");
+                                business_state.setText("支付成功");
+                                payMsg = "";
+                                mainActivity.showPay(mainActivity, "card", "支付成功", memberInfo.getMI_NO(), memberInfo.getMI_NAME(), balance + "");
+
+                            }
+                        });
+                        try {
+                            int code = mTts.startSpeaking("支付成功" + totalMoney + "元", mTtsListener);
+                            if (code != ErrorCode.SUCCESS) {
+                                Log.e("frost_xunfei", "语音合成失败,错误码: " + code);
+                            }
+                            mTotalPersonCount += 1;
+                            handler.sendEmptyMessage(UPDATE_PERSON_NUMBER);
+                        } catch (Exception e1) {
+                            Log.d("frost", e1.getMessage());
+                        }
+                        cardRecord.setISM_STATUS("1");
+                        saveOrder(cardRecord, detailsRecordList, orderRecord);
+                    }
+                }
+            }
+        });
+//        LocalRetrofit.createService().postUpdateOnline(data)
+//                .subscribeOn(Schedulers.io())
+//                .subscribe(new Observer<UpdateResultInfo>() {
+//                    @Override
+//                    public void onCompleted() {
+//                        onlineSync = false;
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        Log.e(TAG, "updateToServerOnline:777 onError");
+//                        onlineSync = false;
+////                        saveOrder(cardRecord, detailsRecordList, orderRecord);
+//                        if (e instanceof SocketTimeoutException) {
+//                            if (cardRecord.getIC_ID().substring(0, 2).equals("56") && cardRecord.getIC_ID().length() == 20) {
+//                                mainActivity.runOnUiThread(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        business_vip_name.setText(memberInfo.getMI_NAME());
+//                                        business_vip_no.setText(memberInfo.getMI_NO());
+//                                        business_balance.setText(balance + "");
+//                                        business_state.setText("支付成功");
+//                                        payMsg = "";
+//                                        mainActivity.showPay(mainActivity, "card", "支付成功", memberInfo.getMI_NO(), memberInfo.getMI_NAME(), balance + "");
+//
+//                                    }
+//                                });
+//                                try {
+//                                    int code = mTts.startSpeaking("支付成功" + totalMoney + "元", mTtsListener);
+//                                    if (code != ErrorCode.SUCCESS) {
+//                                        Log.e("frost_xunfei", "语音合成失败,错误码: " + code);
+//                                    }
+//                                    mTotalPersonCount += 1;
+//                                    handler.sendEmptyMessage(UPDATE_PERSON_NUMBER);
+//                                } catch (Exception e1) {
+//                                    Log.d("frost", e1.getMessage());
+//                                }
+//                                cardRecord.setISM_STATUS("1");
+//                                saveOrder(cardRecord, detailsRecordList, orderRecord);
+//                            }
+//                        } else {
+//                            mainActivity.runOnUiThread(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    business_vip_name.setText("");
+//                                    business_vip_no.setText("");
+//                                    business_balance.setText("");
+//                                    business_state.setText("支付超时");
+//                                    payMsg = "";
+//                                    mainActivity.showPay(mainActivity, "card", "支付超时", "", "", "");
+//                                }
+//                            });
+//                        }
+//
+//                        Log.d(TAG, "在线状态更新 onError: " + e.getMessage());
+//                        //cardRecord.setCCR_UPLOAD_STATUS("2");
+//                        //pDaoSession.update(cardRecord);
+//                    }
+//
+//                    @Override
+//                    public void onNext(UpdateResultInfo syncResultInfo) {
+//                        Log.e(TAG, "updateToServerOnline:777 onNext");
+//                        onlineSync = false;
+//                        if (cardRecord.getIC_ID().substring(0, 2).equals("56") && cardRecord.getIC_ID().length() == 20) {
+//                            mainActivity.runOnUiThread(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    business_vip_name.setText(memberInfo.getMI_NAME());
+//                                    business_vip_no.setText(memberInfo.getMI_NO());
+//                                    business_balance.setText(balance + "");
+//                                    business_state.setText("支付成功");
+//                                    payMsg = "";
+//                                    mainActivity.showPay(mainActivity, "card", "支付成功", memberInfo.getMI_NO(), memberInfo.getMI_NAME(), balance + "");
+//
+//                                }
+//                            });
+//                            try {
+//                                int code = mTts.startSpeaking("支付成功" + totalMoney + "元", mTtsListener);
+//                                if (code != ErrorCode.SUCCESS) {
+//                                    Log.e("frost_xunfei", "语音合成失败,错误码: " + code);
+//                                }
+//                                mTotalPersonCount += 1;
+//                                handler.sendEmptyMessage(UPDATE_PERSON_NUMBER);
+//                            } catch (Exception e1) {
+//                                Log.d("frost", e1.getMessage());
+//                            }
+//                            if (syncResultInfo != null && syncResultInfo.isResult()) {
+//                                cardRecord.setISM_STATUS("1");
+//                            }
+//                            saveOrder(cardRecord, detailsRecordList, orderRecord);
+//                        }
+//                    }
+//                });
+
     }
 
     public ThreadPoolExecutor mTHREAD_POOL = new ThreadPoolExecutor(6,
@@ -1658,8 +2245,27 @@ public class WeichaiOperationFragment extends BaseFragment implements View.OnCli
 
                     if (!MyUtil.networkState || payWay != PAY_MEMBER_CARD) {
                         onlineSync = false;
-                        Log.d("frost", "saveOrder: saveOrder");
                         saveOrder(cardRecord, detailsRecordList, orderRecord);
+//                        if (!"".equals(icid)) {
+//                            if (icid.substring(0, 2).equals("56") && icid.length() == 20) {
+//                                mainActivity.runOnUiThread(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        business_vip_name.setText("");
+//                                        business_vip_no.setText("");
+//                                        business_balance.setText("");
+//                                        business_state.setText("支付错误，网络异常");
+//                                        payMsg = "";
+//                                        mainActivity.showPay(mainActivity, "card", "支付错误", "", "", "");
+//                                    }
+//                                });
+//                            }else {
+//                                saveOrder(cardRecord, detailsRecordList, orderRecord);
+//                            }
+//                        } else {
+//                            saveOrder(cardRecord, detailsRecordList, orderRecord);
+//                            Log.d("frost", "saveOrder: saveOrder???");
+//                        }
                     } else {
                         // 更新
                         try {
@@ -1670,7 +2276,21 @@ public class WeichaiOperationFragment extends BaseFragment implements View.OnCli
                             Log.d("frost", "updateToServerOnline: Exception");
                             Log.d("frost", "updateToServerOnline: e:" + e.getMessage());
                             onlineSync = false;
+//                            if (icid.substring(0, 2).equals("56") && icid.length() == 20) {
+//                                mainActivity.runOnUiThread(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        business_vip_name.setText("");
+//                                        business_vip_no.setText("");
+//                                        business_balance.setText("");
+//                                        business_state.setText("支付错误，网络异常");
+//                                        payMsg = "";
+//                                        mainActivity.showPay(mainActivity, "card", "支付错误", "", "", "");
+//                                    }
+//                                });
+//                            } else {
                             saveOrder(cardRecord, detailsRecordList, orderRecord);
+//                            }
                         }
                     }
                 } catch (Exception e) {
@@ -1782,7 +2402,24 @@ public class WeichaiOperationFragment extends BaseFragment implements View.OnCli
                         Log.e(TAG, "updateToServerOnline:777 onError");
                         onlineSync = false;
 //                        saveOrder(cardRecord, detailsRecordList, orderRecord);
-                        saveOrder(cardRecord, detailsRecordList, orderRecord);
+                        if (e instanceof SocketTimeoutException) {
+                            if (cardRecord.getIC_ID().substring(0, 2).equals("56") && cardRecord.getIC_ID().length() == 20) {
+                                mainActivity.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        business_vip_name.setText("");
+                                        business_vip_no.setText("");
+                                        business_balance.setText("");
+                                        business_state.setText("支付错误，网络异常");
+                                        payMsg = "";
+                                        mainActivity.showPay(mainActivity, "card", "支付错误", "", "", "");
+                                    }
+                                });
+                            } else {
+                                saveOrder(cardRecord, detailsRecordList, orderRecord);
+                            }
+                        }
+
                         Log.d(TAG, "在线状态更新 onError: " + e.getMessage());
                         //cardRecord.setCCR_UPLOAD_STATUS("2");
                         //pDaoSession.update(cardRecord);
@@ -1795,22 +2432,12 @@ public class WeichaiOperationFragment extends BaseFragment implements View.OnCli
 
                         if (syncResultInfo != null && syncResultInfo.isResult()) {
                             cardRecord.setISM_STATUS("1");
-                            cardRecord.setCCR_UPLOAD_STATUS("1");
-                            cardRecord.setCCR_UPLOAD_TIME(MyUtil.dateConversion(System.currentTimeMillis()));
                         }
                         saveOrder(cardRecord, detailsRecordList, orderRecord);
 //                        pDaoSession.update(cardRecord);
 //                        pDaoSession.update(detailsRecordList);
 //                        pDaoSession.update(orderRecord);
 //                        pDaoSession.clear();
-
-                        Log.d(TAG, "Online  getCode: " + syncResultInfo.getCode());
-                        Log.d(TAG, "Online  getData: " + syncResultInfo.getData());
-                        Log.d(TAG, "Online  getMsg: " + syncResultInfo.getMsg());
-                        Log.d(TAG, "Online  isResult: " + syncResultInfo.isResult());
-                        Log.d(TAG, "Online  getStatus: " + syncResultInfo.getStatus());
-                        Log.d(TAG, "Online  getType: " + syncResultInfo.getType());
-                        Log.d(TAG, "Online  money: " + cardRecord.getCCR_MONEY());
 
                     }
                 });
@@ -1838,6 +2465,22 @@ public class WeichaiOperationFragment extends BaseFragment implements View.OnCli
         }
     }
 
+    /**
+     * 字符串转化成为16进制字符串
+     *
+     * @param s
+     * @return
+     */
+    public static String strTo16(String s) {
+        String str = "";
+        for (int i = 0; i < s.length(); i++) {
+            int ch = (int) s.charAt(i);
+            String s4 = Integer.toHexString(ch);
+            str = str + s4;
+        }
+        return str;
+    }
+
     boolean playWxAliError = false;
     public static String isduringOrderNo = "";
 
@@ -1849,6 +2492,9 @@ public class WeichaiOperationFragment extends BaseFragment implements View.OnCli
     // TODO: 2019/12/3 线上支付
     private void getMemberCardBalance(final String icId) {
         Log.d("frost", "getMemberCardBalance");
+        if (isPaying) {
+            return;
+        }
         isPaying = true;
         if ("".equals(business_price.getText().toString())) {
             business_state.setText("员工卡查询中");
@@ -1906,6 +2552,28 @@ public class WeichaiOperationFragment extends BaseFragment implements View.OnCli
                     @Override
                     public void onFailure(Call call, IOException e) {
                         try {
+                            if (icId.substring(0, 2).equals("56")) {
+                                mainActivity.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        business_vip_name.setText("");
+                                        business_vip_no.setText("");
+                                        business_balance.setText("");
+                                        business_state.setText("支付未完成");
+                                        mainActivity.showPay(mainActivity, "card", "支付未完成", "", "", "");
+                                        return;
+                                    }
+                                });
+                            }
+                            if (e instanceof SocketTimeoutException) {
+                                Log.e("onFailure_failure", "SocketTimeoutException");
+                                isPaying = false;
+                            }
+                            if (e instanceof ConnectException) {
+                                Log.e("onFailure_failure", "ConnectException");
+                                isPaying = false;
+                                return;
+                            }
                             long star = System.currentTimeMillis();
                             isPaying = false;
                             Log.e("url", "线下支付");
@@ -1963,167 +2631,74 @@ public class WeichaiOperationFragment extends BaseFragment implements View.OnCli
                                     isduringOrderNo = "";
                                     cashRecord = null;
                                 } else {
-                                    Log.e("look", "getMemberCardBalance accountRecordList.size():" + accountRecordList.size());
-                                    for (TfMemberAccountRecord record : accountRecordList) {
-                                        Log.e("look", "getMemberCardBalance record.getACCOUNT_TYPE():" + record.getACCOUNT_TYPE());
-                                        if (record.getACCOUNT_TYPE().equals("0")) {
-                                            cashRecord = record;
-                                        } else if ((record.getACCOUNT_TYPE().equals("1"))) {
-                                            subsidyRecord = record;
-                                        }
-                                    }
-                                    Log.e("frost_test", "balance" + cashRecord.getBALANCE() + "\n" + subsidyRecord.getBALANCE());
-                                    Log.e("frost", "--------" + payMsg);
-                                    if (info != null && memberInfo != null && cashRecord != null && subsidyRecord != null) {
-                                        try {
-                                            long end = System.currentTimeMillis();
-                                            Float cashBalance1 = Float.parseFloat(cashRecord.getBALANCE());
-                                            Float subsidyBalance1 = Float.parseFloat(subsidyRecord != null ? subsidyRecord.getBALANCE() : "0");
-                                            String balance = MyConstant.gFormat.format(subsidyBalance1 + cashBalance1);
-                                            Log.d("frost", "calcurlateMemberBalance----3");
-                                            MyUtil.appendFile("#####################会员卡OnFailure start 订单号" + curOrderNo + "#####################" + "\n");
-                                            MyUtil.appendFile("请求时间：" + star);
-                                            MyUtil.appendFile("请求地址：" + url);
-                                            MyUtil.appendFile("请求参数：" + url);
-                                            MyUtil.appendFile("响应参数：" + e.getMessage());
-                                            MyUtil.appendFile("耗时：" + (end - star) + "");
-                                            MyUtil.appendFile("结束时间：" + end);
-                                            MyUtil.appendFile("##################### end #####################" + "\n");
-                                            calcurlateMemberBalance(icId, info, memberInfo, cashRecord, subsidyRecord);
-                                            if ("".equals(business_price.getText().toString()) || business_price.getText().toString() == null) {
-                                                showMemberInfo(memberInfo, balance, "准备下单");
+//                                    if (mifareClassic.isConnected() && mifareClassic.authenticateSectorWithKeyA(1, key)) {
+//                                        byte[] bytes = mifareClassic.readBlock(5);
+//                                        String balance_ic = new String(bytes);
+//                                        int a = balance_ic.indexOf("a");
+//                                        String balance_ic1 = balance_ic.substring(0, a);
+//                                        String balance_ic2 = balance_ic.substring(a + 1, balance_ic.length());
+                                        for (TfMemberAccountRecord record : accountRecordList) {
+                                            if (record.getACCOUNT_TYPE().equals("0")) {
+                                                cashRecord = record;
+//                                                if (a != -1) {
+//                                                    cashRecord.setBALANCE(balance_ic1);
+//                                                }
+                                            } else if ((record.getACCOUNT_TYPE().equals("1"))) {
+                                                subsidyRecord = record;
+//                                                if (a != -1) {
+//                                                    subsidyRecord.setBALANCE(balance_ic2);
+//                                                }
                                             }
-                                            pDaoSession.clear();
-                                        } catch (Exception e1) {
-                                            isPaying = false;
-                                        } finally {
-                                            cashRecord = null;
-                                            subsidyRecord = null;
-                                            isduringOrderNo = "";
-                                            return;
                                         }
-                                    }
+                                        Log.e("frost_test", "balance" + cashRecord.getBALANCE() + "\n" + subsidyRecord.getBALANCE());
+                                        Log.e("frost", "--------" + payMsg);
+                                        if (info != null && memberInfo != null && cashRecord != null && subsidyRecord != null) {
+                                            try {
+                                                long end = System.currentTimeMillis();
+                                                Float cashBalance1 = Float.parseFloat(cashRecord.getBALANCE());
+                                                Float subsidyBalance1 = Float.parseFloat(subsidyRecord != null ? subsidyRecord.getBALANCE() : "0");
+                                                String balance = MyConstant.gFormat.format(subsidyBalance1 + cashBalance1);
+                                                Log.d("frost", "calcurlateMemberBalance----3");
+                                                MyUtil.appendFile("#####################会员卡OnFailure start 订单号" + curOrderNo + "#####################" + "\n");
+                                                MyUtil.appendFile("请求时间：" + star);
+                                                MyUtil.appendFile("请求地址：" + url);
+                                                MyUtil.appendFile("请求参数：" + url);
+                                                MyUtil.appendFile("响应参数：" + e.getMessage());
+                                                MyUtil.appendFile("耗时：" + (end - star) + "");
+                                                MyUtil.appendFile("结束时间：" + end);
+                                                MyUtil.appendFile("##################### end #####################" + "\n");
+                                                calcurlateMemberBalance(icId, info, memberInfo, cashRecord, subsidyRecord);
+                                                if ("".equals(business_price.getText().toString()) || business_price.getText().toString() == null) {
+                                                    showMemberInfo(memberInfo, balance, "准备下单");
+                                                }
+                                                pDaoSession.clear();
+                                            } catch (Exception e1) {
+                                                isPaying = false;
+                                            } finally {
+                                                cashRecord = null;
+                                                subsidyRecord = null;
+                                                isduringOrderNo = "";
+                                                return;
+                                            }
+                                        }
+//                                    } else {
+//                                        mainActivity.runOnUiThread(new Runnable() {
+//                                            @Override
+//                                            public void run() {
+//                                                business_vip_name.setText("");
+//                                                business_vip_no.setText("");
+//                                                business_balance.setText("");
+//                                                business_state.setText("支付未完成");
+//                                                mainActivity.showPay(mainActivity, "card", "支付未完成", "", "", "");
+//                                                return;
+//                                            }
+//                                        });
+//                                    }
                                 }
                             }
                             playCardError = true;
                             business_state.setText("非法卡");
                             playVoice(MyConstant.SP_MEDIA_ILLEGAL_CARD);
-//                            Log.e("frost_onFailure1", e.getMessage());
-//                            requestCardTime = false;
-//                            isPaying = false;
-//                            requestCard = false;
-//                            TfCardInfo info = null;
-//                            TfMemberAccountRecord cashRecord = null;
-//                            TfMemberAccountRecord subsidyRecord = null;
-//                            TfMemberInfo memberInfo = null;
-//                            List<TfCardInfo> cardInfoList = pDaoSession.queryBuilder(TfCardInfo.class)
-//                                    .where(TfCardInfoDao.Properties.IC_ID.eq(icId))
-//                                    .build()
-//                                    .list();
-//
-//                            if (cardInfoList.isEmpty() || cardInfoList == null) {
-//                                if (icId.substring(0, 2).equals("56") && icId.length() == 20) {
-//                                    info = null;
-//                                    handler.sendEmptyMessage(8);
-//                                    isPaying = false;
-//                                    return;
-//                                } else {
-//                                    handler.sendEmptyMessage(CARD_ILLEGALITY);
-//                                }
-//                            } else {
-//                                info = cardInfoList.get(0);
-//                            }
-//                            if (info != null) {
-//                                // 提示卡状态
-//                                // '0':'正常'；'1':'挂失';'2':'注销'
-//                                if (!info.getIC_STATUS().equals("0")) {
-//                                    switch (info.getIC_STATUS()) {
-//                                        case "1":
-//                                            handler.sendEmptyMessage(CARD_STATUS_LOSTS);
-//                                            playVoice(MyConstant.SP_LOST_CARD);
-//                                            break;
-//                                        case "2":
-//                                            handler.sendEmptyMessage(CARD_STATUS_CANCELEDS);
-//                                            playVoice(MyConstant.SP_CANCEL_CARD);
-//                                            break;
-//                                    }
-//                                    isduringOrderNo = "";
-//                                    requestCard = false;
-//                                    playCardError = true;
-//                                    return;
-//                                }
-//                                // memberinfo
-//                                // account status : 0 normal 1 freeze
-//                                Log.e("look", "getMemberCardBalance info.getMI_ID():" + info.getMI_ID());
-//                                List<TfMemberInfo> memberInfoList = pDaoSession.queryBuilder(TfMemberInfo.class)
-//                                        .where(TfMemberInfoDao.Properties.MI_ID.eq(info.getMI_ID()))
-//                                        .build()
-//                                        .list();
-//                                if (memberInfoList == null || memberInfoList.isEmpty()) {
-//                                    isduringOrderNo = "";
-//                                    requestCard = false;
-//                                    playCardError = true;
-//                                    return;
-//                                }
-//                                memberInfo = memberInfoList.get(0);
-//                                List<TfMemberAccountRecord> accountRecordList = pDaoSession.queryBuilder(TfMemberAccountRecord.class)
-//                                        .where(TfMemberAccountRecordDao.Properties.MI_ID.eq(info.getMI_ID()))
-//                                        .build()
-//                                        .list();
-//                                if (accountRecordList.isEmpty() || accountRecordList == null) {
-//                                    isduringOrderNo = "";
-//                                    requestCard = false;
-//                                    cashRecord = null;
-//                                } else {
-//                                    Log.e("look", "getMemberCardBalance accountRecordList.size():" + accountRecordList.size());
-//                                    for (TfMemberAccountRecord record : accountRecordList) {
-//                                        Log.e("look", "getMemberCardBalance record.getACCOUNT_TYPE():" + record.getACCOUNT_TYPE());
-//                                        if (record.getACCOUNT_TYPE().equals("0")) {
-//                                            cashRecord = record;
-//                                        } else if ((record.getACCOUNT_TYPE().equals("1"))) {
-//                                            subsidyRecord = record;
-//                                        }
-//                                    }
-//                                    if (info != null && memberInfo != null && cashRecord != null && subsidyRecord != null) {
-//                                        try {
-//                                            TfCardInfo finalInfo = info;
-//                                            TfMemberInfo finalMemberInfo = memberInfo;
-//                                            TfMemberAccountRecord finalCashRecord = cashRecord;
-//                                            TfMemberAccountRecord finalSubsidyRecord = subsidyRecord;
-//                                            mainActivity.runOnUiThread(new Runnable() {
-//                                                @Override
-//                                                public void run() {
-//                                                    Log.d("frost", "calcurlateMemberBalance----4");
-////                                                Float cashBalance = Float.parseFloat(finalCashRecord.getBALANCE());
-////                                                Float subsidyBalance = Float.parseFloat(finalCashRecord != null ? finalCashRecord.getBALANCE() : "0");
-////                                                String overallBalance = MyConstant.gFormat.format(subsidyBalance + cashBalance);
-////                                                business_balance.setText(overallBalance);
-////                                                business_vip_name.setText(finalMemberInfo.getMI_NAME());
-////                                                business_vip_no.setText(finalMemberInfo.getMI_NO());
-//                                                    MyUtil.appendFile("#####################会员卡线上onFailure 订单号" + curOrderNo + "#####################" );
-//                                                    MyUtil.appendFile("请求时间：" + star);
-//                                                    MyUtil.appendFile("请求地址：" + url);
-//                                                    MyUtil.appendFile("请求参数：" + url);
-//                                                    MyUtil.appendFile("响应参数：" + e.getMessage());
-//                                                    MyUtil.appendFile("耗时：" + (end - star) + "");
-//                                                    MyUtil.appendFile("结束时间：" + end);
-//                                                    MyUtil.appendFile("##################### end #####################"+ "\n");
-//                                                    calcurlateMemberBalance(icId, finalInfo, finalMemberInfo, finalCashRecord, finalSubsidyRecord);
-//                                                }
-//                                            });
-//                                        } catch (Exception e1) {
-//                                            uploadingError(url, e1.getMessage(), "会员卡支付失败onFailure", mContext);
-//                                        } finally {
-//                                            cashRecord = null;
-//                                            subsidyRecord = null;
-//                                            isduringOrderNo = "";
-//                                            requestCard = false;
-//                                            return;
-//                                        }
-//                                    }
-//                                }
-//                            }
-
                         } catch (Exception e12) {
                             long end = System.currentTimeMillis();
                             uploadingError(url, e12.getMessage(), "会员卡支付失败onFailure", mContext);
@@ -2270,9 +2845,34 @@ public class WeichaiOperationFragment extends BaseFragment implements View.OnCli
                                                             }
                                                         }
                                                     }
+//                                                    float v = Float.parseFloat(payMsg);
+//                                                    float balance3 = balance1 + balance2;
+//                                                    String balance = String.valueOf(balance3 - v);
+//                                                    String a = "";
+//                                                    if (mifareClassic.isConnected() && balance3 - v >= 0) {
+//                                                        Log.e("nfc_test", (balance1 + balance2) + "");
+//                                                        byte[] bytes = balance.getBytes();
+//                                                        int length = bytes.length;
+//                                                        Log.e("nfc_test", length + "");
+//                                                        if (length < 16) {
+//                                                            for (int i = 0; i < 16 - length; i++) {
+//                                                                balance = (balance + "0");
+//                                                            }
+//
+//                                                        }
+////                                                        if (diff >= 0) {
+////                                                            for (int k = 0; k < diff; k++) {
+////                                                                balance = (balance + "0");
+////                                                            }
+////                                                            Log.e("frost111", balance);
+////                                                            mifareClassic.writeBlock(5, strTo16(balance).getBytes());
+////
+////                                                        }
+//                                                    }
                                                     if (info != null && memberInfo != null && cashRecord != null && subsidyRecord != null) {
 //                                                        business_state.setText("");
                                                         Log.d("frost", "calcurlateMemberBalance----2");
+                                                        Log.e("frost_balance1", cashRecord.getBALANCE() + ":" + subsidyRecord.getBALANCE());
                                                         onMainThreadRunCalaulater(icId, info, memberInfo, cashRecord, subsidyRecord);
                                                     } else {
                                                         isduringOrderNo = "";
@@ -2427,46 +3027,74 @@ public class WeichaiOperationFragment extends BaseFragment implements View.OnCli
                         isduringOrderNo = "";
                         cashRecord = null;
                     } else {
-                        Log.e("look", "getMemberCardBalance accountRecordList.size():" + accountRecordList.size());
-                        for (TfMemberAccountRecord record : accountRecordList) {
-                            Log.e("look", "getMemberCardBalance record.getACCOUNT_TYPE():" + record.getACCOUNT_TYPE());
-                            if (record.getACCOUNT_TYPE().equals("0")) {
-                                cashRecord = record;
-                            } else if ((record.getACCOUNT_TYPE().equals("1"))) {
-                                subsidyRecord = record;
-                            }
-                        }
-                        Log.e("frost_test", "balance" + cashRecord.getBALANCE() + "\n" + subsidyRecord.getBALANCE());
-                        Log.e("frost", "--------" + payMsg);
-                        if (info != null && memberInfo != null && cashRecord != null && subsidyRecord != null) {
-                            try {
-                                long end = System.currentTimeMillis();
-                                Float cashBalance1 = Float.parseFloat(cashRecord.getBALANCE());
-                                Float subsidyBalance1 = Float.parseFloat(subsidyRecord != null ? subsidyRecord.getBALANCE() : "0");
-                                String balance = MyConstant.gFormat.format(subsidyBalance1 + cashBalance1);
-                                Log.d("frost", "calcurlateMemberBalance----3");
-                                MyUtil.appendFile("#####################会员卡离线 start 订单号" + curOrderNo + "#####################" + "\n");
-                                MyUtil.appendFile("请求时间：" + star);
-                                MyUtil.appendFile("请求地址：" + "离线支付");
-                                MyUtil.appendFile("请求参数：" + "离线支付");
-                                MyUtil.appendFile("响应参数：" + "离线支付");
-                                MyUtil.appendFile("耗时：" + (end - star) + "");
-                                MyUtil.appendFile("结束时间：" + end);
-                                MyUtil.appendFile("##################### end #####################" + "\n");
-                                calcurlateMemberBalance(icId, info, memberInfo, cashRecord, subsidyRecord);
-                                if ("".equals(business_price.getText().toString()) || business_price.getText().toString() == null) {
-                                    showMemberInfo(memberInfo, balance, "准备下单");
+                        // TODO: 2020/3/11 2.4版本
+//                        if (mifareClassic.isConnected() && mifareClassic.authenticateSectorWithKeyA(1, key)) {
+//                            byte[] bytes = mifareClassic.readBlock(5);
+//                            String balance_ic = new String(bytes);
+//                            int a = balance_ic.indexOf("a");
+//                            String balance_ic1 = null, balance_ic2 = null;
+//                            if (a != -1) {
+//                                balance_ic1 = balance_ic.substring(0, a);
+//                                balance_ic2 = balance_ic.substring(a + 1, balance_ic.length());
+//                            }
+//                            Log.e("nfc_test", balance_ic1 + "-------" + balance_ic2);
+                            for (TfMemberAccountRecord record : accountRecordList) {
+                                if (record.getACCOUNT_TYPE().equals("0")) {
+                                    cashRecord = record;
+//                                    if (a != -1) {
+//                                        cashRecord.setBALANCE(balance_ic1);
+//                                    }
+                                } else if ((record.getACCOUNT_TYPE().equals("1"))) {
+                                    subsidyRecord = record;
+//                                    if (a != -1) {
+//                                        subsidyRecord.setBALANCE(balance_ic2);
+//                                    }
                                 }
-                                pDaoSession.clear();
-                            } catch (Exception e) {
-                                isPaying = false;
-                            } finally {
-                                cashRecord = null;
-                                subsidyRecord = null;
-                                isduringOrderNo = "";
-                                return;
                             }
-                        }
+                            Log.e("frost_test", "balance" + cashRecord.getBALANCE() + "\n" + subsidyRecord.getBALANCE());
+                            Log.e("frost", "--------" + payMsg);
+                            if (info != null && memberInfo != null && cashRecord != null && subsidyRecord != null) {
+                                try {
+                                    long end = System.currentTimeMillis();
+                                    Float cashBalance1 = Float.parseFloat(cashRecord.getBALANCE());
+                                    Float subsidyBalance1 = Float.parseFloat(subsidyRecord != null ? subsidyRecord.getBALANCE() : "0");
+                                    String balance = MyConstant.gFormat.format(subsidyBalance1 + cashBalance1);
+                                    Log.d("frost", "calcurlateMemberBalance----3");
+                                    MyUtil.appendFile("#####################会员卡离线 start 订单号" + curOrderNo + "#####################" + "\n");
+                                    MyUtil.appendFile("请求时间：" + star);
+                                    MyUtil.appendFile("请求地址：" + "离线支付");
+                                    MyUtil.appendFile("请求参数：" + "离线支付");
+                                    MyUtil.appendFile("响应参数：" + "离线支付");
+                                    MyUtil.appendFile("耗时：" + (end - star) + "");
+                                    MyUtil.appendFile("结束时间：" + end);
+                                    MyUtil.appendFile("##################### end #####################" + "\n");
+                                    calcurlateMemberBalance(icId, info, memberInfo, cashRecord, subsidyRecord);
+                                    if ("".equals(business_price.getText().toString()) || business_price.getText().toString() == null) {
+                                        showMemberInfo(memberInfo, balance, "准备下单");
+                                    }
+                                    pDaoSession.clear();
+                                } catch (Exception e) {
+                                    isPaying = false;
+                                } finally {
+                                    cashRecord = null;
+                                    subsidyRecord = null;
+                                    isduringOrderNo = "";
+                                    return;
+                                }
+                            }
+//                        } else {
+//                            mainActivity.runOnUiThread(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    business_vip_name.setText("");
+//                                    business_vip_no.setText("");
+//                                    business_balance.setText("");
+//                                    business_state.setText("支付未完成");
+//                                    mainActivity.showPay(mainActivity, "card", "支付未完成", "", "", "");
+//                                    return;
+//                                }
+//                            });
+//                        }
                     }
                 }
                 playCardError = true;
@@ -2474,7 +3102,7 @@ public class WeichaiOperationFragment extends BaseFragment implements View.OnCli
                 playVoice(MyConstant.SP_MEDIA_ILLEGAL_CARD);
             }
         } catch (Exception e) {
-            Log.d("frost", "getMemberCardBalance--error");
+            Log.d("frost", "getMemberCardBalance--error" + e.getMessage());
             requestCard = false;
             isPaying = false;
             //Trust anchor for certification path not found
@@ -2560,6 +3188,29 @@ public class WeichaiOperationFragment extends BaseFragment implements View.OnCli
 //                String overallBalance = MyConstant.gFormat.format(subsidyBalance + cashBalance);
 //                business_vip_name.setText(memberInfo.getMI_NAME());
 //                business_vip_no.setText(memberInfo.getMI_PHONE());
+                // TODO: 2020/3/11 2.4版本
+//                if (!"支付成功".equals(business_state.getText().toString()) && !"支付未完成".equals(business_state.getText().toString())) {
+//                    try {
+//                        if (mifareClassic.isConnected() && mifareClassic.authenticateSectorWithKeyA(1, key)) {
+//                            String s = cashBalance1 + "a" + subsidyBalance1;
+//                            int diff = 16 - s.length();
+//                            // 不足10位补0
+//                            if (diff >= 0) {
+//                                for (int k = 0; k < diff; k++) {
+//                                    s = (s + "0");
+//                                }
+//                                Log.e("nfc_test", s);
+//                                mifareClassic.writeBlock(5, s.getBytes());
+//                            }
+//                            business_balance.setText(balance);
+//                            business_vip_name.setText(memberInfo.getMI_NAME());
+//                            business_vip_no.setText(memberInfo.getMI_NO());
+//                        }
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                }
                 if (!"支付成功".equals(business_state.getText().toString())) {
                     business_balance.setText(balance);
                     business_vip_name.setText(memberInfo.getMI_NAME());
@@ -3588,8 +4239,9 @@ public class WeichaiOperationFragment extends BaseFragment implements View.OnCli
 
 
         if (resultString.substring(0, 2).equals("56")) {   //&& resultString.length() == 20
-            getMemberCardBalance(resultString);
+            isPaying = false;
             business_put_price.setText("");
+            getMemberCardBalance(resultString);
             return;
         } else if (resultString.substring(0, 2).equals("28")) {
 //            isPaying = false;

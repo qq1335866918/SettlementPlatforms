@@ -24,12 +24,12 @@
         "source": "C:\\Users\\frost\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-26.1.0.aar\\6e503b2e7799bf645f9a9bc190bfebc1\\res\\layout-v21\\notification_template_custom_big.xml"
     },
     {
-        "merged": "E:\\SettlementPlatform\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_notify_panel_notification_icon_bg.png.flat",
-        "source": "C:\\Users\\frost\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-26.1.0.aar\\6e503b2e7799bf645f9a9bc190bfebc1\\res\\drawable-xhdpi-v4\\notify_panel_notification_icon_bg.png"
-    },
-    {
         "merged": "E:\\SettlementPlatform\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_abc_btn_switch_to_on_mtrl_00001.9.png.flat",
         "source": "C:\\Users\\frost\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.1.0.aar\\b662f0dc0919ca63ac020008b0f60541\\res\\drawable-xxhdpi-v4\\abc_btn_switch_to_on_mtrl_00001.9.png"
+    },
+    {
+        "merged": "E:\\SettlementPlatform\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_notify_panel_notification_icon_bg.png.flat",
+        "source": "C:\\Users\\frost\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-26.1.0.aar\\6e503b2e7799bf645f9a9bc190bfebc1\\res\\drawable-xhdpi-v4\\notify_panel_notification_icon_bg.png"
     },
     {
         "merged": "E:\\SettlementPlatform\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_abc_textfield_search_default_mtrl_alpha.9.png.flat",
@@ -72,20 +72,20 @@
         "source": "C:\\Users\\frost\\.gradle\\caches\\transforms-1\\files-1.1\\design-26.1.0.aar\\762625101c0b36b95b9316a279eb8809\\res\\drawable-xxhdpi-v4\\design_ic_visibility.png"
     },
     {
-        "merged": "E:\\SettlementPlatform\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi_ic_launcher.png.flat",
-        "source": "E:\\SettlementPlatform\\app\\src\\main\\res\\mipmap-mdpi\\ic_launcher.png"
-    },
-    {
         "merged": "E:\\SettlementPlatform\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_abc_btn_radio_to_on_mtrl_000.png.flat",
         "source": "C:\\Users\\frost\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.1.0.aar\\b662f0dc0919ca63ac020008b0f60541\\res\\drawable-xhdpi-v4\\abc_btn_radio_to_on_mtrl_000.png"
     },
     {
-        "merged": "E:\\SettlementPlatform\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_abc_ic_menu_selectall_mtrl_alpha.png.flat",
-        "source": "C:\\Users\\frost\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.1.0.aar\\b662f0dc0919ca63ac020008b0f60541\\res\\drawable-mdpi-v4\\abc_ic_menu_selectall_mtrl_alpha.png"
+        "merged": "E:\\SettlementPlatform\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi_ic_launcher.png.flat",
+        "source": "E:\\SettlementPlatform\\app\\src\\main\\res\\mipmap-mdpi\\ic_launcher.png"
     },
     {
         "merged": "E:\\SettlementPlatform\\app\\build\\intermediates\\res\\merged\\debug\\anim_abc_slide_in_bottom.xml.flat",
         "source": "C:\\Users\\frost\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.1.0.aar\\b662f0dc0919ca63ac020008b0f60541\\res\\anim\\abc_slide_in_bottom.xml"
+    },
+    {
+        "merged": "E:\\SettlementPlatform\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_abc_ic_menu_selectall_mtrl_alpha.png.flat",
+        "source": "C:\\Users\\frost\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.1.0.aar\\b662f0dc0919ca63ac020008b0f60541\\res\\drawable-mdpi-v4\\abc_ic_menu_selectall_mtrl_alpha.png"
     },
     {
         "merged": "E:\\SettlementPlatform\\app\\build\\intermediates\\res\\merged\\debug\\drawable_print.png.flat",
@@ -196,16 +196,16 @@
         "source": "E:\\SettlementPlatform\\app\\src\\main\\res\\layout-land\\fragment_assists.xml"
     },
     {
-        "merged": "E:\\SettlementPlatform\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_abc_tab_indicator_mtrl_alpha.9.png.flat",
-        "source": "C:\\Users\\frost\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.1.0.aar\\b662f0dc0919ca63ac020008b0f60541\\res\\drawable-hdpi-v4\\abc_tab_indicator_mtrl_alpha.9.png"
+        "merged": "E:\\SettlementPlatform\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_abc_list_focused_holo.9.png.flat",
+        "source": "C:\\Users\\frost\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.1.0.aar\\b662f0dc0919ca63ac020008b0f60541\\res\\drawable-xhdpi-v4\\abc_list_focused_holo.9.png"
     },
     {
         "merged": "E:\\SettlementPlatform\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_abc_btn_check_to_on_mtrl_015.png.flat",
         "source": "C:\\Users\\frost\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.1.0.aar\\b662f0dc0919ca63ac020008b0f60541\\res\\drawable-hdpi-v4\\abc_btn_check_to_on_mtrl_015.png"
     },
     {
-        "merged": "E:\\SettlementPlatform\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_abc_list_focused_holo.9.png.flat",
-        "source": "C:\\Users\\frost\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.1.0.aar\\b662f0dc0919ca63ac020008b0f60541\\res\\drawable-xhdpi-v4\\abc_list_focused_holo.9.png"
+        "merged": "E:\\SettlementPlatform\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_abc_tab_indicator_mtrl_alpha.9.png.flat",
+        "source": "C:\\Users\\frost\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.1.0.aar\\b662f0dc0919ca63ac020008b0f60541\\res\\drawable-hdpi-v4\\abc_tab_indicator_mtrl_alpha.9.png"
     },
     {
         "merged": "E:\\SettlementPlatform\\app\\build\\intermediates\\res\\merged\\debug\\layout_listview_receipt_dish_item.xml.flat",
@@ -252,12 +252,12 @@
         "source": "C:\\Users\\frost\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.1.0.aar\\b662f0dc0919ca63ac020008b0f60541\\res\\drawable\\abc_ratingbar_indicator_material.xml"
     },
     {
-        "merged": "E:\\SettlementPlatform\\app\\build\\intermediates\\res\\merged\\debug\\drawable_key.png.flat",
-        "source": "E:\\SettlementPlatform\\app\\src\\main\\res\\drawable\\key.png"
-    },
-    {
         "merged": "E:\\SettlementPlatform\\app\\build\\intermediates\\res\\merged\\debug\\drawable_abc_btn_borderless_material.xml.flat",
         "source": "C:\\Users\\frost\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.1.0.aar\\b662f0dc0919ca63ac020008b0f60541\\res\\drawable\\abc_btn_borderless_material.xml"
+    },
+    {
+        "merged": "E:\\SettlementPlatform\\app\\build\\intermediates\\res\\merged\\debug\\drawable_key.png.flat",
+        "source": "E:\\SettlementPlatform\\app\\src\\main\\res\\drawable\\key.png"
     },
     {
         "merged": "E:\\SettlementPlatform\\app\\build\\intermediates\\res\\merged\\debug\\color_abc_tint_spinner.xml.flat",
@@ -332,12 +332,12 @@
         "source": "C:\\Users\\frost\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.1.0.aar\\b662f0dc0919ca63ac020008b0f60541\\res\\drawable-xxxhdpi-v4\\abc_btn_switch_to_on_mtrl_00001.9.png"
     },
     {
-        "merged": "E:\\SettlementPlatform\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_abc_scrubber_track_mtrl_alpha.9.png.flat",
-        "source": "C:\\Users\\frost\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.1.0.aar\\b662f0dc0919ca63ac020008b0f60541\\res\\drawable-xhdpi-v4\\abc_scrubber_track_mtrl_alpha.9.png"
-    },
-    {
         "merged": "E:\\SettlementPlatform\\app\\build\\intermediates\\res\\merged\\debug\\layout_notification_template_big_media_narrow.xml.flat",
         "source": "C:\\Users\\frost\\.gradle\\caches\\transforms-1\\files-1.1\\support-media-compat-26.1.0.aar\\e4477d0e5fef0dd43a069afc4ae49f44\\res\\layout\\notification_template_big_media_narrow.xml"
+    },
+    {
+        "merged": "E:\\SettlementPlatform\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_abc_scrubber_track_mtrl_alpha.9.png.flat",
+        "source": "C:\\Users\\frost\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.1.0.aar\\b662f0dc0919ca63ac020008b0f60541\\res\\drawable-xhdpi-v4\\abc_scrubber_track_mtrl_alpha.9.png"
     },
     {
         "merged": "E:\\SettlementPlatform\\app\\build\\intermediates\\res\\merged\\debug\\drawable_sync_end.png.flat",

@@ -221,7 +221,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     public static final int GONE_PROGRESS = 521;
     public static boolean is_can = true;
     private String download_url;
-    private ScheduledThreadPoolExecutor mExecutor = new ScheduledThreadPoolExecutor(5);
+    public ScheduledThreadPoolExecutor mExecutor = new ScheduledThreadPoolExecutor(5);
+    public ScheduledThreadPoolExecutor mExecutor_sync = new ScheduledThreadPoolExecutor(5);
 
     public static ThreadPoolExecutor gTHREAD_POOL = new ThreadPoolExecutor(2,
             5,
@@ -2574,19 +2575,23 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private int task_table_index = 0;
 
     public void taskTable() {
-        mExecutor.scheduleAtFixedRate(new Runnable() {
+        mExecutor_sync.scheduleWithFixedDelay(new Runnable() {
             @Override
             public void run() {
                 try {
+                    Log.e("test_schedule","come here");
                     if (MyUtil.networkState) {
                         if (!isSync) {
                             Log.e("look", "task_table_index:" + task_table_index + " task_page_no:" + task_page_no);
+                            // TODO: 2020/3/4 测试专用，正式版消除
+//                            MyUtil.appendFile(System.currentTimeMillis()+":"+"task_table_index:" + task_table_index + " task_page_no:" + task_page_no);
                             iterationTableData();
                         }
                     }
                 } catch (Exception e) {
                     isSync = false;
-                    e.printStackTrace();
+                    MyUtil.appendFile("---------同步线程异常--->"+e.getMessage());
+                    mExecutor_sync.shutdown();
                 }
             }
         }, 0, 10, TimeUnit.SECONDS);
@@ -2875,6 +2880,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
         final String finalTableName = tableName;
         Log.e(TAG, "心跳--check" + tableName);
+        Object finalObj = obj;
         LocalRetrofit.createService()
                 .getTableTotalNum(map)
                 .subscribeOn(Schedulers.io())
@@ -2892,12 +2898,14 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     public void onNext(TotalNum totalNum) {
                         if (totalNum != null && totalNum.getData() >= 0) {
                             Log.d("look", "onNext: tableName : " + finalTableName + "  totalNum " + totalNum.getData() + " 本地数据量：" + dbList.size());
-                            if (dbList.size() < totalNum.getData()) {
+                            if (dbList.size() != totalNum.getData()) {
                                 if (record != null) {
 //                                    isSame = false;
+                                    // TODO: 2020/3/4 同步数据删除表数据
                                     Log.e("frost", "type:" + type);
                                     record.setUPDATETIME("0");
 //                                    record.setISM_STATUS("0");
+                                    session.deleteAll(finalObj.getClass());
                                     session.update(record);
 //                                    if (type == 4) {
 //                                        session.runInTx(new Runnable() {
@@ -3280,6 +3288,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         isDestory = true;
         mExecutor.shutdown();
         gTHREAD_POOL.shutdown();
+        mExecutor_sync.shutdown();
         pPrinter = null;
 //        unregisterReceiver(networkReceiver);
         mContext = null;
