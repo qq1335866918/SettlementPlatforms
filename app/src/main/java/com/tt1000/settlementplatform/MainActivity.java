@@ -971,7 +971,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         mContext = this;
         session = MyApplication.getInstance();
         // TODO: 2019/12/13   语音播报错误注释
-//        pPrinter = new BuiltInPrinter(this);
+        pPrinter = new BuiltInPrinter(this);
         gUiHandler = new MainHandler();
         taskList = new ArrayList<>();
 
@@ -1148,10 +1148,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private void sendFps() {
         try {
             String ip = gSharedPre.getString(MyConstant.SP_Server_IP, "");
+            int i1 = ip.indexOf("/");
             String delay = new String();
             Process p = null;
-            String serverIp = ip.substring(8);
-
+            String serverIp = ip.substring(i1+2,ip.length());
             p = Runtime.getRuntime().exec("ping -c 1 -w 20 " + serverIp);
 //            p = Runtime.getRuntime().exec("/system/bin/ping -t " + serverIp);
             int status = p.waitFor();
@@ -1228,10 +1228,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     @Override
                     public void onResponse(Call call, Response response) throws IOException {
                         try {
-                            Log.d("frost_heart", "心跳----onResponse");
                             gUiHandler.obtainMessage(WIFI_NORMAL).sendToTarget();
                             String body = response.body().string();
                             Gson gson = new Gson();
+                            Log.d("frost_heart", "心跳----onResponse"+body);
                             HeartBean bean = gson.fromJson(body, HeartBean.class);
                             if (bean.getCode().equals("0000") && bean.isResult()) {
                                 String systemTime = bean.getData().getSystemTime();
@@ -1591,12 +1591,12 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             transaction.add(containerId, settingFragment);
             transaction.show(settingFragment);
         } else {
-            HomeFragment homeFragment = new HomeFragment();
-            transaction.add(containerId, homeFragment);
-            transaction.show(homeFragment);
-//            loginFragment = new LoginFragment();
-//            transaction.add(containerId, loginFragment);
-//            transaction.show(loginFragment);
+//            HomeFragment homeFragment = new HomeFragment();
+//            transaction.add(containerId, homeFragment);
+//            transaction.show(homeFragment);
+            loginFragment = new LoginFragment();
+            transaction.add(containerId, loginFragment);
+            transaction.show(loginFragment);
         }
         transaction.commit();
     }
@@ -2765,7 +2765,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 //                }
                 syncTable(bean.getType(), bean.getTableName(), bean.getUpdatetime(), task_page_no);
             }
-
         }
     }
 
@@ -3018,10 +3017,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     // region 根据名称判断要更新的表
                     switch (tableRecord.getTABLENAME()) {
                         case "commodity_record":
-//                            type = 0;
+                            type = 0;
                             break;
                         case "commodity_type_record":
-//                            type = 1;
+                            type = 1;
                             break;
                         case "tf_mealtimes_chipcategory_relation":
                             break;
@@ -3157,7 +3156,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 //                                    }
 //                                }
 //                            });
-//                            type = 10;
+                            type = 10;
                             break;
                         case "tf_store_record":
 //                            session.runInTx(new Runnable() {

@@ -31,6 +31,7 @@ public class StatisticsDetailListAdapter extends WrapAdapter<StatisticsDetail> {
             holder.txNumber = convertView.findViewById(R.id.tx_statistics_detail_number);
             holder.txOrderAmount = convertView.findViewById(R.id.tx_statistics_detail_order_amount);
             holder.txPayMethod = convertView.findViewById(R.id.tx_statistics_detail_pay_method);
+            holder.tx_PayName = convertView.findViewById(R.id.tx_statistics_detail_pay_name);
             holder.txCashier = convertView.findViewById(R.id.tx_statistics_detail_cashier);
             convertView.setTag(holder);
         } else {
@@ -42,7 +43,11 @@ public class StatisticsDetailListAdapter extends WrapAdapter<StatisticsDetail> {
         holder.txNumber.setText(detail.getNumber() + "");
         holder.txOrderAmount.setText(detail.getOrderAmount() + "");
         holder.txPayMethod.setText(detail.getPayMethod());
-
+//        if (!detail.getPayName().isEmpty()) {
+            holder.tx_PayName.setText(detail.getPayName());
+//        }else {
+//            holder.tx_PayName.setText("");
+//        }
         if("0".equals(detail.getPayStatus())){
             holder.txCashier.setTextColor(mContext.getResources().getColor(R.color.button_press));
             holder.txCashier.setText("正在处理中");
@@ -63,6 +68,7 @@ public class StatisticsDetailListAdapter extends WrapAdapter<StatisticsDetail> {
         private TextView txNumber;
         private TextView txOrderAmount;
         private TextView txPayMethod;
+        private TextView tx_PayName;
         private TextView txCashier;
     }
 }

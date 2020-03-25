@@ -28,9 +28,9 @@ public class BuiltInPrinter {
 
 
 		// TODO: 2019/12/13   语音播报错误注释
-//		mPrinter = new SerialPortPrinter();
-//		mPrinter.selectBuiltInPrinter();
-//		mPrinterManager = new PrinterManager(mPrinter, PrinterManager.TYPE_PAPER_WIDTH_58MM);
+		mPrinter = new SerialPortPrinter();
+		mPrinter.selectBuiltInPrinter();
+		mPrinterManager = new PrinterManager(mPrinter, PrinterManager.TYPE_PAPER_WIDTH_58MM);
 
 
 	}

@@ -620,6 +620,7 @@
             <enum name="screen" value="15"/>
         </attr></declare-styleable>
     <declare-styleable name="ViewStubCompat"><attr name="android:layout"/><attr name="android:inflatedId"/><attr name="android:id"/></declare-styleable>
+    <declare-styleable name="XCFlowLayout"><attr format="dimension" name="h_space"/><attr format="dimension" name="v_space"/></declare-styleable>
     <declare-styleable name="zxing_camera_preview"><attr format="dimension" name="zxing_framing_rect_width"/><attr format="dimension" name="zxing_framing_rect_height"/><attr format="boolean" name="zxing_use_texture_view"/><attr format="enum" name="zxing_preview_scaling_strategy"><enum name="centerCrop" value="1"/><enum name="fitCenter" value="2"/><enum name="fitXY" value="3"/></attr></declare-styleable>
     <declare-styleable name="zxing_finder"><attr format="color" name="zxing_possible_result_points"/><attr format="color" name="zxing_result_view"/><attr format="color" name="zxing_viewfinder_laser"/><attr format="color" name="zxing_viewfinder_mask"/></declare-styleable>
     <declare-styleable name="zxing_view"><attr format="reference" name="zxing_scanner_layout"/></declare-styleable>
@@ -998,6 +999,7 @@
     <string name="pay_scan_code">扫码支付</string>
     <string name="pay_type">支付状态</string>
     <string name="payment_method">结账方式</string>
+    <string name="payment_name">姓名</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>

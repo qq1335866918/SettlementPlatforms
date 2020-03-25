@@ -732,7 +732,7 @@ public class OperationFragment extends BaseFragment implements View.OnClickListe
         Button btn7 = inclueKeyBoard.findViewById(R.id.btn_operation_key_7);
         Button btn8 = inclueKeyBoard.findViewById(R.id.btn_operation_key_8);
         Button btn9 = inclueKeyBoard.findViewById(R.id.btn_operation_key_9);
-        Button btnBackSpace = inclueKeyBoard.findViewById(R.id.btn_operation_key_backspace);
+//        Button btnBackSpace = inclueKeyBoard.findViewById(R.id.btn_operation_key_backspace);
         Button btnClear = inclueKeyBoard.findViewById(R.id.btn_operation_key_clear);
         Button btnPoint = inclueKeyBoard.findViewById(R.id.btn_operation_key_point);
         inclueKeyBoard.findViewById(R.id.btn_operation_key_enter).setOnClickListener(this);
@@ -747,7 +747,7 @@ public class OperationFragment extends BaseFragment implements View.OnClickListe
         btn7.setOnClickListener(this);
         btn8.setOnClickListener(this);
         btn9.setOnClickListener(this);
-        btnBackSpace.setOnClickListener(this);
+//        btnBackSpace.setOnClickListener(this);
         btnClear.setOnClickListener(this);
         btnPoint.setOnClickListener(this);
     }
@@ -992,30 +992,30 @@ public class OperationFragment extends BaseFragment implements View.OnClickListe
             case R.id.btn_operation_key_9:
                 inputEdit("9");
                 break;
-            case R.id.btn_operation_key_backspace:
-                try {
-                    if (isInptEditEmpty()) {
-                        // 退格
-                        int index = etInputDishesName.getSelectionStart();
-                        int lenght = etInputDishesName.getText().length();
-                        if (lenght > 0) {
-                            String oldContent;
-                            String newContent;
-                            if (index == lenght) {
-                                oldContent = "";
-                                newContent = etInputDishesName.getText().toString().substring(0, index - 1);
-                            } else {
-                                oldContent = etInputDishesName.getText().toString().substring(index, lenght);
-                                newContent = etInputDishesName.getText().toString().substring(0, index == 0 ? 0 : index - 1);
-                            }
-                            etInputDishesName.setText(newContent + oldContent);
-                            etInputDishesName.setSelection(index == 0 ? 0 : index - 1);
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
+//            case R.id.btn_operation_key_backspace:
+//                try {
+//                    if (isInptEditEmpty()) {
+//                        // 退格
+//                        int index = etInputDishesName.getSelectionStart();
+//                        int lenght = etInputDishesName.getText().length();
+//                        if (lenght > 0) {
+//                            String oldContent;
+//                            String newContent;
+//                            if (index == lenght) {
+//                                oldContent = "";
+//                                newContent = etInputDishesName.getText().toString().substring(0, index - 1);
+//                            } else {
+//                                oldContent = etInputDishesName.getText().toString().substring(index, lenght);
+//                                newContent = etInputDishesName.getText().toString().substring(0, index == 0 ? 0 : index - 1);
+//                            }
+//                            etInputDishesName.setText(newContent + oldContent);
+//                            etInputDishesName.setSelection(index == 0 ? 0 : index - 1);
+//                        }
+//                    }
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//                break;
             case R.id.btn_operation_key_clear:
                 if (isInptEditEmpty()) {
                     etInputDishesName.setText("");
@@ -1769,7 +1769,7 @@ public class OperationFragment extends BaseFragment implements View.OnClickListe
     }
 
     public boolean isInptEditEmpty() {
-        if (etInputDishesName != null && /*etInputDishesName.isFocused() && */!etInputDishesName.getText().toString().isEmpty()) {
+        if (etInputDishesName != null && !etInputDishesName.getText().toString().isEmpty()) {
             return true;
         } else {
             return false;
@@ -4240,21 +4240,6 @@ public class OperationFragment extends BaseFragment implements View.OnClickListe
                                         mainActivity.showPay(mainActivity, "card", "已支付 " + MyConstant.gFormat.format(totalPrices), "", "", "");
                                     }
                                 });
-//                                if (mFixedPrice > 0) {
-//                                    mainActivity.runOnUiThread(new Runnable() {
-//                                        @Override
-//                                        public void run() {
-//                                            new Handler().postDelayed(new Runnable() {
-//                                                @Override
-//                                                public void run() {
-//                                                    refresh();
-//                                                }
-//                                            },400);
-//                                        }
-//                                    });
-//
-//                                }
-
                             } else if ("0001".equals(code) || "0002".equals(code)) {
                                 isPayment = false;
                                 final String count = menuListAdapter.getData().size() + "";

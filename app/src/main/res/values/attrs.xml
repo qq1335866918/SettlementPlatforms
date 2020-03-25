@@ -6,4 +6,9 @@
         <attr name="text" format="string|reference" />
         <attr name="textColor" format="color" />
     </declare-styleable>
+    <declare-styleable name="XCFlowLayout">
+        <!--横纵向的间距-->
+        <attr name="h_space" format="dimension" />
+        <attr name="v_space" format="dimension" />
+    </declare-styleable>
 </resources>

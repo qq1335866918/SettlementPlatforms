@@ -185,7 +185,7 @@ public class OverviewFragment extends BaseFragment implements View.OnClickListen
                     break;
             }
             float sub = item.getCash() + item.getWeChat() + item.getAliPay() + item.getMemberCard() + item.getBank();
-            DecimalFormat format = new DecimalFormat("##0.00");
+            DecimalFormat format = new DecimalFormat("##0.0");
             item.setSubTotal(format.format(sub));
             if (!isNew) {
                 // 2018-09-01 15:23:59 ---> 2018-09-01
@@ -195,6 +195,4 @@ public class OverviewFragment extends BaseFragment implements View.OnClickListen
         }
 
     }
-
-
 }

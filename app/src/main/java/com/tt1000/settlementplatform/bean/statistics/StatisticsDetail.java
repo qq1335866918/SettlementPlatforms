@@ -6,8 +6,17 @@ public class StatisticsDetail {
     private int number;
     private float orderAmount;
     private String payMethod;
+    private String payName;
     private String cashier;
     private String payStatus;
+
+    public String getPayName() {
+        return payName;
+    }
+
+    public void setPayName(String payName) {
+        this.payName = payName;
+    }
 
     public String getPayStatus() {
         return payStatus;

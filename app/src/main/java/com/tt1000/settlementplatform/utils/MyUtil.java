@@ -16,11 +16,22 @@ import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.tt1000.settlementplatform.MainActivity;
 import com.tt1000.settlementplatform.app.MyApplication;
+import com.tt1000.settlementplatform.bean.member.DaoSession;
+import com.tt1000.settlementplatform.bean.member.MemberTypeRecord;
+import com.tt1000.settlementplatform.bean.member.MemberTypeRecordDao;
+import com.tt1000.settlementplatform.bean.member.TfConsumeCardRecord;
+import com.tt1000.settlementplatform.bean.member.TfConsumeDetailsRecord;
+import com.tt1000.settlementplatform.bean.member.TfConsumeOrderRecord;
+import com.tt1000.settlementplatform.bean.member.TfDiscountRecord;
+import com.tt1000.settlementplatform.bean.member.TfDiscountRecordDao;
 import com.tt1000.settlementplatform.bean.member.TfMealTimes;
 import com.tt1000.settlementplatform.bean.member.TfMealTimesDao;
+import com.tt1000.settlementplatform.bean.result_info.OnlineUpdateResultInfo;
+import com.tt1000.settlementplatform.bean.result_info.UpdateResultInfo;
 import com.tt1000.settlementplatform.feature.network.ApiService;
 import com.tt1000.settlementplatform.feature.network.LocalRetrofit;
 
@@ -40,6 +51,7 @@ import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.security.SecureRandom;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -61,7 +73,10 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import rx.Observer;
+import rx.schedulers.Schedulers;
 
+import static com.tt1000.settlementplatform.utils.MyConstant.TAG;
 import static com.tt1000.settlementplatform.utils.MyConstant.gSharedPre;
 
 public class MyUtil {
@@ -103,7 +118,50 @@ public class MyUtil {
         }
         return sqLiteDatabase;
     }
-
+    public static int strLength(String value) {
+        int valueLength = 0;
+        if (value != null) {
+            String chinese = "[\u0391-\uFFE5]";
+            /* 获取字段值的长度，如果含中文字符，则每个中文字符长度为2，否则为1 */
+            for (int i = 0; i < value.length(); i++) {
+                /* 获取一个字符 */
+                String temp = value.substring(i, i + 1);
+                /* 判断是否为中文字符 */
+                if (temp.matches(chinese)) {
+                    /* 中文字符长度为2 */
+                    valueLength += 2;
+                } else {
+                    /* 其他字符长度为1 */
+                    valueLength += 1;
+                }
+            }
+        }
+        return valueLength;
+    }
+    /**
+     * 返回折扣率
+     * DISCOUNT_STATUS: 0 关闭 1开启
+     *
+     * @param discountType 0 全民折扣 1 会员折扣 2 自定义折扣
+     * @return
+     */
+    public static float getDiscountRate(int discountType) {
+        float rate = 1;
+        List<TfDiscountRecord> discountRecordList = MyApplication.getInstance().queryBuilder(TfDiscountRecord.class)
+                .where(TfDiscountRecordDao.Properties.DISCOUNT_STATUS.eq(1),
+                        TfDiscountRecordDao.Properties.DISCOUNT_TYPE.eq(discountType))
+                .build()
+                .list();
+        if (discountRecordList == null || discountRecordList.isEmpty()) {
+            return rate;
+        }
+        TfDiscountRecord discountRecord = discountRecordList.get(0);
+        if (discountRecord != null) {
+            rate = Float.parseFloat(discountRecord.getDISCOUNT_RATE_C1()) / 100f;
+            return rate;
+        }
+        return rate;
+    }
     /**
      * 同步表
      * SEQNO	主键
@@ -161,7 +219,207 @@ public class MyUtil {
         String s = new String(a);
         return s;
     }
+    /**
+     * 会员折扣
+     *
+     * @param mi_type
+     * @return
+     */
+    public static int getDisCountForMember(String mi_type) {
+        int disCount = 100;
+        if (mi_type != null) {
+            List<TfDiscountRecord> discountRecordList = MyApplication.getInstance().queryBuilder(TfDiscountRecord.class)
+                    .where(TfDiscountRecordDao.Properties.DISCOUNT_STATUS.eq(1),
+                            TfDiscountRecordDao.Properties.DISCOUNT_TYPE.eq(1))
+                    .build()
+                    .list();
+            if (discountRecordList != null && discountRecordList.size() > 0) {
+                TfDiscountRecord tfDiscountRecord = discountRecordList.get(0);
+                if (tfDiscountRecord != null) {
+                    List<MemberTypeRecord> memberTypeRecordList = MyApplication.getInstance().queryBuilder(MemberTypeRecord.class)
+                            .where(MemberTypeRecordDao.Properties.SEQNO.eq(mi_type))
+                            .build()
+                            .list();
+                    if (memberTypeRecordList != null && memberTypeRecordList.size() > 0) {
+                        MemberTypeRecord memberTypeRecord = memberTypeRecordList.get(0);
+                        if (memberTypeRecord != null) {
+                            try {
+                                disCount = Integer.parseInt(memberTypeRecord.getDISCOUNT_RATE());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return disCount;
+    }
+    public static void saveOrder(final TfConsumeCardRecord cardRecord,
+                          final List<TfConsumeDetailsRecord> detailsRecordList,
+                          final TfConsumeOrderRecord orderRecord) {
+        if (cardRecord != null) {
+            DaoSession session = MyApplication.getInstance();
+            session.insert(cardRecord);
 
+            if (detailsRecordList != null) {
+                for (TfConsumeDetailsRecord detailsRecord : detailsRecordList) {
+                    if (detailsRecord != null) {
+                        session.insert(detailsRecord);
+                    }
+                }
+            }
+            if (orderRecord != null) {
+                session.insert(orderRecord);
+            }
+        }
+    }
+    public static String calculateDisCountPrice(String price, int dis_count) {
+        float result = Float.parseFloat(price);
+        result = result * dis_count / 100f;
+        price = MyConstant.gFormat.format(result);
+        return price;
+    }
+    /**
+     * 将本地记录的消费信息发送到服务器（更新）
+     * 离线模式
+     *
+     * @throws
+     */
+    public static synchronized void updateToServerOnline(final TfConsumeCardRecord cardRecord,
+                                                  final List<TfConsumeDetailsRecord> detailsRecordList,
+                                                  final TfConsumeOrderRecord orderRecord) {
+        Gson gson = new Gson();
+        OnlineUpdateResultInfo syncInfo = new OnlineUpdateResultInfo();
+        List<OnlineUpdateResultInfo.TfConsumeDetailsRecordBean> details = new ArrayList<>();
+        OnlineUpdateResultInfo.TfConsumeOrderRecordBean orderBean = null;
+        OnlineUpdateResultInfo.TfConsumeDetailsRecordBean detailsBean;
+        OnlineUpdateResultInfo.TfConsumeCardRecordBean cardBean = null;
+
+        orderBean = new OnlineUpdateResultInfo.TfConsumeOrderRecordBean();
+        orderBean.setCOR_ID(orderRecord.getCOR_ID());
+        orderBean.setCOR_MONERY(orderRecord.getCOR_AMOUNT());
+        orderBean.setCOR_AMOUNT(orderRecord.getCOR_AMOUNT());
+        if (orderRecord.getMACHINE_NO() == null) {
+            orderBean.setMACHINE_NO("0");
+        } else {
+            orderBean.setMACHINE_NO(orderRecord.getMACHINE_NO());
+        }
+        orderBean.setISM_STATUS(orderRecord.getISM_STATUS());
+        orderBean.setSTORE_CODE(orderRecord.getSTORE_CODE());
+        orderBean.setCREATETIME(orderRecord.getCREATETIME());
+        orderBean.setCOR_TYPE(orderRecord.getCOR_TYPE());
+        orderBean.setADDR_ID(String.valueOf(orderRecord.getADDR_ID()));
+        orderBean.setCLIENT_CODE(orderRecord.getCLIENT_CODE());
+        orderBean.setUPDATETIME(orderRecord.getUPDATETIME());
+
+        // 添加到列表就表示能同步了，修改同步状态
+        for (TfConsumeDetailsRecord detailsRecord : detailsRecordList) {
+            detailsBean = new OnlineUpdateResultInfo.TfConsumeDetailsRecordBean();
+            detailsBean.setCOR_ID(detailsRecord.getCOR_ID());
+            detailsBean.setCDR_UNIT_PRICE(detailsRecord.getCDR_UNIT_PRICE());
+            detailsBean.setCDR_MONEY(detailsRecord.getCDR_MONEY());
+            detailsBean.setCDR_NO(detailsRecord.getCDR_NO());
+            detailsBean.setCDR_TYPE(detailsRecord.getCDR_TYPE());
+            detailsBean.setISM_STATUS(detailsRecord.getISM_STATUS());
+            detailsBean.setSTORE_CODE(detailsRecord.getSTORE_CODE());
+            detailsBean.setCREATETIME(detailsRecord.getCREATETIME());
+            detailsBean.setCDR_NUMBER(detailsRecord.getCDR_NUMBER());
+            detailsBean.setCLIENT_CODE(detailsRecord.getCLIENT_CODE());
+            detailsBean.setCDR_ID(detailsRecord.getCDR_ID());
+            details.add(detailsBean);
+        }
+        cardBean = new OnlineUpdateResultInfo.TfConsumeCardRecordBean();
+        cardBean.setCOR_ID(cardRecord.getCOR_ID());
+        cardBean.setCCR_MONEY(String.valueOf(cardRecord.getCCR_MONEY()));
+        if (cardRecord.getMI_ID() == null) {
+            cardBean.setMI_ID("0");
+        } else {
+            cardBean.setMI_ID(cardRecord.getMI_ID());
+        }
+        cardBean.setMT_ID(cardRecord.getMT_ID());
+
+        if (cardRecord.getMACHINE_NO() == null) {
+            cardBean.setMACHINE_NO("0");
+        } else {
+            cardBean.setMACHINE_NO(cardRecord.getMACHINE_NO());
+        }
+        cardBean.setCCR_ID(cardRecord.getCCR_ID());
+        cardBean.setISM_STATUS(cardRecord.getISM_STATUS());
+        cardBean.setSTORE_CODE(cardRecord.getSTORE_CODE());
+        cardBean.setCREATETIME(cardRecord.getCREATETIME());
+        cardBean.setCLIENT_CODE(cardRecord.getCLIENT_CODE());
+        cardBean.setCCR_PAY_TYPE(cardRecord.getCCR_PAY_TYPE());
+        cardBean.setCCR_STATUS(cardRecord.getCCR_STATUS());
+        cardBean.setIC_ID(cardRecord.getIC_ID());
+        cardBean.setPAY_REMARK("");
+
+
+        if (cardRecord.getMI_ID() != null && cardRecord.getMI_ID().length() > 0) {
+            cardBean.setCCR_ORIGINALAMOUNT(cardRecord.getCCR_ORIGINALAMOUNT());
+        }
+        cardBean.setU_ID(cardRecord.getU_ID());
+        String uploadTime = MyUtil.dateConversion(System.currentTimeMillis());
+        cardBean.setCCR_UPLOAD_TIME(uploadTime);
+        syncInfo.setTf_consume_order_record(orderBean);
+        syncInfo.setTf_consume_details_record(details);
+        syncInfo.setTf_consume_card_record(cardBean);
+        final String data = gson.toJson(syncInfo, OnlineUpdateResultInfo.class);
+        Log.d("frost", "updateToServerOnline--data: " + data);
+
+        LocalRetrofit.createService().postUpdateOnline(data)
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<UpdateResultInfo>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "updateToServerOnline:777 onError");
+                        saveOrder(cardRecord, detailsRecordList, orderRecord);
+                        Log.d(TAG, "在线状态更新 onError: " + e.getMessage());
+                        //cardRecord.setCCR_UPLOAD_STATUS("2");
+                        //pDaoSession.update(cardRecord);
+                    }
+
+                    @Override
+                    public void onNext(UpdateResultInfo syncResultInfo) {
+                        Log.e(TAG, "updateToServerOnline:777 onNext");
+                        if (syncResultInfo != null && syncResultInfo.isResult()) {
+                            cardRecord.setISM_STATUS("1");
+                        }
+                        saveOrder(cardRecord, detailsRecordList, orderRecord);
+
+                    }
+                });
+
+    }
+    /**
+     * 获得全员折扣
+     *
+     * @return
+     */
+    public static int getDisCountForAll() {
+        int disCount = 100;
+        List<TfDiscountRecord> discountRecordList = MyApplication.getInstance().queryBuilder(TfDiscountRecord.class)
+                .where(TfDiscountRecordDao.Properties.DISCOUNT_STATUS.eq(1),
+                        TfDiscountRecordDao.Properties.DISCOUNT_TYPE.eq(0))
+                .build()
+                .list();
+        if (discountRecordList != null && discountRecordList.size() > 0) {
+            TfDiscountRecord tfDiscountRecord = discountRecordList.get(0);
+            if (tfDiscountRecord != null) {
+                try {
+                    disCount = Integer.parseInt(tfDiscountRecord.getDISCOUNT_RATE_C1());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        Log.i(TAG, "getDisCountForAll: " + disCount);
+        return disCount;
+    }
     public static String str2HexStr(String str) {
 
         char[] chars = "0123456789ABCDEF".toCharArray();

@@ -583,8 +583,8 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
                 // operator
                 title = getString(R.string.operate);
 //                fragment = new OperationFragment();
-                fragment = new WeichaiOperationFragment();
-
+//                fragment = new WeichaiOperationFragment();
+                fragment = new GeneralFragment();
                 break;
             case "2":
             case "3":
