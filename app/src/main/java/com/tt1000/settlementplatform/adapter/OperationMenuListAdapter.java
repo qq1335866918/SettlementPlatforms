@@ -33,7 +33,7 @@ public class OperationMenuListAdapter extends WrapAdapter<OperationMenu> {
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = inflater.inflate(R.layout.listview_operation_current_menu, parent, false);
-            holder.imageView = (ImageView) convertView.findViewById(R.id.im_operation_menu_icon);
+//            holder.imageView = (ImageView) convertView.findViewById(R.id.im_operation_menu_icon);
             holder.txDishName = (TextView) convertView.findViewById(R.id.tx_operation_menu_dish_name);
             holder.txCount = (TextView) convertView.findViewById(R.id.tx_operation_menu_dish_count);
             holder.txTotalPrice = (TextView) convertView.findViewById(R.id.tx_operation_menu_total_price);
@@ -48,69 +48,69 @@ public class OperationMenuListAdapter extends WrapAdapter<OperationMenu> {
                 data.remove(item);
                 notifyDataSetChanged();
             }
-            holder.txDishName.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    try {
-                        if (OperationFragment.isduringOrderNo != null && OperationFragment.isduringOrderNo.length() > 0 && OperationFragment.isduringOrderNo.equals(OperationFragment.curOrderNo)) {
-                            Log.e("pay", "pay......");
-                            return;
-                        }
-
-                        OperationMenu selectMenu = data.get(position);
-                        if (!judgeFixedExist(selectMenu)) {
-                            data.remove(selectMenu);
-                            notifyDataSetChanged();
-                            OperationFragment.gOperationHandler.obtainMessage(OperationFragment.MODIFY_PAY_INFO).sendToTarget();
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-            holder.txCount.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    try {
-                        if (OperationFragment.isduringOrderNo != null && OperationFragment.isduringOrderNo.length() > 0 && OperationFragment.isduringOrderNo.equals(OperationFragment.curOrderNo)) {
-                            Log.e("pay", "pay......");
-                            return;
-                        }
-
-                        OperationMenu selectMenu = data.get(position);
-                        if (!judgeFixedExist(selectMenu)) {
-                            selectMenu.setCount(selectMenu.getCount() + 1);
-                            //notifyDataSetChanged();
-
-                            int dis_count = OperationFragment.getDisCountForAll();
-                            calDisCount(dis_count);
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-            holder.txTotalPrice.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    try {
-                        if (OperationFragment.isduringOrderNo != null && OperationFragment.isduringOrderNo.length() > 0 && OperationFragment.isduringOrderNo.equals(OperationFragment.curOrderNo)) {
-                            Log.e("pay", "pay......");
-                            return;
-                        }
-
-                        OperationMenu selectMenu = data.get(position);
-                        if (!judgeFixedExist(selectMenu)) {
-                            selectMenu.setCount(selectMenu.getCount() - 1);
-                            //notifyDataSetChanged();
-                            int dis_count = OperationFragment.getDisCountForAll();
-                            calDisCount(dis_count);
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
+//            holder.txDishName.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    try {
+//                        if (OperationFragment.isduringOrderNo != null && OperationFragment.isduringOrderNo.length() > 0 && OperationFragment.isduringOrderNo.equals(OperationFragment.curOrderNo)) {
+//                            Log.e("pay", "pay......");
+//                            return;
+//                        }
+//
+//                        OperationMenu selectMenu = data.get(position);
+//                        if (!judgeFixedExist(selectMenu)) {
+//                            data.remove(selectMenu);
+//                            notifyDataSetChanged();
+//                            OperationFragment.gOperationHandler.obtainMessage(OperationFragment.MODIFY_PAY_INFO).sendToTarget();
+//                        }
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            });
+//            holder.txCount.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    try {
+//                        if (OperationFragment.isduringOrderNo != null && OperationFragment.isduringOrderNo.length() > 0 && OperationFragment.isduringOrderNo.equals(OperationFragment.curOrderNo)) {
+//                            Log.e("pay", "pay......");
+//                            return;
+//                        }
+//
+//                        OperationMenu selectMenu = data.get(position);
+//                        if (!judgeFixedExist(selectMenu)) {
+//                            selectMenu.setCount(selectMenu.getCount() + 1);
+//                            //notifyDataSetChanged();
+//
+//                            int dis_count = OperationFragment.getDisCountForAll();
+//                            calDisCount(dis_count);
+//                        }
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            });
+//            holder.txTotalPrice.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    try {
+//                        if (OperationFragment.isduringOrderNo != null && OperationFragment.isduringOrderNo.length() > 0 && OperationFragment.isduringOrderNo.equals(OperationFragment.curOrderNo)) {
+//                            Log.e("pay", "pay......");
+//                            return;
+//                        }
+//
+//                        OperationMenu selectMenu = data.get(position);
+//                        if (!judgeFixedExist(selectMenu)) {
+//                            selectMenu.setCount(selectMenu.getCount() - 1);
+//                            //notifyDataSetChanged();
+//                            int dis_count = OperationFragment.getDisCountForAll();
+//                            calDisCount(dis_count);
+//                        }
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            });
             holder.txDishName.setText(item.getDishNmae());
             holder.txUnitPrice.setText(MyConstant.gFormat.format(item.getUnitPrice()));
             holder.txCount.setText(item.getCount() + "");
@@ -155,7 +155,7 @@ public class OperationMenuListAdapter extends WrapAdapter<OperationMenu> {
     }
 
     public void calDisCount(int disCount, boolean... isPayByCard) {
-        Log.e("frost", "calDisCount dis_count:" + disCount);
+//        Log.e("frost", "calDisCount dis_count:" + disCount);
         if (data != null) {
             DaoSession daoSession = null;
             //会员价
@@ -169,9 +169,9 @@ public class OperationMenuListAdapter extends WrapAdapter<OperationMenu> {
                 isNeedToUseMemberPrice = false;
                 OperationMenu item = data.get(i);
                 //用卡支付 && 不是自定义价格的商品 && 不是固价商品
-                Log.i("frost", "calDisCount: item.getId()->" + item.getId());
+//                Log.i("frost", "calDisCount: item.getId()->" + item.getId());
                 if (null != isPayByCard && isPayByCard.length > 0 && item.getId() != MyConstant.CUSTOM_PRICING_GOODS && item.getId() != MyConstant.CUSTOM_FIXED_PRICE_GOODS) {
-                    Log.i("frost", "isPayByCard");
+//                    Log.i("frost", "isPayByCard");
                     List<CommodityRecord> commodityRecordList = daoSession.queryBuilder(CommodityRecord.class)
                             .where(CommodityRecordDao.Properties.CI_ID.eq(item.getId()))
                             .build()
@@ -180,7 +180,7 @@ public class OperationMenuListAdapter extends WrapAdapter<OperationMenu> {
                         for (CommodityRecord commodityRecord : commodityRecordList) {
                             if (MyUtil.isNotEmpty(commodityRecord.getCI_MEMBERPRICE())) {
                                 if (Float.parseFloat(commodityRecord.getCI_MEMBERPRICE()) != 0) {
-                                    Log.i("frost", "getCI_MEMBERPRICE" + item.getId());
+//                                    Log.i("frost", "getCI_MEMBERPRICE" + item.getId());
                                     memberPrice = Float.parseFloat(commodityRecord.getCI_MEMBERPRICE());
                                 } else {
                                     memberPrice = Float.parseFloat(commodityRecord.getCI_PRICE());
@@ -198,7 +198,7 @@ public class OperationMenuListAdapter extends WrapAdapter<OperationMenu> {
 //                    Log.e("url","i:"+i);
                     DecimalFormat df = new DecimalFormat("#.00");
                     if (isNeedToUseMemberPrice) {
-                        Log.i("frost", "memberPrice->" + memberPrice + "  disCount->" + disCount);
+//                        Log.i("frost", "memberPrice->" + memberPrice + "  disCount->" + disCount);
 
 
                         item.setUnitDisPrice(Float.parseFloat(df.format(memberPrice * disCount / 100f)));
@@ -260,7 +260,7 @@ public class OperationMenuListAdapter extends WrapAdapter<OperationMenu> {
 
 
     public class ViewHolder {
-        ImageView imageView;
+//        ImageView imageView;
         TextView txDishName;
         TextView txCount;
         TextView txTotalPrice;

@@ -20,6 +20,7 @@ import com.tt1000.settlementplatform.bean.member.TfUserInfo;
 import com.tt1000.settlementplatform.utils.MyConstant;
 import com.tt1000.settlementplatform.view.setting.ConfigMachineFragment;
 import com.tt1000.settlementplatform.view.setting.DbFragment;
+import com.tt1000.settlementplatform.view.setting.MachineFragment;
 import com.tt1000.settlementplatform.view.setting.ServerConfigFragment;
 import com.tt1000.settlementplatform.view.setting.SystemFragment;
 
@@ -72,9 +73,9 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         tabList.add("系统配置");
         tabList.add("机器配置");
         if (TextUtils.isEmpty(MyConstant.gSharedPre.getString(MyConstant.SP_Server_IP, ""))) {
-            MyConstant.gEditor.putString(MyConstant.SP_Server_IP, "https://zhct.weichai.com");
-            MyConstant.gEditor.putString(MyConstant.SP_Server_PORT, "443");
-            MyConstant.gEditor.putString(MyConstant.SP_CRM_ADDRESS, "http://kbs.rfidstar.cn/k-crm/machine/bind");
+            MyConstant.gEditor.putString(MyConstant.SP_Server_IP, "http://cloud.rfidstar.cn");
+            MyConstant.gEditor.putString(MyConstant.SP_Server_PORT, "80");
+            MyConstant.gEditor.putString(MyConstant.SP_CRM_ADDRESS, "http://xb.rfidstar.cn:7000/k-crm/machine/bind");
             MyConstant.gEditor.putString(MyConstant.SP_PRODUCT_ID, "29");
             MyConstant.gEditor.commit();
         }
@@ -125,8 +126,8 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 transaction.commit();
                 break;
             case 2:
-                transaction.replace(containerId, new ConfigMachineFragment());
-//                transaction.replace(containerId, new MachineFragment());
+//                transaction.replace(containerId, new ConfigMachineFragment());
+                transaction.replace(containerId, new MachineFragment());
                 transaction.commit();
                 break;
 

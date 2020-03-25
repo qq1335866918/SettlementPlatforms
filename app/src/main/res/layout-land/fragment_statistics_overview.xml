@@ -65,14 +65,14 @@
     </LinearLayout>
 
     <!--<View-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="3dp"-->
-        <!--android:layout_marginLeft="@dimen/margin_10"-->
-        <!--android:layout_marginRight="@dimen/margin_10"-->
-        <!--android:layout_marginBottom="@dimen/margin_2"-->
-        <!--android:layout_marginTop="@dimen/margin_20"-->
-        <!--android:layout_gravity="center_horizontal"-->
-        <!--android:background="@android:color/holo_orange_light"/>-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="3dp"-->
+    <!--android:layout_marginLeft="@dimen/margin_10"-->
+    <!--android:layout_marginRight="@dimen/margin_10"-->
+    <!--android:layout_marginBottom="@dimen/margin_2"-->
+    <!--android:layout_marginTop="@dimen/margin_20"-->
+    <!--android:layout_gravity="center_horizontal"-->
+    <!--android:background="@android:color/holo_orange_light"/>-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -101,12 +101,20 @@
             <com.tt1000.settlementplatform.widget.VerticalDottedLine
                 android:layout_width="1dp"
                 android:layout_height="20dp" />
+
             <TextView
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:text="支付宝"/>
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="现金"/>
+
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="支付宝"/>
 
             <TextView
                 android:layout_weight="1"
@@ -120,8 +128,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:text="员工卡"/>
+                android:text="会员卡"/>
 
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="免单"/>
 
             <TextView
                 android:layout_weight="1"

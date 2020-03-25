@@ -16,7 +16,7 @@
 
         <TextView
             android:id="@+id/tx_statistics_detail_order_num"
-            android:layout_weight="1.5"
+            android:layout_weight="2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
@@ -53,6 +53,16 @@
             android:singleLine="true"
             android:ellipsize="end"
             android:text="@string/payment_method"/>
+
+        <TextView
+            android:id="@+id/tx_statistics_detail_pay_name"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:text="@string/payment_name"/>
 
         <TextView
             android:id="@+id/tx_statistics_detail_cashier"

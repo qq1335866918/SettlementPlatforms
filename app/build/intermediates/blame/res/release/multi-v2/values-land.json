@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "E:\\SettlementPlatform\\app\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-land\\values-land.xml",
+            "outputFile": "E:\\KBS_SettlementPlatform\\SettlementPlatform\\app\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-land\\values-land.xml",
             "map": [
                 {
                     "source": "C:\\Users\\frost\\.gradle\\caches\\transforms-1\\files-1.1\\design-26.1.0.aar\\762625101c0b36b95b9316a279eb8809\\res\\values-land\\values-land.xml",

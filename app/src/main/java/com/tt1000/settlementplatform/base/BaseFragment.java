@@ -28,6 +28,7 @@ import com.tt1000.settlementplatform.feature.network.LocalRetrofit;
 import com.tt1000.settlementplatform.utils.MyConstant;
 import com.tt1000.settlementplatform.utils.MyUtil;
 import com.tt1000.settlementplatform.view.AssistsFragment;
+import com.tt1000.settlementplatform.view.GeneralFragment;
 import com.tt1000.settlementplatform.view.HomeFragment;
 import com.tt1000.settlementplatform.view.LoginFragment;
 import com.tt1000.settlementplatform.view.OperationFragment;
@@ -333,7 +334,7 @@ public abstract class BaseFragment extends Fragment {
         } else if (this instanceof LoginFragment) {
 
 //        } else if (this instanceof OperationFragment
-        } else if (this instanceof WeichaiOperationFragment
+        } else if (this instanceof GeneralFragment
                 || this instanceof StatisticsFragment
                 || this instanceof SettingFragment
                 || this instanceof AssistsFragment) {

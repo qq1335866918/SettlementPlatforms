@@ -19,7 +19,9 @@ import com.tt1000.settlementplatform.adapter.HomeRecyclerAdapter;
 import com.tt1000.settlementplatform.adapter.OnAdapterItemClickListener;
 import com.tt1000.settlementplatform.base.BaseFragment;
 import com.tt1000.settlementplatform.bean.MainMenu;
+import com.tt1000.settlementplatform.bean.member.TfConsumeCardRecordDao;
 import com.tt1000.settlementplatform.bean.member.TfMealTimes;
+import com.tt1000.settlementplatform.bean.member.TfMealTimesDao;
 import com.tt1000.settlementplatform.utils.MyConstant;
 import com.tt1000.settlementplatform.utils.MyUtil;
 
@@ -125,6 +127,7 @@ public class HomeFragment extends BaseFragment {
                             case 0:
                                 Date startTime = null, endTime = null, curTime = null;
                                 List<TfMealTimes> tfMealTimesList = pDaoSession.queryBuilder(TfMealTimes.class)
+                                        .orderAsc(TfMealTimesDao.Properties.MT_ID)
                                         .build()
                                         .list();
                                 SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
@@ -160,7 +163,7 @@ public class HomeFragment extends BaseFragment {
 //                                        .obtainMessage(MyConstant.REPLACE_FRAGMENT_TO_STACK, new OperationFragment()).sendToTarget();
 //                                appTitle.setText("运营");
                                 MainActivity.gUiHandler
-                                        .obtainMessage(MyConstant.REPLACE_FRAGMENT_TO_STACK, new WeichaiOperationFragment()).sendToTarget();
+                                        .obtainMessage(MyConstant.REPLACE_FRAGMENT_TO_STACK, new GeneralFragment()).sendToTarget();
                                 appTitle.setText("运营");
                                 break;
                             case 1:

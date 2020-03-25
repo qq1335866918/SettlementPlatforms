@@ -721,6 +721,7 @@ public class WeichaiOperationFragment extends BaseFragment implements View.OnCli
     private String oldCode = "";
     private boolean isFirst = true;
     private String msg = "";
+    Button business_cut;
 
     private void initView() {
         img_upload = mainActivity.findViewById(R.id.img_upload);
@@ -728,6 +729,8 @@ public class WeichaiOperationFragment extends BaseFragment implements View.OnCli
         weiCaiOperationWaterAdapter = new WeiCaiOperationWaterAdapter(mContext, new ArrayList<WeiCaiWaterInfo>());
         business_list_water.setAdapter(weiCaiOperationWaterAdapter);
 
+        business_cut = (Button) findViewById(R.id.business_cut);
+        business_cut.setOnClickListener(this);
         txAppTitle = mainActivity.findViewById(R.id.app_title);
         iv_power = mainActivity.findViewById(R.id.iv_power);
 
@@ -862,8 +865,11 @@ public class WeichaiOperationFragment extends BaseFragment implements View.OnCli
             case R.id.business_ok:
                 settlement();
                 break;
+            case R.id.business_cut:
+                MainActivity.gUiHandler
+                        .obtainMessage(MyConstant.REPLACE_FRAGMENT_TO_STACK, new GeneralFragment()).sendToTarget();
+                break;
         }
-
     }
 
     @Override
@@ -1043,7 +1049,6 @@ public class WeichaiOperationFragment extends BaseFragment implements View.OnCli
                             MyUtil.appendFile("密码错误");
                         }
                     }
-
 
                 } catch (Exception ex) {
                     Log.e("CrashHandler", "onNewIntent..." + ex.getMessage());
@@ -2637,50 +2642,50 @@ public class WeichaiOperationFragment extends BaseFragment implements View.OnCli
 //                                        int a = balance_ic.indexOf("a");
 //                                        String balance_ic1 = balance_ic.substring(0, a);
 //                                        String balance_ic2 = balance_ic.substring(a + 1, balance_ic.length());
-                                        for (TfMemberAccountRecord record : accountRecordList) {
-                                            if (record.getACCOUNT_TYPE().equals("0")) {
-                                                cashRecord = record;
+                                    for (TfMemberAccountRecord record : accountRecordList) {
+                                        if (record.getACCOUNT_TYPE().equals("0")) {
+                                            cashRecord = record;
 //                                                if (a != -1) {
 //                                                    cashRecord.setBALANCE(balance_ic1);
 //                                                }
-                                            } else if ((record.getACCOUNT_TYPE().equals("1"))) {
-                                                subsidyRecord = record;
+                                        } else if ((record.getACCOUNT_TYPE().equals("1"))) {
+                                            subsidyRecord = record;
 //                                                if (a != -1) {
 //                                                    subsidyRecord.setBALANCE(balance_ic2);
 //                                                }
-                                            }
                                         }
-                                        Log.e("frost_test", "balance" + cashRecord.getBALANCE() + "\n" + subsidyRecord.getBALANCE());
-                                        Log.e("frost", "--------" + payMsg);
-                                        if (info != null && memberInfo != null && cashRecord != null && subsidyRecord != null) {
-                                            try {
-                                                long end = System.currentTimeMillis();
-                                                Float cashBalance1 = Float.parseFloat(cashRecord.getBALANCE());
-                                                Float subsidyBalance1 = Float.parseFloat(subsidyRecord != null ? subsidyRecord.getBALANCE() : "0");
-                                                String balance = MyConstant.gFormat.format(subsidyBalance1 + cashBalance1);
-                                                Log.d("frost", "calcurlateMemberBalance----3");
-                                                MyUtil.appendFile("#####################会员卡OnFailure start 订单号" + curOrderNo + "#####################" + "\n");
-                                                MyUtil.appendFile("请求时间：" + star);
-                                                MyUtil.appendFile("请求地址：" + url);
-                                                MyUtil.appendFile("请求参数：" + url);
-                                                MyUtil.appendFile("响应参数：" + e.getMessage());
-                                                MyUtil.appendFile("耗时：" + (end - star) + "");
-                                                MyUtil.appendFile("结束时间：" + end);
-                                                MyUtil.appendFile("##################### end #####################" + "\n");
-                                                calcurlateMemberBalance(icId, info, memberInfo, cashRecord, subsidyRecord);
-                                                if ("".equals(business_price.getText().toString()) || business_price.getText().toString() == null) {
-                                                    showMemberInfo(memberInfo, balance, "准备下单");
-                                                }
-                                                pDaoSession.clear();
-                                            } catch (Exception e1) {
-                                                isPaying = false;
-                                            } finally {
-                                                cashRecord = null;
-                                                subsidyRecord = null;
-                                                isduringOrderNo = "";
-                                                return;
+                                    }
+                                    Log.e("frost_test", "balance" + cashRecord.getBALANCE() + "\n" + subsidyRecord.getBALANCE());
+                                    Log.e("frost", "--------" + payMsg);
+                                    if (info != null && memberInfo != null && cashRecord != null && subsidyRecord != null) {
+                                        try {
+                                            long end = System.currentTimeMillis();
+                                            Float cashBalance1 = Float.parseFloat(cashRecord.getBALANCE());
+                                            Float subsidyBalance1 = Float.parseFloat(subsidyRecord != null ? subsidyRecord.getBALANCE() : "0");
+                                            String balance = MyConstant.gFormat.format(subsidyBalance1 + cashBalance1);
+                                            Log.d("frost", "calcurlateMemberBalance----3");
+                                            MyUtil.appendFile("#####################会员卡OnFailure start 订单号" + curOrderNo + "#####################" + "\n");
+                                            MyUtil.appendFile("请求时间：" + star);
+                                            MyUtil.appendFile("请求地址：" + url);
+                                            MyUtil.appendFile("请求参数：" + url);
+                                            MyUtil.appendFile("响应参数：" + e.getMessage());
+                                            MyUtil.appendFile("耗时：" + (end - star) + "");
+                                            MyUtil.appendFile("结束时间：" + end);
+                                            MyUtil.appendFile("##################### end #####################" + "\n");
+                                            calcurlateMemberBalance(icId, info, memberInfo, cashRecord, subsidyRecord);
+                                            if ("".equals(business_price.getText().toString()) || business_price.getText().toString() == null) {
+                                                showMemberInfo(memberInfo, balance, "准备下单");
                                             }
+                                            pDaoSession.clear();
+                                        } catch (Exception e1) {
+                                            isPaying = false;
+                                        } finally {
+                                            cashRecord = null;
+                                            subsidyRecord = null;
+                                            isduringOrderNo = "";
+                                            return;
                                         }
+                                    }
 //                                    } else {
 //                                        mainActivity.runOnUiThread(new Runnable() {
 //                                            @Override
@@ -3038,50 +3043,50 @@ public class WeichaiOperationFragment extends BaseFragment implements View.OnCli
 //                                balance_ic2 = balance_ic.substring(a + 1, balance_ic.length());
 //                            }
 //                            Log.e("nfc_test", balance_ic1 + "-------" + balance_ic2);
-                            for (TfMemberAccountRecord record : accountRecordList) {
-                                if (record.getACCOUNT_TYPE().equals("0")) {
-                                    cashRecord = record;
+                        for (TfMemberAccountRecord record : accountRecordList) {
+                            if (record.getACCOUNT_TYPE().equals("0")) {
+                                cashRecord = record;
 //                                    if (a != -1) {
 //                                        cashRecord.setBALANCE(balance_ic1);
 //                                    }
-                                } else if ((record.getACCOUNT_TYPE().equals("1"))) {
-                                    subsidyRecord = record;
+                            } else if ((record.getACCOUNT_TYPE().equals("1"))) {
+                                subsidyRecord = record;
 //                                    if (a != -1) {
 //                                        subsidyRecord.setBALANCE(balance_ic2);
 //                                    }
-                                }
                             }
-                            Log.e("frost_test", "balance" + cashRecord.getBALANCE() + "\n" + subsidyRecord.getBALANCE());
-                            Log.e("frost", "--------" + payMsg);
-                            if (info != null && memberInfo != null && cashRecord != null && subsidyRecord != null) {
-                                try {
-                                    long end = System.currentTimeMillis();
-                                    Float cashBalance1 = Float.parseFloat(cashRecord.getBALANCE());
-                                    Float subsidyBalance1 = Float.parseFloat(subsidyRecord != null ? subsidyRecord.getBALANCE() : "0");
-                                    String balance = MyConstant.gFormat.format(subsidyBalance1 + cashBalance1);
-                                    Log.d("frost", "calcurlateMemberBalance----3");
-                                    MyUtil.appendFile("#####################会员卡离线 start 订单号" + curOrderNo + "#####################" + "\n");
-                                    MyUtil.appendFile("请求时间：" + star);
-                                    MyUtil.appendFile("请求地址：" + "离线支付");
-                                    MyUtil.appendFile("请求参数：" + "离线支付");
-                                    MyUtil.appendFile("响应参数：" + "离线支付");
-                                    MyUtil.appendFile("耗时：" + (end - star) + "");
-                                    MyUtil.appendFile("结束时间：" + end);
-                                    MyUtil.appendFile("##################### end #####################" + "\n");
-                                    calcurlateMemberBalance(icId, info, memberInfo, cashRecord, subsidyRecord);
-                                    if ("".equals(business_price.getText().toString()) || business_price.getText().toString() == null) {
-                                        showMemberInfo(memberInfo, balance, "准备下单");
-                                    }
-                                    pDaoSession.clear();
-                                } catch (Exception e) {
-                                    isPaying = false;
-                                } finally {
-                                    cashRecord = null;
-                                    subsidyRecord = null;
-                                    isduringOrderNo = "";
-                                    return;
+                        }
+                        Log.e("frost_test", "balance" + cashRecord.getBALANCE() + "\n" + subsidyRecord.getBALANCE());
+                        Log.e("frost", "--------" + payMsg);
+                        if (info != null && memberInfo != null && cashRecord != null && subsidyRecord != null) {
+                            try {
+                                long end = System.currentTimeMillis();
+                                Float cashBalance1 = Float.parseFloat(cashRecord.getBALANCE());
+                                Float subsidyBalance1 = Float.parseFloat(subsidyRecord != null ? subsidyRecord.getBALANCE() : "0");
+                                String balance = MyConstant.gFormat.format(subsidyBalance1 + cashBalance1);
+                                Log.d("frost", "calcurlateMemberBalance----3");
+                                MyUtil.appendFile("#####################会员卡离线 start 订单号" + curOrderNo + "#####################" + "\n");
+                                MyUtil.appendFile("请求时间：" + star);
+                                MyUtil.appendFile("请求地址：" + "离线支付");
+                                MyUtil.appendFile("请求参数：" + "离线支付");
+                                MyUtil.appendFile("响应参数：" + "离线支付");
+                                MyUtil.appendFile("耗时：" + (end - star) + "");
+                                MyUtil.appendFile("结束时间：" + end);
+                                MyUtil.appendFile("##################### end #####################" + "\n");
+                                calcurlateMemberBalance(icId, info, memberInfo, cashRecord, subsidyRecord);
+                                if ("".equals(business_price.getText().toString()) || business_price.getText().toString() == null) {
+                                    showMemberInfo(memberInfo, balance, "准备下单");
                                 }
+                                pDaoSession.clear();
+                            } catch (Exception e) {
+                                isPaying = false;
+                            } finally {
+                                cashRecord = null;
+                                subsidyRecord = null;
+                                isduringOrderNo = "";
+                                return;
                             }
+                        }
 //                        } else {
 //                            mainActivity.runOnUiThread(new Runnable() {
 //                                @Override
@@ -4834,10 +4839,7 @@ public class WeichaiOperationFragment extends BaseFragment implements View.OnCli
      */
     private void initBeepSound() {
         if (playBeep && mediaPlayer == null) {
-            // The volume on STREAM_SYSTEM is not adjustable, and users found it
-            // too loud,
-            // so we now play on the music stream.
-//            setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
             mediaPlayer = new MediaPlayer();
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mediaPlayer.setOnCompletionListener(beepListener);

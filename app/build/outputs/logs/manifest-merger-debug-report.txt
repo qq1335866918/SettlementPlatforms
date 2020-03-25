@@ -1,14 +1,13 @@
 -- Merging decision tree log ---
 manifest
-ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:2:1-85:12
-INJECTED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:2:1-85:12
-INJECTED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:2:1-85:12
-INJECTED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:2:1-85:12
+ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:2:1-85:12
+INJECTED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:2:1-85:12
+INJECTED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:2:1-85:12
+INJECTED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:2:1-85:12
 MERGED from [com.android.support:design:26.1.0] C:\Users\frost\.gradle\caches\transforms-1\files-1.1\design-26.1.0.aar\762625101c0b36b95b9316a279eb8809\AndroidManifest.xml:17:1-31:12
 MERGED from [com.android.support:appcompat-v7:26.1.0] C:\Users\frost\.gradle\caches\transforms-1\files-1.1\appcompat-v7-26.1.0.aar\b662f0dc0919ca63ac020008b0f60541\AndroidManifest.xml:17:1-31:12
 MERGED from [com.android.support.constraint:constraint-layout:1.1.2] C:\Users\frost\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.2.aar\8bcbb03408d32c3e614afe20b1be2019\AndroidManifest.xml:2:1-11:12
 MERGED from [com.journeyapps:zxing-android-embedded:3.2.0] C:\Users\frost\.gradle\caches\transforms-1\files-1.1\zxing-android-embedded-3.2.0.aar\b5987377e846a795f3f4648080804275\AndroidManifest.xml:17:1-55:12
-MERGED from [com.android.support:multidex:1.0.0] C:\Users\frost\.gradle\caches\transforms-1\files-1.1\multidex-1.0.0.aar\6a7a2352b68849984b4bd58d414a6009\AndroidManifest.xml:16:1-19:12
 MERGED from [com.jakewharton:butterknife:8.4.0] C:\Users\frost\.gradle\caches\transforms-1\files-1.1\butterknife-8.4.0.aar\63628fe986d9e5657a4365770d64c68f\AndroidManifest.xml:2:1-7:12
 MERGED from [com.android.support:animated-vector-drawable:26.1.0] C:\Users\frost\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-26.1.0.aar\ec7c54b1c4b69198d9a68fa94b345bb7\AndroidManifest.xml:17:1-28:12
 MERGED from [com.android.support:support-vector-drawable:26.1.0] C:\Users\frost\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-26.1.0.aar\4acea7b87c3a65c0aa8303a2e49ab5de\AndroidManifest.xml:17:1-28:12
@@ -21,99 +20,99 @@ MERGED from [com.android.support:support-core-utils:26.1.0] C:\Users\frost\.grad
 MERGED from [com.android.support:support-core-ui:26.1.0] C:\Users\frost\.gradle\caches\transforms-1\files-1.1\support-core-ui-26.1.0.aar\e83898bc78e23fde945df403b19f8a1c\AndroidManifest.xml:17:1-31:12
 MERGED from [com.android.support:support-compat:26.1.0] C:\Users\frost\.gradle\caches\transforms-1\files-1.1\support-compat-26.1.0.aar\6e503b2e7799bf645f9a9bc190bfebc1\AndroidManifest.xml:17:1-31:12
 MERGED from [android.arch.lifecycle:runtime:1.0.0] C:\Users\frost\.gradle\caches\transforms-1\files-1.1\runtime-1.0.0.aar\6ad675290633c9d307369b82f1fffa1a\AndroidManifest.xml:17:1-30:12
-INJECTED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:2:1-85:12
-INJECTED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:2:1-85:12
-INJECTED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:2:1-85:12
+INJECTED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:2:1-85:12
+INJECTED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:2:1-85:12
+INJECTED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:2:1-85:12
 	package
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:4:5-44
-		INJECTED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml
-		INJECTED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:4:5-44
+		INJECTED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml
+		INJECTED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml
 	android:versionName
-		INJECTED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:2:1-85:12
-		INJECTED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml
+		INJECTED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:2:1-85:12
+		INJECTED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml
 	xmlns:tools
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:3:5-51
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:3:5-51
 	android:versionCode
-		INJECTED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:2:1-85:12
-		INJECTED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml
+		INJECTED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:2:1-85:12
+		INJECTED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml
 	xmlns:android
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:2:11-69
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:2:11-69
 uses-permission#android.permission.GET_ACCOUNTS
-ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:6:5-71
+ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:6:5-71
 	android:name
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:6:22-68
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:6:22-68
 uses-permission#android.permission.KILL_BACKGROUND_PROCESSES
-ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:7:5-84
+ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:7:5-84
 	android:name
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:7:22-81
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:7:22-81
 uses-permission#android.permission.NFC
-ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:8:5-62
+ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:8:5-62
 	android:name
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:8:22-59
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:8:22-59
 uses-permission#android.permission.READ_PROFILE
-ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:9:5-71
+ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:9:5-71
 	android:name
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:9:22-68
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:9:22-68
 uses-permission#android.permission.READ_CONTACTS
-ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:10:5-72
+ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:10:5-72
 	android:name
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:10:22-69
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:10:22-69
 uses-permission#android.permission.VIBRATE
-ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:11:5-66
+ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:11:5-66
 	android:name
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:11:22-63
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:11:22-63
 uses-permission#android.permission.WAKE_LOCK
-ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:12:5-68
+ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:12:5-68
 	android:name
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:12:22-65
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:12:22-65
 uses-permission#android.permission.INTERNET
-ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:13:5-67
+ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:13:5-67
 	android:name
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:13:22-64
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:13:22-64
 uses-permission#android.permission.READ_EXTERNAL_STORAGE
-ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:14:5-80
+ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:14:5-80
 	android:name
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:14:22-77
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:14:22-77
 uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
-ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:15:5-81
+ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:15:5-81
 	android:name
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:15:22-78
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:15:22-78
 uses-permission#android.permission.ACCESS_WIFI_STATE
-ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:16:5-76
+ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:16:5-76
 	android:name
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:16:22-73
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:16:22-73
 uses-permission#android.permission.ACCESS_NETWORK_STATE
-ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:17:5-79
+ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:17:5-79
 	android:name
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:17:22-76
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:17:22-76
 uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
-ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:18:5-81
+ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:18:5-81
 	android:name
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:18:22-78
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:18:22-78
 uses-permission#android.permission.FLASHLIGHT
-ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:19:5-69
+ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:19:5-69
 	android:name
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:19:22-66
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:19:22-66
 uses-permission#android.permission.SYSTEM_ALERT_WINDOW
-ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:20:5-78
+ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:20:5-78
 	android:name
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:20:22-75
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:20:22-75
 uses-permission#android.permission.CAMERA
-ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:21:5-65
+ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:21:5-65
 MERGED from [com.journeyapps:zxing-android-embedded:3.2.0] C:\Users\frost\.gradle\caches\transforms-1\files-1.1\zxing-android-embedded-3.2.0.aar\b5987377e846a795f3f4648080804275\AndroidManifest.xml:21:5-65
 MERGED from [com.journeyapps:zxing-android-embedded:3.2.0] C:\Users\frost\.gradle\caches\transforms-1\files-1.1\zxing-android-embedded-3.2.0.aar\b5987377e846a795f3f4648080804275\AndroidManifest.xml:21:5-65
 	android:name
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:21:22-62
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:21:22-62
 uses-permission#android.permission.MOUNT_UNMOUNT_FILESYSTEMS
-ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:22:5-23:47
+ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:22:5-23:47
 	tools:ignore
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:23:9-44
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:23:9-44
 	android:name
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:22:22-81
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:22:22-81
 application
-ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:25:5-83:19
+ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:25:5-83:19
 MERGED from [com.android.support:design:26.1.0] C:\Users\frost\.gradle\caches\transforms-1\files-1.1\design-26.1.0.aar\762625101c0b36b95b9316a279eb8809\AndroidManifest.xml:25:5-29:19
 MERGED from [com.android.support:design:26.1.0] C:\Users\frost\.gradle\caches\transforms-1\files-1.1\design-26.1.0.aar\762625101c0b36b95b9316a279eb8809\AndroidManifest.xml:25:5-29:19
 MERGED from [com.android.support:appcompat-v7:26.1.0] C:\Users\frost\.gradle\caches\transforms-1\files-1.1\appcompat-v7-26.1.0.aar\b662f0dc0919ca63ac020008b0f60541\AndroidManifest.xml:25:5-29:19
@@ -145,113 +144,113 @@ MERGED from [com.android.support:support-compat:26.1.0] C:\Users\frost\.gradle\c
 MERGED from [android.arch.lifecycle:runtime:1.0.0] C:\Users\frost\.gradle\caches\transforms-1\files-1.1\runtime-1.0.0.aar\6ad675290633c9d307369b82f1fffa1a\AndroidManifest.xml:24:5-28:19
 MERGED from [android.arch.lifecycle:runtime:1.0.0] C:\Users\frost\.gradle\caches\transforms-1\files-1.1\runtime-1.0.0.aar\6ad675290633c9d307369b82f1fffa1a\AndroidManifest.xml:24:5-28:19
 	android:supportsRtl
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:32:9-35
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:32:9-35
 	android:label
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:29:9-41
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:29:9-41
 	android:roundIcon
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:31:9-54
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:31:9-54
 	android:largeHeap
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:30:9-33
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:30:9-33
 	android:icon
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:28:9-36
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:28:9-36
 	android:allowBackup
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:27:9-35
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:27:9-35
 	android:theme
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:33:9-40
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:33:9-40
 	android:name
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:26:9-42
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:26:9-42
 activity#com.tt1000.settlementplatform.MainActivity
-ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:35:9-56:20
+ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:35:9-56:20
 	android:screenOrientation
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:39:13-50
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:39:13-50
 	android:launchMode
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:38:13-43
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:38:13-43
 	android:configChanges
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:37:13-74
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:37:13-74
 	android:name
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:36:13-41
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:36:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:40:13-44:29
+ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:40:13-44:29
 action#android.intent.action.MAIN
-ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:41:17-69
+ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:41:17-69
 	android:name
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:41:25-66
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:41:25-66
 category#android.intent.category.LAUNCHER
-ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:43:17-77
+ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:43:17-77
 	android:name
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:43:27-74
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:43:27-74
 intent-filter#action:name:android.nfc.action.NDEF_DISCOVERED
-ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:45:13-47:29
+ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:45:13-47:29
 action#android.nfc.action.NDEF_DISCOVERED
-ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:46:17-77
+ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:46:17-77
 	android:name
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:46:25-74
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:46:25-74
 intent-filter#action:name:android.nfc.action.TAG_DISCOVERED+category:name:android.intent.category.DEFAULT
-ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:48:13-52:29
+ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:48:13-52:29
 action#android.nfc.action.TAG_DISCOVERED
-ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:49:17-76
+ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:49:17-76
 	android:name
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:49:25-73
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:49:25-73
 category#android.intent.category.DEFAULT
-ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:51:17-76
+ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:51:17-76
 	android:name
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:51:27-73
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:51:27-73
 intent-filter#action:name:android.nfc.action.TECH_DISCOVERED
-ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:53:13-55:29
+ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:53:13-55:29
 action#android.nfc.action.TECH_DISCOVERED
-ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:54:17-77
+ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:54:17-77
 	android:name
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:54:25-74
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:54:25-74
 activity#com.tt1000.settlementplatform.zxing.app.CaptureActivity
-ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:57:9-59:52
+ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:57:9-59:52
 	android:screenOrientation
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:59:13-50
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:59:13-50
 	android:name
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:58:13-54
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:58:13-54
 receiver#com.tt1000.settlementplatform.MainActivity$AutoStartRecevier
-ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:61:9-68:20
+ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:61:9-68:20
 	android:enabled
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:63:13-35
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:63:13-35
 	android:exported
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:64:13-36
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:64:13-36
 	android:name
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:62:13-59
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:62:13-59
 intent-filter#action:name:android.intent.action.BOOT_COMPLETED
-ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:65:13-67:29
+ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:65:13-67:29
 	android:priority
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:65:28-51
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:65:28-51
 action#android.intent.action.BOOT_COMPLETED
-ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:66:17-79
+ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:66:17-79
 	android:name
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:66:25-76
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:66:25-76
 service#com.tt1000.settlementplatform.service.MainService
-ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:70:9-74:44
+ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:70:9-74:44
 	android:process
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:74:13-41
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:74:13-41
 	android:enabled
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:72:13-35
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:72:13-35
 	android:exported
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:73:13-36
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:73:13-36
 	android:name
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:71:13-48
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:71:13-48
 service#com.tt1000.settlementplatform.service.InlineService
-ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:75:9-79:48
+ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:75:9-79:48
 	android:process
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:79:13-45
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:79:13-45
 	android:enabled
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:77:13-35
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:77:13-35
 	android:exported
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:78:13-36
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:78:13-36
 	android:name
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:76:13-50
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:76:13-50
 service#com.tt1000.settlementplatform.view.presentation.SecondaryDisplayService
-ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:81:9-78
+ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:81:9-78
 	android:name
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml:81:18-75
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml:81:18-75
 uses-sdk
-INJECTED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml
-INJECTED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml
+INJECTED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml
+INJECTED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml
 MERGED from [com.android.support:design:26.1.0] C:\Users\frost\.gradle\caches\transforms-1\files-1.1\design-26.1.0.aar\762625101c0b36b95b9316a279eb8809\AndroidManifest.xml:21:5-23:62
 MERGED from [com.android.support:design:26.1.0] C:\Users\frost\.gradle\caches\transforms-1\files-1.1\design-26.1.0.aar\762625101c0b36b95b9316a279eb8809\AndroidManifest.xml:21:5-23:62
 MERGED from [com.android.support:appcompat-v7:26.1.0] C:\Users\frost\.gradle\caches\transforms-1\files-1.1\appcompat-v7-26.1.0.aar\b662f0dc0919ca63ac020008b0f60541\AndroidManifest.xml:21:5-23:78
@@ -260,8 +259,6 @@ MERGED from [com.android.support.constraint:constraint-layout:1.1.2] C:\Users\fr
 MERGED from [com.android.support.constraint:constraint-layout:1.1.2] C:\Users\frost\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.2.aar\8bcbb03408d32c3e614afe20b1be2019\AndroidManifest.xml:5:5-7:41
 MERGED from [com.journeyapps:zxing-android-embedded:3.2.0] C:\Users\frost\.gradle\caches\transforms-1\files-1.1\zxing-android-embedded-3.2.0.aar\b5987377e846a795f3f4648080804275\AndroidManifest.xml:19:5-43
 MERGED from [com.journeyapps:zxing-android-embedded:3.2.0] C:\Users\frost\.gradle\caches\transforms-1\files-1.1\zxing-android-embedded-3.2.0.aar\b5987377e846a795f3f4648080804275\AndroidManifest.xml:19:5-43
-MERGED from [com.android.support:multidex:1.0.0] C:\Users\frost\.gradle\caches\transforms-1\files-1.1\multidex-1.0.0.aar\6a7a2352b68849984b4bd58d414a6009\AndroidManifest.xml:18:5-42
-MERGED from [com.android.support:multidex:1.0.0] C:\Users\frost\.gradle\caches\transforms-1\files-1.1\multidex-1.0.0.aar\6a7a2352b68849984b4bd58d414a6009\AndroidManifest.xml:18:5-42
 MERGED from [com.jakewharton:butterknife:8.4.0] C:\Users\frost\.gradle\caches\transforms-1\files-1.1\butterknife-8.4.0.aar\63628fe986d9e5657a4365770d64c68f\AndroidManifest.xml:5:5-43
 MERGED from [com.jakewharton:butterknife:8.4.0] C:\Users\frost\.gradle\caches\transforms-1\files-1.1\butterknife-8.4.0.aar\63628fe986d9e5657a4365770d64c68f\AndroidManifest.xml:5:5-43
 MERGED from [com.android.support:animated-vector-drawable:26.1.0] C:\Users\frost\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-26.1.0.aar\ec7c54b1c4b69198d9a68fa94b345bb7\AndroidManifest.xml:20:5-44
@@ -286,18 +283,18 @@ MERGED from [com.android.support:support-compat:26.1.0] C:\Users\frost\.gradle\c
 MERGED from [com.android.support:support-compat:26.1.0] C:\Users\frost\.gradle\caches\transforms-1\files-1.1\support-compat-26.1.0.aar\6e503b2e7799bf645f9a9bc190bfebc1\AndroidManifest.xml:21:5-23:58
 MERGED from [android.arch.lifecycle:runtime:1.0.0] C:\Users\frost\.gradle\caches\transforms-1\files-1.1\runtime-1.0.0.aar\6ad675290633c9d307369b82f1fffa1a\AndroidManifest.xml:20:5-22:41
 MERGED from [android.arch.lifecycle:runtime:1.0.0] C:\Users\frost\.gradle\caches\transforms-1\files-1.1\runtime-1.0.0.aar\6ad675290633c9d307369b82f1fffa1a\AndroidManifest.xml:20:5-22:41
-INJECTED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml
-INJECTED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml
+INJECTED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml
+INJECTED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml
 	tools:overrideLibrary
 		ADDED from [com.android.support:design:26.1.0] C:\Users\frost\.gradle\caches\transforms-1\files-1.1\design-26.1.0.aar\762625101c0b36b95b9316a279eb8809\AndroidManifest.xml:23:9-59
 	android:targetSdkVersion
-		INJECTED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml
-		INJECTED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml
+		INJECTED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml
+		INJECTED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml
-		ADDED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml
-		INJECTED from E:\SettlementPlatform\app\src\main\AndroidManifest.xml
+		INJECTED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml
+		ADDED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml
+		INJECTED from E:\KBS_SettlementPlatform\SettlementPlatform\app\src\main\AndroidManifest.xml
 meta-data#android.support.VERSION
 ADDED from [com.android.support:design:26.1.0] C:\Users\frost\.gradle\caches\transforms-1\files-1.1\design-26.1.0.aar\762625101c0b36b95b9316a279eb8809\AndroidManifest.xml:26:9-28:38
 MERGED from [com.android.support:appcompat-v7:26.1.0] C:\Users\frost\.gradle\caches\transforms-1\files-1.1\appcompat-v7-26.1.0.aar\b662f0dc0919ca63ac020008b0f60541\AndroidManifest.xml:26:9-28:38

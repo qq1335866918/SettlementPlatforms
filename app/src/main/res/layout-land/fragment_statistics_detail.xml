@@ -52,18 +52,18 @@
             android:layout_marginRight="@dimen/margin_5"
             android:gravity="center_horizontal"/>
 
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="@string/shopAssistant"-->
-            <!--android:layout_marginRight="@dimen/margin_10"/>-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/shopAssistant"
+            android:layout_marginRight="@dimen/margin_10"/>
 
-        <!--<Spinner-->
-            <!--android:id="@+id/sp_statistics_detail_assistant"-->
-            <!--android:layout_width="100dp"-->
-            <!--android:layout_height="30dp"-->
-            <!--android:layout_marginRight="@dimen/margin_5"-->
-            <!--android:gravity="center_horizontal"/>-->
+        <Spinner
+            android:id="@+id/sp_statistics_detail_assistant"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="@dimen/margin_5"
+            android:gravity="center_horizontal"/>
     </LinearLayout>
 
     <LinearLayout
@@ -125,7 +125,7 @@
                 android:text="@string/time"/>
 
             <TextView
-                android:layout_weight="1.5"
+                android:layout_weight="2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
@@ -151,6 +151,12 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:text="@string/payment_method"/>
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="@string/payment_name"/>
 
             <TextView
                 android:layout_weight="1"

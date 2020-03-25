@@ -133,6 +133,16 @@ public class QueryCardResultInfo {
             private String MI_ID;
             private String MI_NO;
             private String MI_NAME;
+            private String MI_PHONE;
+
+            public String getMI_PHONE() {
+                return MI_PHONE;
+            }
+
+            public void setMI_PHONE(String MI_PHONE) {
+                this.MI_PHONE = MI_PHONE;
+            }
+
             private String MI_PAPERWORK_NO;
             private String MI_STATUS;
             private String MI_TYPE;

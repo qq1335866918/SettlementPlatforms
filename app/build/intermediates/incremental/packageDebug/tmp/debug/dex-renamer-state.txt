@@ -1,16 +1,4 @@
-#Mon Mar 09 10:13:42 CST 2020
-path.3=classes.dex
-path.2=classes.dex
-path.1=classes.dex
-renamed.4=classes5.dex
+#Wed Mar 25 13:42:23 CST 2020
+base.0=E\:\\KBS_SettlementPlatform\\SettlementPlatform\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\89
 path.0=classes.dex
-renamed.3=classes4.dex
-renamed.2=classes3.dex
-renamed.1=classes2.dex
-base.4=E\:\\SettlementPlatform\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\12
 renamed.0=classes.dex
-base.3=E\:\\SettlementPlatform\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\15
-base.2=E\:\\SettlementPlatform\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\13
-base.1=E\:\\SettlementPlatform\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\16
-base.0=E\:\\SettlementPlatform\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\14
-path.4=classes.dex

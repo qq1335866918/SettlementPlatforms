@@ -12,7 +12,7 @@ public class MyConstant {
     public static SharedPreferences gSharedPre = MyApplication.getContext().getSharedPreferences("settlement", Context.MODE_PRIVATE);
     public static SharedPreferences.Editor gEditor = gSharedPre.edit();
 
-    public static DecimalFormat gFormat = new DecimalFormat("##0.00");
+    public static DecimalFormat gFormat = new DecimalFormat("##0.0");
 
     public static final int REPLACE_FRAGMENT_TO_STACK = 9;
     public static final int REPLACE_FRAGMENT_NORMAL = 2111;

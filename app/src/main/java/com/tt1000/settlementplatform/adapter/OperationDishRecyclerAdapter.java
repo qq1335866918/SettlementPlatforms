@@ -49,12 +49,12 @@ public class OperationDishRecyclerAdapter extends RecyclerView.Adapter<RecyclerV
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof ItemViewHodler) {
-            holder.itemView.setLayoutParams(new LinearLayout.LayoutParams(width/3, height / 4));
-            if (data.size() < 9 ) {
-                for (int i = data.size(); i < 9; i++) {
-                    data.add(new CommodityRecord());
-                }
-            }
+            holder.itemView.setLayoutParams(new LinearLayout.LayoutParams(width / 4, height / 4));
+//            if (data.size() < 9) {
+//                for (int i = data.size(); i < 9; i++) {
+//                    data.add(new CommodityRecord());
+//                }
+//            }
             final CommodityRecord dishes = data.get(position);
             if (dishes != null) {
                 ((ItemViewHodler) holder).txDishPrice.setText(dishes.getCI_PRICE() == null ? "" : Float.parseFloat(dishes.getCI_PRICE()) + "");
@@ -74,12 +74,13 @@ public class OperationDishRecyclerAdapter extends RecyclerView.Adapter<RecyclerV
 
     @Override
     public int getItemCount() {
-        return 9;
+        return data.size();
     }
 
-    public class ItemViewHodler extends RecyclerView.ViewHolder{
+    public class ItemViewHodler extends RecyclerView.ViewHolder {
         TextView txDishPrice;
         TextView txDishName;
+
         public ItemViewHodler(View itemView) {
             super(itemView);
             txDishPrice = itemView.findViewById(R.id.tx_operation_order_dish_price);

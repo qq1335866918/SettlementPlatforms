@@ -15,15 +15,15 @@
         android:gravity="center_horizontal"
         android:text="日期"/>
 
-    <!--<TextView-->
-        <!--android:id="@+id/tx_overview_cash"-->
-        <!--android:layout_weight="1"-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:singleLine="true"-->
-        <!--android:ellipsize="end"-->
-        <!--android:gravity="center_horizontal"-->
-        <!--android:text="现金"/>-->
+    <TextView
+        android:id="@+id/tx_overview_cash"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:gravity="center_horizontal"
+        android:text="现金"/>
 
     <TextView
         android:id="@+id/tx_overview_alipay"
@@ -53,18 +53,18 @@
         android:singleLine="true"
         android:ellipsize="end"
         android:gravity="center_horizontal"
-        android:text="员工卡 "/>
+        android:text="会员卡"/>
 
-    <!--<TextView-->
-        <!--android:id="@+id/tx_overview_free"-->
-        <!--android:layout_weight="1"-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:singleLine="true"-->
-        <!--android:ellipsize="end"-->
-        <!--android:gravity="center_horizontal"-->
-        <!---->
-        <!--android:text="免单"/>-->
+    <TextView
+        android:id="@+id/tx_overview_free"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:gravity="center_horizontal"
+
+        android:text="免单"/>
 
     <TextView
         android:id="@+id/tx_overview_subtotal"
